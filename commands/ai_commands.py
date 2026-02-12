@@ -2,8 +2,7 @@ import discord
 from discord.ext import commands
 
 from services.ai_service import get_ai_service
-from services.context_grabber import get_context_grabber
-from utils.discord_helpers import get_guild_id, send_long_message
+from utils.discord_helpers import send_long_message
 from utils.logging import get_logger
 
 logger = get_logger("commands")
@@ -11,11 +10,10 @@ logger = get_logger("commands")
 
 def setup_ai_commands(bot: commands.Bot):
   ai_service = get_ai_service()
-  context_grabber = get_context_grabber()
 
   @bot.command()
   async def chat(ctx, *, message: str):
-    """Main AI chat command with Google Search grounding and server context."""
+    """Main AI chat command with Google Search grounding and server chat history."""
     if not message:
       await ctx.send("Please provide a message to chat with the AI!")
       return
@@ -34,7 +32,7 @@ def setup_ai_commands(bot: commands.Bot):
       "Keep responses SHORT and conversational - like texting a friend. "
       "Don't lecture, don't give unsolicited advice, don't be preachy. "
       "Just answer what's asked. Use casual language. "
-      "Only use Google Search results when the question actually needs current info. "
+      "Only use Google Search results when the question actually needs current info or historical information. "
       "The chat history is just for context - don't summarize it or reference it explicitly."
     )
 
@@ -70,22 +68,13 @@ def setup_ai_commands(bot: commands.Bot):
         for m in context_messages
       )
 
-      guild_id = get_guild_id(ctx)
-      server_context = await context_grabber.get_relevant_context(
-        message, guild_id=guild_id
-      )
-
       prompt = (
         f"Here is the recent message history from across the server:\n\n"
         f"--- CHAT HISTORY ---\n"
         f"{chat_history}\n"
         f"--- END HISTORY ---\n\n"
+        f"User message to respond to: {message}"
       )
-
-      if server_context:
-        prompt += f"{server_context}\n\n"
-
-      prompt += f"User message to respond to: {message}"
 
       response = await ai_service.call_gemini_ai(
         prompt, system_message=system_msg, use_search=True
@@ -108,33 +97,3 @@ def setup_ai_commands(bot: commands.Bot):
       await ctx.send(f"❌ GEMINI API Error: {test_response}")
     else:
       await ctx.send(f"✅ GEMINI API is working! Response: {test_response}")
-
-  @bot.command()
-  async def search_messages(ctx, *, query: str):
-    """Search for similar messages in the server's indexed history."""
-    if not query:
-      await ctx.send("Please provide a search query!")
-      return
-
-    logger.info(f"� Search from {ctx.author.display_name}: {query[:50]}...")
-
-    async with ctx.typing():
-      from services.search_service import get_search_service
-
-      search_service = get_search_service()
-
-      guild_id = get_guild_id(ctx)
-      results = await search_service.search_messages(query, guild_id=guild_id)
-
-    if not results:
-      await ctx.send(f"No similar messages found for: {query}")
-      return
-
-    response_lines = [f"Found {len(results)} similar messages:"]
-    for i, (url, content, score) in enumerate(results, 1):
-      score_percent = score * 100
-      preview = content[:80] + "..." if len(content) > 80 else content
-      response_lines.append(f"{i}. {preview} ({score_percent:.1f}%)\n   {url}")
-
-    response = "\n".join(response_lines)
-    await send_long_message(ctx, response)

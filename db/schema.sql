@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS messages (
     author_id TEXT NOT NULL,
     content TEXT NOT NULL,
     content_hash TEXT NOT NULL,
-    embedding BLOB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     message_url TEXT NOT NULL
 );

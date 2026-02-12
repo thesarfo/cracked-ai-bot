@@ -1,13 +1,9 @@
-import asyncio
-
 import discord
 from discord.ext import commands
 
 from commands import ai_commands, message_commands, utility_commands
 from config import GEMINI_API_KEY, TOKEN
 from db import message_db
-from services.auto_index_service import get_auto_index_service
-from services.message_indexer import get_message_indexer
 from utils.logging import get_logger, setup_logging
 
 # Initialize logging
@@ -26,30 +22,9 @@ async def on_ready():
   await message_db.init_db()
   logger.info("Database initialized")
 
-  indexer = get_message_indexer()
-  indexer.start()
-  logger.info("Message indexer started")
-
-  # Auto-index existing guilds on startup if they have no indexed messages
-  auto_index_service = get_auto_index_service()
-  for guild in bot.guilds:
-    logger.info(f"Connected to guild: {guild.name} (ID: {guild.id})")
-    # Start indexing in background task for each guild
-    asyncio.create_task(auto_index_service.auto_index_guild(guild))
-    
   # Initialize scheduled tasks
   from services.scheduled_tasks import setup_scheduled_tasks
   setup_scheduled_tasks(bot)
-
-
-@bot.event
-async def on_guild_join(guild: discord.Guild):
-  """Auto-index messages when bot joins a new server."""
-  logger.info(f"🎉 Joined new guild: {guild.name} (ID: {guild.id})")
-
-  # Run auto-indexing in background task
-  auto_index_service = get_auto_index_service()
-  asyncio.create_task(auto_index_service.auto_index_guild(guild))
 
 
 @bot.event
@@ -99,21 +74,10 @@ async def on_message(message: discord.Message):
       ctx = await bot.get_context(message)
       if ctx.guild:
         from services.ai_service import get_ai_service
-        from services.context_grabber import get_context_grabber
 
         ai_service = get_ai_service()
-        context_grabber = get_context_grabber()
 
         async with message.channel.typing():
-          guild_id = str(ctx.guild.id)
-          
-          # Only fetch server context (RAG) if this is NOT a reply chain, 
-          # OR if the user specifically asks for it/search is implied.
-          # For direct replies, we prioritize the conversation flow.
-          server_context = ""
-          if not is_reply_to_bot:
-             server_context = await context_grabber.get_relevant_context(content, guild_id=guild_id)
-
           system_msg = (
             "You are a chill, helpful bot in a Discord server. "
             "Keep responses SHORT and conversational - like texting a friend. "
@@ -127,9 +91,6 @@ async def on_message(message: discord.Message):
           if reply_chain:
             thread_history = "\n".join([f"{m.author.display_name}: {m.content}" for m in reply_chain])
             prompt = f"--- CONVERSATION HISTORY ---\n{thread_history}\n--- END HISTORY ---\n\nUser's new message: {content}"
-
-          if server_context:
-            prompt = f"{server_context}\n\n{prompt}"
 
           response = await ai_service.call_gemini_ai(prompt, system_message=system_msg, use_search=True)
 
@@ -149,18 +110,6 @@ async def on_message(message: discord.Message):
 
   await bot.process_commands(message)
 
-  if not message.content or not message.content.strip():
-    return
-
-  if message.content.startswith("/"):
-    return
-
-  if not message.guild:
-    return
-
-  indexer = get_message_indexer()
-  await indexer.queue_message(message)
-
 
 # Setup commands directly without unnecessary re-assignment
 ai_commands.setup_ai_commands(bot)
@@ -179,5 +128,3 @@ if __name__ == "__main__":
     bot.run(TOKEN, log_handler=None)  # Disable default discord.py logging
   except KeyboardInterrupt:
     logger.info("Bot shutting down...")
-    indexer = get_message_indexer()
-    indexer.stop()
