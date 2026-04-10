@@ -17,6 +17,9 @@ LEETCODE_CHANNEL_NAME = "dsa"
 LEETCODE_DAILY_TIME_HOUR = 5
 LEETCODE_DAILY_TIME_MINUTE = 0
 
+ED_CHANNEL_NAME = "ed"
+MD_CHANNEL_NAME = "md"
+
 # Activity Ranking Configuration
 ACTIVITY_CHANNEL_NAME = "general"
 # 5:00 AM UTC every Monday
