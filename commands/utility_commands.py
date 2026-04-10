@@ -35,6 +35,10 @@ def setup_utility_commands(bot: commands.Bot):
 `/force_neetcode` - Manually trigger the next NeetCode 150 problem (Admin only)
 `/neetcode_progress` - Show NeetCode 150 progress
 
+**Activity Rankings:**
+
+`/force_weekly_ranking` - Manually trigger the weekly activity report + purge (Admin only)
+
 **Utility:**
 
 `/ping` - Check if bot is responsive
@@ -90,6 +94,22 @@ def setup_utility_commands(bot: commands.Bot):
     message = await ctx.send(embed=embed)
     
     await message.create_thread(name=f"🧵 NC150: {problem['title']}", auto_archive_duration=1440)
+
+  @bot.command()
+  async def force_weekly_ranking(ctx):
+    """Manually trigger the weekly activity ranking (Admin only)."""
+    if not ctx.author.guild_permissions.administrator:
+      await ctx.send("❌ You need administrator permissions to use this command.")
+      return
+
+    await ctx.send("📊 Generating weekly activity report...")
+
+    from services.scheduled_tasks import _scheduled_tasks_instance
+    if _scheduled_tasks_instance is None:
+      await ctx.send("❌ Scheduled tasks not initialized. Try again after the bot is fully ready.")
+      return
+
+    await _scheduled_tasks_instance.post_weekly_rankings(target_channel_id=ctx.channel.id)
 
   @bot.command()
   async def neetcode_progress(ctx):
