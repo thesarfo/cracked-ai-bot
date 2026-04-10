@@ -1,3 +1,5 @@
+import hashlib
+
 import discord
 from discord.ext import commands
 
@@ -32,6 +34,19 @@ async def on_message(message: discord.Message):
   # Ignore bot messages
   if message.author.bot:
     return
+
+  # Track message for activity rankings
+  if message.guild:
+    content_hash = hashlib.sha256(str(message.id).encode()).hexdigest()
+    await message_db.insert_message(
+      message_id=str(message.id),
+      channel_id=str(message.channel.id),
+      guild_id=str(message.guild.id),
+      author_id=str(message.author.id),
+      content=message.content[:500] if message.content else "[attachment]",
+      content_hash=content_hash,
+      message_url=message.jump_url,
+    )
 
   # Check if this is a reply to the bot's message
   is_reply_to_bot = False

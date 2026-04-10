@@ -119,3 +119,22 @@ async def get_message_count(guild_id: Optional[str] = None) -> int:
       async with db.execute("SELECT COUNT(*) FROM messages") as cursor:
         row = await cursor.fetchone()
         return row[0] if row else 0
+
+
+async def get_weekly_message_counts(guild_id: str) -> List[dict]:
+  """Return per-user message counts for the past 7 days, ordered descending."""
+  import datetime
+  cutoff = (datetime.datetime.utcnow() - datetime.timedelta(days=7)).isoformat()
+  async with aiosqlite.connect(DB_PATH) as db:
+    async with db.execute(
+      """
+      SELECT author_id, COUNT(*) as cnt
+      FROM messages
+      WHERE guild_id = ? AND created_at >= ?
+      GROUP BY author_id
+      ORDER BY cnt DESC
+      """,
+      (guild_id, cutoff),
+    ) as cursor:
+      rows = await cursor.fetchall()
+      return [{"author_id": row[0], "count": row[1]} for row in rows]
