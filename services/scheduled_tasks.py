@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 
 import discord
@@ -230,11 +231,15 @@ class ScheduledTasks:
 
                     label = "message" if victim_msgs == 1 else "messages"
                     await channel.send(
-                        f"⚠️ {victim.mention} sent only **{victim_msgs} {label}** this week "
-                        f"and is being purged from the server. Goodbye! 👋"
+                        f"⚠️ {victim.mention} you sent only **{victim_msgs} {label}** this week. "
+                        f"You are being **purged from the server in 1 hour**. "
+                        f"This is your only warning. 🕐"
                     )
+                    logger.info(f"⏳ Purge warning sent to {victim} in {guild.name}. Kick in 1 hour.")
+                    await asyncio.sleep(3600)
                     try:
                         await guild.kick(victim, reason="Weekly inactivity purge")
+                        await channel.send(f"🦵 {victim.display_name} has been purged. See you never.")
                         logger.info(f"🦵 Kicked {victim} from {guild.name} for inactivity ({victim_msgs} msgs)")
                     except discord.Forbidden:
                         logger.warning(f"❌ Missing kick permission in {guild.name}")
