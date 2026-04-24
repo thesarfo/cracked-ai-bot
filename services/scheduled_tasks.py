@@ -198,14 +198,14 @@ class ScheduledTasks:
                 for i, member in enumerate(top5):
                     msgs = count_map.get(str(member.id), 0)
                     label = "msg" if msgs == 1 else "msgs"
-                    top_lines.append(f"{medals[i]} {member.display_name} — **{msgs} {label}**")
+                    top_lines.append(f"{medals[i]} {member.mention} — **{msgs} {label}**")
                 embed.add_field(name="🏆 Most Active", value="\n".join(top_lines) or "No data", inline=False)
 
                 bottom_lines = []
                 for member in bottom5:
                     msgs = count_map.get(str(member.id), 0)
                     label = "msg" if msgs == 1 else "msgs"
-                    bottom_lines.append(f"• {member.display_name} — **{msgs} {label}**")
+                    bottom_lines.append(f"• {member.mention} — **{msgs} {label}**")
                 embed.add_field(name="💤 Least Active", value="\n".join(bottom_lines) or "No data", inline=False)
 
                 await channel.send(embed=embed)
@@ -258,7 +258,7 @@ class ScheduledTasks:
                         await asyncio.sleep(3600)
                         try:
                             await guild.kick(victim, reason="Weekly inactivity purge")
-                            await channel.send(f"🦵 {victim.display_name} has been purged. See you never.")
+                            await channel.send(f"🦵 {victim.mention} has been purged. See you never.")
                             logger.info(f"🦵 Kicked {victim} from {guild.name} for inactivity ({victim_msgs} msgs)")
                         except discord.Forbidden:
                             logger.warning(f"❌ Missing kick permission in {guild.name}")
@@ -312,9 +312,11 @@ class ScheduledTasks:
         for guild in self.bot.guilds:
             channel = discord.utils.get(guild.text_channels, name=MD_CHANNEL_NAME)
             if channel:
+                voice_channel = discord.utils.get(guild.voice_channels, name="co-work")
+                vc_ref = voice_channel.mention if voice_channel else "**co-work**"
                 await channel.send(
-                    "💻 Good morning! Our **Coworking Session** is starting soon. "
-                    "Pass through the **co-work** voice channel and let's get it. 🙌"
+                    f"💻 Good morning! Our **Coworking Session** is starting soon. "
+                    f"Pass through the {vc_ref} voice channel and let's get it. 🙌"
                 )
 
     @coworking_reminder_task.before_loop

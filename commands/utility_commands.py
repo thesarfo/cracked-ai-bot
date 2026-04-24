@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 
 from utils.logging import get_logger
@@ -11,8 +12,11 @@ def setup_utility_commands(bot: commands.Bot):
     await ctx.send("pong")
 
   @bot.command()
-  async def greet_user(ctx, user: str = "everyone"):
-    await ctx.send(f"@{user}, greetings!")
+  async def greet_user(ctx, user: discord.Member = None):
+    if user:
+      await ctx.send(f"{user.mention}, greetings!")
+    else:
+      await ctx.send("Hey everyone, greetings!")
 
   @bot.command()
   async def ai_help(ctx):
@@ -42,7 +46,7 @@ def setup_utility_commands(bot: commands.Bot):
 **Utility:**
 
 `/ping` - Check if bot is responsive
-`/greet_user [username]` - Greet a user
+`/greet_user [@user]` - Greet a user
 
 **Auto-Features:**
 - Mention or reply to the bot to chat with AI
