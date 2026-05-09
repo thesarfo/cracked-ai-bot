@@ -20,6 +20,7 @@ LEETCODE_DAILY_TIME_MINUTE = 0
 ED_CHANNEL_NAME = "ed"
 MD_CHANNEL_NAME = "md"
 WORDLE_CHANNEL_NAME = "wordle"
+WELCOME_CHANNEL_NAME = "welcome"
 
 # Activity Ranking Configuration
 ACTIVITY_CHANNEL_NAME = "chat"

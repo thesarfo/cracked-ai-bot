@@ -102,6 +102,10 @@ def setup_utility_commands(bot: commands.Bot):
   @bot.command()
   async def force_weekly_ranking(ctx):
     """Manually trigger the weekly activity ranking (Admin only)."""
+    if ctx.guild is None:
+      await ctx.send("❌ This command only works inside a server.")
+      return
+
     if not ctx.author.guild_permissions.administrator:
       await ctx.send("❌ You need administrator permissions to use this command.")
       return
@@ -113,7 +117,13 @@ def setup_utility_commands(bot: commands.Bot):
       await ctx.send("❌ Scheduled tasks not initialized. Try again after the bot is fully ready.")
       return
 
-    await _scheduled_tasks_instance.post_weekly_rankings(target_channel_id=ctx.channel.id, dry_run=True)
+    posted = await _scheduled_tasks_instance._post_weekly_ranking_for_guild(
+      ctx.guild,
+      ctx.channel,
+      dry_run=True,
+    )
+    if not posted:
+      await ctx.send("❌ Weekly activity report failed. Check the bot logs for the guild-specific error.")
 
   @bot.command()
   async def neetcode_progress(ctx):

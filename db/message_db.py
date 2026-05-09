@@ -1,8 +1,18 @@
-from typing import List, Optional
+import datetime
+from typing import Iterable, List, Optional
 
 import aiosqlite
 
 from config import DB_PATH
+
+
+def _format_timestamp(value: datetime.datetime) -> str:
+  return value.astimezone(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S.%f")
+
+
+def get_weekly_cutoff(now: Optional[datetime.datetime] = None) -> datetime.datetime:
+  reference = now or datetime.datetime.now(datetime.timezone.utc)
+  return reference - datetime.timedelta(days=7)
 
 
 async def init_db():
@@ -28,14 +38,15 @@ async def insert_message(
   content: str,
   content_hash: str,
   message_url: str,
+  created_at: Optional[datetime.datetime] = None,
 ) -> bool:
   async with aiosqlite.connect(DB_PATH) as db:
     try:
       await db.execute(
         """
                 INSERT INTO messages 
-                (message_id, channel_id, guild_id, author_id, content, content_hash, message_url)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                (message_id, channel_id, guild_id, author_id, content, content_hash, message_url, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """,
         (
           message_id,
@@ -45,12 +56,44 @@ async def insert_message(
           content,
           content_hash,
           message_url,
+          _format_timestamp(created_at or datetime.datetime.now(datetime.timezone.utc)),
         ),
       )
       await db.commit()
       return True
     except aiosqlite.IntegrityError:
       return False
+
+
+async def bulk_insert_messages(messages: Iterable[dict]) -> int:
+  rows = [
+    (
+      message["message_id"],
+      message["channel_id"],
+      message["guild_id"],
+      message["author_id"],
+      message["content"],
+      message["content_hash"],
+      message["message_url"],
+      _format_timestamp(message["created_at"]),
+    )
+    for message in messages
+  ]
+
+  if not rows:
+    return 0
+
+  async with aiosqlite.connect(DB_PATH) as db:
+    cursor = await db.executemany(
+      """
+      INSERT OR IGNORE INTO messages
+      (message_id, channel_id, guild_id, author_id, content, content_hash, message_url, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      """,
+      rows,
+    )
+    await db.commit()
+    return cursor.rowcount if cursor.rowcount != -1 else 0
 
 
 async def get_message_by_hash(content_hash: str) -> Optional[dict]:
@@ -123,8 +166,7 @@ async def get_message_count(guild_id: Optional[str] = None) -> int:
 
 async def get_weekly_message_counts(guild_id: str) -> List[dict]:
   """Return per-user message counts for the past 7 days, ordered descending."""
-  import datetime
-  cutoff = (datetime.datetime.utcnow() - datetime.timedelta(days=7)).isoformat()
+  cutoff = _format_timestamp(get_weekly_cutoff())
   async with aiosqlite.connect(DB_PATH) as db:
     async with db.execute(
       """
