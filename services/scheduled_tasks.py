@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import hashlib
 
 import discord
 from discord.ext import tasks
@@ -15,8 +16,9 @@ from config import (
     WEEKLY_MIN_SERVER_MESSAGES,
     WEEKLY_RANKING_HOUR,
     WEEKLY_RANKING_MINUTE,
+    WORDLE_CHANNEL_NAME,
 )
-from db.message_db import get_weekly_message_counts
+from db import message_db
 from services.leetcode_service import get_leetcode_service
 from services.neetcode_service import get_neetcode_service
 from utils.logging import get_logger
@@ -161,6 +163,9 @@ class ScheduledTasks:
 
         for guild in self.bot.guilds:
             try:
+                # Index Wordle games from the wordle channel so they count as messages
+                await self._index_wordle_messages(guild)
+
                 # Determine the target channel
                 channel = None
                 if target_channel_id:
@@ -173,7 +178,7 @@ class ScheduledTasks:
                     continue
 
                 # Fetch message counts from DB
-                db_counts = await get_weekly_message_counts(str(guild.id))
+                db_counts = await message_db.get_weekly_message_counts(str(guild.id))
                 count_map = {entry["author_id"]: entry["count"] for entry in db_counts}
 
                 # Build ranked list of all non-bot members
