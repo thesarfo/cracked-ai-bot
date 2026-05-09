@@ -18,6 +18,7 @@ from config import (
     WEEKLY_RANKING_MINUTE,
     WORDLE_CHANNEL_NAME,
 )
+from db import message_db
 from db.message_db import bulk_insert_messages, get_weekly_message_counts
 from services.leetcode_service import get_leetcode_service
 from services.neetcode_service import get_neetcode_service
@@ -161,6 +162,15 @@ class ScheduledTasks:
         for guild in self.bot.guilds:
             logger.info(f"🔄 Hydrating {guild.name}…")
             try:
+                # Index Wordle games from the wordle channel so they count as messages
+                await self._index_wordle_messages(guild)
+
+                # Determine the target channel
+                channel = None
+                if target_channel_id:
+                    channel = guild.get_channel(target_channel_id)
+                else:
+                    channel = discord.utils.get(guild.text_channels, name=ACTIVITY_CHANNEL_NAME)
                 await asyncio.wait_for(guild.chunk(cache=True), timeout=15)
             except asyncio.TimeoutError:
                 logger.warning(f"guild.chunk timed out for {guild.name}; proceeding with cached members")
@@ -173,6 +183,9 @@ class ScheduledTasks:
                     logger.info(f"Skipping weekly sync for {guild.name}: no non-bot members")
                     continue
 
+                # Fetch message counts from DB
+                db_counts = await message_db.get_weekly_message_counts(str(guild.id))
+                count_map = {entry["author_id"]: entry["count"] for entry in db_counts}
                 restored = await self._restore_guild_weekly_messages(guild, member_ids)
                 if restored:
                     logger.info(f"✅ Synced {restored} weekly activity rows for {guild.name}")
