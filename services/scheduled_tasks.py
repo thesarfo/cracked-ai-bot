@@ -155,6 +155,42 @@ class ScheduledTasks:
     async def before_weekly_ranking_task(self):
         await self.bot.wait_until_ready()
 
+    async def _index_wordle_messages(self, guild: discord.Guild) -> None:
+        """Scan the wordle channel for Wordle bot summary messages and index who played."""
+        wordle_channel = discord.utils.get(guild.text_channels, name=WORDLE_CHANNEL_NAME)
+        if not wordle_channel:
+            return
+
+        now = datetime.datetime.now(datetime.timezone.utc)
+        cutoff = now - datetime.timedelta(days=7)
+
+        try:
+            async for message in wordle_channel.history(after=cutoff, limit=None):
+                if not message.author.bot:
+                    continue
+                if not message.mentions:
+                    continue
+
+                # Bot message with user mentions = likely a Wordle daily summary
+                for user in message.mentions:
+                    if user.bot:
+                        continue
+                    msg_id = f"wordle_{message.id}_{user.id}"
+                    content_hash = hashlib.sha256(msg_id.encode()).hexdigest()
+                    await message_db.insert_message(
+                        message_id=msg_id,
+                        channel_id=str(wordle_channel.id),
+                        guild_id=str(guild.id),
+                        author_id=str(user.id),
+                        content="[wordle]",
+                        content_hash=content_hash,
+                        message_url=message.jump_url,
+                    )
+        except discord.Forbidden:
+            logger.warning(f"Missing permissions to read history in #{wordle_channel.name}")
+        except Exception as e:
+            logger.error(f"Error indexing wordle channel: {e}")
+
     async def post_weekly_rankings(self, target_channel_id: int = None, dry_run: bool = False):
         """Build and post the weekly activity leaderboard, then kick the least active member."""
         now = datetime.datetime.now(datetime.timezone.utc)
