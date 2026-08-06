@@ -28,8 +28,8 @@ WORDLE_CHANNEL_NAME = "wordle"
 WELCOME_CHANNEL_NAME = "welcome"
 
 # Daily DSA Problem Configuration (shuffled LeetCode + Codeforces rotation)
-# 10:00 PM UTC daily
-DSA_LEETCODE_DAILY_TIME_HOUR = 22
+# 10:00 AM UTC daily
+DSA_LEETCODE_DAILY_TIME_HOUR = 10
 DSA_LEETCODE_DAILY_TIME_MINUTE = 0
 # 3:00 PM UTC daily
 DSA_CODEFORCES_DAILY_TIME_HOUR = 15
