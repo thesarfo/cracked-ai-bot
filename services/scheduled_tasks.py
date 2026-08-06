@@ -7,6 +7,8 @@ from discord.ext import tasks
 
 from config import (
     ACTIVITY_CHANNEL_NAME,
+    DSA_DAILY_TIME_HOUR,
+    DSA_DAILY_TIME_MINUTE,
     ED_CHANNEL_NAME,
     LEETCODE_CHANNEL_NAME,
     LEETCODE_DAILY_TIME_HOUR,
@@ -20,6 +22,7 @@ from config import (
 )
 from db import message_db
 from db.message_db import bulk_insert_messages, get_weekly_message_counts
+from services.dsa_daily_service import get_dsa_daily_service
 from services.leetcode_service import get_leetcode_service
 from services.neetcode_service import get_neetcode_service
 from utils.logging import get_logger
@@ -32,16 +35,18 @@ class ScheduledTasks:
         self.bot = bot
         self.leetcode_service = get_leetcode_service()
         self.neetcode_service = get_neetcode_service()
-        
+        self.dsa_daily_service = get_dsa_daily_service()
+
         # Calculate time for the loop
         self.daily_time = datetime.time(
             hour=LEETCODE_DAILY_TIME_HOUR,
             minute=LEETCODE_DAILY_TIME_MINUTE,
             tzinfo=datetime.timezone.utc
         )
-        
+
         # Start loops
         self.daily_task.start()
+        self.daily_dsa_task.start()
         self.weekly_ranking_task.start()
         self.book_club_reminder_task.start()
         self.book_club_final_reminder_task.start()
@@ -50,6 +55,7 @@ class ScheduledTasks:
 
     def cog_unload(self):
         self.daily_task.cancel()
+        self.daily_dsa_task.cancel()
         self.weekly_ranking_task.cancel()
         self.book_club_reminder_task.cancel()
         self.book_club_final_reminder_task.cancel()
@@ -138,6 +144,58 @@ class ScheduledTasks:
     @daily_task.before_loop
     async def before_daily_task(self):
         """Wait until the bot is ready before starting the loop."""
+        await self.bot.wait_until_ready()
+
+    @tasks.loop(time=[datetime.time(hour=DSA_DAILY_TIME_HOUR, minute=DSA_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
+    async def daily_dsa_task(self):
+        """Task that runs daily to post one shuffled LeetCode + one Codeforces problem."""
+        logger.info("⏰ Running daily DSA task")
+        await self.post_daily_dsa_problems()
+
+    async def post_daily_dsa_problems(self, target_channel_id: int = None):
+        """Post one shuffled LeetCode problem and one shuffled Codeforces problem."""
+        try:
+            lc_problem, lc_pos, lc_total = self.dsa_daily_service.get_next_leetcode()
+            cf_problem, cf_pos, cf_total = self.dsa_daily_service.get_next_codeforces()
+
+            if not lc_problem and not cf_problem:
+                logger.error("Failed to get daily DSA problems (no data loaded)")
+                return
+
+            for guild in self.bot.guilds:
+                target_channel = None
+
+                if target_channel_id:
+                    target_channel = guild.get_channel(target_channel_id)
+                else:
+                    target_channel = discord.utils.get(guild.text_channels, name=LEETCODE_CHANNEL_NAME)
+
+                if not target_channel:
+                    logger.debug(f"Skipping {guild.name}: No #{LEETCODE_CHANNEL_NAME} channel found")
+                    continue
+
+                try:
+                    if lc_problem:
+                        embed = self.dsa_daily_service.create_leetcode_embed(lc_problem, lc_pos, lc_total)
+                        message = await target_channel.send(embed=embed)
+                        await message.create_thread(name=f"🧵 {lc_problem['title']}", auto_archive_duration=1440)
+
+                    if cf_problem:
+                        embed = self.dsa_daily_service.create_codeforces_embed(cf_problem, cf_pos, cf_total)
+                        message = await target_channel.send(embed=embed)
+                        await message.create_thread(name=f"🧵 {cf_problem['title']}", auto_archive_duration=1440)
+
+                    logger.info(f"✅ Posted daily DSA problems to {guild.name} #{target_channel.name}")
+                except discord.Forbidden:
+                    logger.warning(f"❌ Missing permissions to post/thread to {guild.name} #{target_channel.name}")
+                except Exception as e:
+                    logger.error(f"❌ Error posting daily DSA problems to {guild.name}: {e}")
+
+        except Exception as e:
+            logger.error(f"Error in daily DSA task: {e}")
+
+    @daily_dsa_task.before_loop
+    async def before_daily_dsa_task(self):
         await self.bot.wait_until_ready()
 
     @tasks.loop(time=[datetime.time(hour=WEEKLY_RANKING_HOUR, minute=WEEKLY_RANKING_MINUTE, tzinfo=datetime.timezone.utc)])
@@ -376,51 +434,52 @@ class ScheduledTasks:
                 return True
 
             # Find kick candidate: least active non-bot, non-owner, non-admin
-            kick_candidates = [
-                m for m in reversed(ranked)
-                if not m.bot
-                and m != guild.owner
-                and not m.guild_permissions.administrator
-            ]
-
-            if kick_candidates:
-                victim = kick_candidates[0]
-                victim_msgs = count_map.get(str(victim.id), 0)
-
-                # Check member baseline — everyone pulled their weight
-                if victim_msgs >= WEEKLY_MIN_MEMBER_MESSAGES:
-                    await channel.send(
-                        f"✅ Everyone met the activity baseline this week "
-                        f"(**{WEEKLY_MIN_MEMBER_MESSAGES}+ messages**). No purge. Keep it up!"
-                    )
-                    logger.info(f"Skipping purge for {guild.name}: least active member has {victim_msgs} msgs")
-                    return True
-
-                label = "message" if victim_msgs == 1 else "messages"
-                if dry_run:
-                    await channel.send(
-                        f"👀 {victim.mention} you only sent **{victim_msgs} {label}** this week. "
-                        f"You need to up your game — next time this is for real. 😤"
-                    )
-                    logger.info(f"[dry run] Would have kicked {victim} from {guild.name} ({victim_msgs} msgs)")
-                else:
-                    await channel.send(
-                        f"⚠️ {victim.mention} you sent only **{victim_msgs} {label}** this week. "
-                        f"You are being **purged from the server in 1 hour**. "
-                        f"This is your only warning. 🕐"
-                    )
-                    logger.info(f"⏳ Purge warning sent to {victim} in {guild.name}. Kick in 1 hour.")
-                    await asyncio.sleep(3600)
-                    try:
-                        await guild.kick(victim, reason="Weekly inactivity purge")
-                        await channel.send(f"🦵 {victim.mention} has been purged. See you never.")
-                        logger.info(f"🦵 Kicked {victim} from {guild.name} for inactivity ({victim_msgs} msgs)")
-                    except discord.Forbidden:
-                        logger.warning(f"❌ Missing kick permission in {guild.name}")
-                    except Exception as e:
-                        logger.error(f"❌ Error kicking {victim} from {guild.name}: {e}")
-            else:
-                logger.info(f"No eligible kick candidates in {guild.name}")
+            # --- Member auto-removal (inactivity purge) disabled ---
+            # kick_candidates = [
+            #     m for m in reversed(ranked)
+            #     if not m.bot
+            #     and m != guild.owner
+            #     and not m.guild_permissions.administrator
+            # ]
+            #
+            # if kick_candidates:
+            #     victim = kick_candidates[0]
+            #     victim_msgs = count_map.get(str(victim.id), 0)
+            #
+            #     # Check member baseline — everyone pulled their weight
+            #     if victim_msgs >= WEEKLY_MIN_MEMBER_MESSAGES:
+            #         await channel.send(
+            #             f"✅ Everyone met the activity baseline this week "
+            #             f"(**{WEEKLY_MIN_MEMBER_MESSAGES}+ messages**). No purge. Keep it up!"
+            #         )
+            #         logger.info(f"Skipping purge for {guild.name}: least active member has {victim_msgs} msgs")
+            #         return True
+            #
+            #     label = "message" if victim_msgs == 1 else "messages"
+            #     if dry_run:
+            #         await channel.send(
+            #             f"👀 {victim.mention} you only sent **{victim_msgs} {label}** this week. "
+            #             f"You need to up your game — next time this is for real. 😤"
+            #         )
+            #         logger.info(f"[dry run] Would have kicked {victim} from {guild.name} ({victim_msgs} msgs)")
+            #     else:
+            #         await channel.send(
+            #             f"⚠️ {victim.mention} you sent only **{victim_msgs} {label}** this week. "
+            #             f"You are being **purged from the server in 1 hour**. "
+            #             f"This is your only warning. 🕐"
+            #         )
+            #         logger.info(f"⏳ Purge warning sent to {victim} in {guild.name}. Kick in 1 hour.")
+            #         await asyncio.sleep(3600)
+            #         try:
+            #             await guild.kick(victim, reason="Weekly inactivity purge")
+            #             await channel.send(f"🦵 {victim.mention} has been purged. See you never.")
+            #             logger.info(f"🦵 Kicked {victim} from {guild.name} for inactivity ({victim_msgs} msgs)")
+            #         except discord.Forbidden:
+            #             logger.warning(f"❌ Missing kick permission in {guild.name}")
+            #         except Exception as e:
+            #             logger.error(f"❌ Error kicking {victim} from {guild.name}: {e}")
+            # else:
+            #     logger.info(f"No eligible kick candidates in {guild.name}")
 
             return True
         except Exception as e:

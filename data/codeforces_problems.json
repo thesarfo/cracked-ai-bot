@@ -1,0 +1,4052 @@
+[
+ {
+  "contestId": 2131,
+  "index": "A",
+  "id": "2131A",
+  "title": "Lever",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Math"
+ },
+ {
+  "contestId": 1857,
+  "index": "A",
+  "id": "1857A",
+  "title": "Array Coloring",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Math"
+ },
+ {
+  "contestId": 2229,
+  "index": "B",
+  "id": "2229B",
+  "title": "Absolute Cinema",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Math"
+ },
+ {
+  "contestId": 2010,
+  "index": "B",
+  "id": "2010B",
+  "title": "Three Brothers",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Implementation, Math"
+ },
+ {
+  "contestId": 9,
+  "index": "A",
+  "id": "9A",
+  "title": "Die Roll",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Math, Probability and Statistics"
+ },
+ {
+  "contestId": 1728,
+  "index": "B",
+  "id": "1728B",
+  "title": "Best Permutation",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Greedy"
+ },
+ {
+  "contestId": 1722,
+  "index": "B",
+  "id": "1722B",
+  "title": "Colourblindness",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 2091,
+  "index": "A",
+  "id": "2091A",
+  "title": "Olympiad Date",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, String"
+ },
+ {
+  "contestId": 918,
+  "index": "A",
+  "id": "918A",
+  "title": "Eleven",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 2008,
+  "index": "C",
+  "id": "2008C",
+  "title": "Longest Good Array",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Binary Search, Brute Force, Math"
+ },
+ {
+  "contestId": 1611,
+  "index": "B",
+  "id": "1611B",
+  "title": "Team Composition: Programmers and Mathematicians",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Binary Search, Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 1230,
+  "index": "A",
+  "id": "1230A",
+  "title": "Dawid and Bags of Candies",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 1722,
+  "index": "A",
+  "id": "1722A",
+  "title": "Spell Check",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 2244,
+  "index": "A",
+  "id": "2244A",
+  "title": "Iskander and Drawings",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Dynamic Programming, Game Theory, Greedy, String"
+ },
+ {
+  "contestId": 2218,
+  "index": "C",
+  "id": "2218C",
+  "title": "The 67th Permutation Problem",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Greedy, Math"
+ },
+ {
+  "contestId": 2126,
+  "index": "B",
+  "id": "2126B",
+  "title": "No Casino in the Mountains",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Dynamic Programming, Greedy"
+ },
+ {
+  "contestId": 2167,
+  "index": "B",
+  "id": "2167B",
+  "title": "Your Name",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Sorting, String"
+ },
+ {
+  "contestId": 835,
+  "index": "A",
+  "id": "835A",
+  "title": "Key races",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Math"
+ },
+ {
+  "contestId": 629,
+  "index": "A",
+  "id": "629A",
+  "title": "Far Relative\u2019s Birthday Cake",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Combinatorics, Constructive Algorithms, Implementation"
+ },
+ {
+  "contestId": 1858,
+  "index": "A",
+  "id": "1858A",
+  "title": "Buttons",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Game Theory, Greedy, Math"
+ },
+ {
+  "contestId": 1878,
+  "index": "A",
+  "id": "1878A",
+  "title": "How Much Does Daytona Cost?",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy"
+ },
+ {
+  "contestId": 1399,
+  "index": "A",
+  "id": "1399A",
+  "title": "Remove Smallest",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Sorting"
+ },
+ {
+  "contestId": 2030,
+  "index": "B",
+  "id": "2030B",
+  "title": "Minimise Oneness",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Combinatorics, Constructive Algorithms, Game Theory, Math"
+ },
+ {
+  "contestId": 1553,
+  "index": "A",
+  "id": "1553A",
+  "title": "Digits Sum",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Math, Number Theory"
+ },
+ {
+  "contestId": 386,
+  "index": "A",
+  "id": "386A",
+  "title": "Second-Price Auction",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1296,
+  "index": "A",
+  "id": "1296A",
+  "title": "Array with Odd Sum",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Math"
+ },
+ {
+  "contestId": 1243,
+  "index": "A",
+  "id": "1243A",
+  "title": "Maximum Square",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 595,
+  "index": "A",
+  "id": "595A",
+  "title": "Vitaly and Night",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Implementation"
+ },
+ {
+  "contestId": 1759,
+  "index": "A",
+  "id": "1759A",
+  "title": "Yes-Yes?",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation, String"
+ },
+ {
+  "contestId": 1300,
+  "index": "A",
+  "id": "1300A",
+  "title": "Non-zero",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation, Math"
+ },
+ {
+  "contestId": 2130,
+  "index": "A",
+  "id": "2130A",
+  "title": "Submission is All You Need",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Math"
+ },
+ {
+  "contestId": 1831,
+  "index": "A",
+  "id": "1831A",
+  "title": "Twin Permutations",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms"
+ },
+ {
+  "contestId": 1315,
+  "index": "A",
+  "id": "1315A",
+  "title": "Dead Pixel",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1878,
+  "index": "B",
+  "id": "1878B",
+  "title": "Aleksa and Stack",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 1915,
+  "index": "A",
+  "id": "1915A",
+  "title": "Odd One Out",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Bit Manipulation, Implementation"
+ },
+ {
+  "contestId": 1624,
+  "index": "A",
+  "id": "1624A",
+  "title": "Plus One on the Subset",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Math"
+ },
+ {
+  "contestId": 431,
+  "index": "A",
+  "id": "431A",
+  "title": "Black Square",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1194,
+  "index": "A",
+  "id": "1194A",
+  "title": "Remove a Progression",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Math"
+ },
+ {
+  "contestId": 1038,
+  "index": "A",
+  "id": "1038A",
+  "title": "Equality",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation, String"
+ },
+ {
+  "contestId": 1985,
+  "index": "A",
+  "id": "1985A",
+  "title": "Creating Words",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation, String"
+ },
+ {
+  "contestId": 1721,
+  "index": "A",
+  "id": "1721A",
+  "title": "Image",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 2033,
+  "index": "A",
+  "id": "2033A",
+  "title": "Sakurako and Kosuke",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Implementation, Math"
+ },
+ {
+  "contestId": 976,
+  "index": "A",
+  "id": "976A",
+  "title": "Minimum Binary Number",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1348,
+  "index": "A",
+  "id": "1348A",
+  "title": "Phoenix and Balance",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Math"
+ },
+ {
+  "contestId": 1767,
+  "index": "B",
+  "id": "1767B",
+  "title": "Block Towers",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Data Structures, Greedy, Sorting"
+ },
+ {
+  "contestId": 1994,
+  "index": "A",
+  "id": "1994A",
+  "title": "Diverse Game",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Greedy, Implementation"
+ },
+ {
+  "contestId": 1750,
+  "index": "B",
+  "id": "1750B",
+  "title": "Maximum Substring",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Greedy, Implementation"
+ },
+ {
+  "contestId": 1669,
+  "index": "B",
+  "id": "1669B",
+  "title": "Triple",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation, Sorting"
+ },
+ {
+  "contestId": 2034,
+  "index": "A",
+  "id": "2034A",
+  "title": "King Keykhosrow's Mystery",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Number Theory, Math, Number Theory"
+ },
+ {
+  "contestId": 1095,
+  "index": "A",
+  "id": "1095A",
+  "title": "Repeating Cipher",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 47,
+  "index": "A",
+  "id": "47A",
+  "title": "Triangular numbers",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Math"
+ },
+ {
+  "contestId": 1688,
+  "index": "B",
+  "id": "1688B",
+  "title": "Patchouli's Magical Talisman",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Bit Manipulation, Constructive Algorithms, Greedy, Sorting"
+ },
+ {
+  "contestId": 648,
+  "index": "B",
+  "id": "648B",
+  "title": "\u0421\u043e\u0431\u0435\u0440\u0438 \u0441\u0442\u043e\u043b",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Sorting"
+ },
+ {
+  "contestId": 2107,
+  "index": "A",
+  "id": "2107A",
+  "title": "LRC and VIP",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Number Theory"
+ },
+ {
+  "contestId": 1829,
+  "index": "B",
+  "id": "1829B",
+  "title": "Blank Space",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1554,
+  "index": "A",
+  "id": "1554A",
+  "title": "Cherry",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy"
+ },
+ {
+  "contestId": 2022,
+  "index": "A",
+  "id": "2022A",
+  "title": "Bus to P\u00e9njamo",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 1391,
+  "index": "B",
+  "id": "1391B",
+  "title": "Fix You",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Greedy, Implementation"
+ },
+ {
+  "contestId": 1822,
+  "index": "A",
+  "id": "1822A",
+  "title": "TubeTube Feed",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 1772,
+  "index": "B",
+  "id": "1772B",
+  "title": "Matrix Rotation",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 2030,
+  "index": "A",
+  "id": "2030A",
+  "title": "A Gift From Orangutan",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Greedy, Math, Sorting"
+ },
+ {
+  "contestId": 1668,
+  "index": "A",
+  "id": "1668A",
+  "title": "Direction Change",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation, Math"
+ },
+ {
+  "contestId": 1250,
+  "index": "F",
+  "id": "1250F",
+  "title": "Data Center",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 1731,
+  "index": "A",
+  "id": "1731A",
+  "title": "Joey Takes Money",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Math"
+ },
+ {
+  "contestId": 1657,
+  "index": "A",
+  "id": "1657A",
+  "title": "Integer Moves",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Math"
+ },
+ {
+  "contestId": 432,
+  "index": "A",
+  "id": "432A",
+  "title": "Choosing Teams",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Implementation, Sorting"
+ },
+ {
+  "contestId": 1991,
+  "index": "A",
+  "id": "1991A",
+  "title": "Maximize the Last Element",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 1104,
+  "index": "A",
+  "id": "1104A",
+  "title": "Splitting into digits",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Constructive Algorithms, Implementation, Math"
+ },
+ {
+  "contestId": 1703,
+  "index": "C",
+  "id": "1703C",
+  "title": "Cypher",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Implementation, String"
+ },
+ {
+  "contestId": 440,
+  "index": "A",
+  "id": "440A",
+  "title": "Forgotten Episode",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 2153,
+  "index": "B",
+  "id": "2153B",
+  "title": "Bitwise Reversion",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Bit Manipulation, Greedy"
+ },
+ {
+  "contestId": 510,
+  "index": "A",
+  "id": "510A",
+  "title": "Fox And Snake",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 2106,
+  "index": "A",
+  "id": "2106A",
+  "title": "Dr. TC",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Brute Force, Math"
+ },
+ {
+  "contestId": 1328,
+  "index": "A",
+  "id": "1328A",
+  "title": "Divisibility Problem",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Math"
+ },
+ {
+  "contestId": 1678,
+  "index": "B1",
+  "id": "1678B1",
+  "title": "Tokitsukaze and Good 01-String (easy version)",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 49,
+  "index": "A",
+  "id": "49A",
+  "title": "Sleuth",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1950,
+  "index": "A",
+  "id": "1950A",
+  "title": "Stair, Peak, or Neither?",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 454,
+  "index": "A",
+  "id": "454A",
+  "title": "Little Pony and Crystal Mine",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 2051,
+  "index": "B",
+  "id": "2051B",
+  "title": "Journey",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Binary Search, Math"
+ },
+ {
+  "contestId": 1002,
+  "index": "A1",
+  "id": "1002A1",
+  "title": "Generate superposition of all basis states",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "General"
+ },
+ {
+  "contestId": 939,
+  "index": "A",
+  "id": "939A",
+  "title": "Love Triangle",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Graph"
+ },
+ {
+  "contestId": 1209,
+  "index": "A",
+  "id": "1209A",
+  "title": "Paint the Numbers",
+  "difficulty": "Easy",
+  "rating": 800,
+  "topics": "Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 1380,
+  "index": "A",
+  "id": "1380A",
+  "title": "Three Indices",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Brute Force, Data Structures"
+ },
+ {
+  "contestId": 810,
+  "index": "A",
+  "id": "810A",
+  "title": "Straight <<A>>",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Implementation, Math"
+ },
+ {
+  "contestId": 1537,
+  "index": "B",
+  "id": "1537B",
+  "title": "Bad Boy",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Constructive Algorithms, Greedy, Math"
+ },
+ {
+  "contestId": 1267,
+  "index": "B",
+  "id": "1267B",
+  "title": "Balls of Buma",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "General"
+ },
+ {
+  "contestId": 405,
+  "index": "A",
+  "id": "405A",
+  "title": "Gravity Flip",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Greedy, Implementation, Sorting"
+ },
+ {
+  "contestId": 1679,
+  "index": "A",
+  "id": "1679A",
+  "title": "AvtoBus",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Brute Force, Greedy, Math, Number Theory"
+ },
+ {
+  "contestId": 1208,
+  "index": "A",
+  "id": "1208A",
+  "title": "XORinacci",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Math"
+ },
+ {
+  "contestId": 1720,
+  "index": "A",
+  "id": "1720A",
+  "title": "Burenka Plays with Fractions",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Math, Number Theory"
+ },
+ {
+  "contestId": 439,
+  "index": "A",
+  "id": "439A",
+  "title": "Devu, the Singer and Churu, the Joker",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 1238,
+  "index": "A",
+  "id": "1238A",
+  "title": "Prime Subtraction",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Math, Number Theory"
+ },
+ {
+  "contestId": 814,
+  "index": "A",
+  "id": "814A",
+  "title": "An abandoned sentiment from past",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Constructive Algorithms, Greedy, Implementation, Sorting"
+ },
+ {
+  "contestId": 2226,
+  "index": "B",
+  "id": "2226B",
+  "title": "Everything Everywhere",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Greedy, Math, Number Theory"
+ },
+ {
+  "contestId": 611,
+  "index": "A",
+  "id": "611A",
+  "title": "New Year and Days",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1896,
+  "index": "B",
+  "id": "1896B",
+  "title": "AB Flipping",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Greedy, String, Two Pointers"
+ },
+ {
+  "contestId": 1823,
+  "index": "B",
+  "id": "1823B",
+  "title": "Sort with Step",
+  "difficulty": "Easy",
+  "rating": 900,
+  "topics": "Brute Force, Math, Sorting"
+ },
+ {
+  "contestId": 1473,
+  "index": "B",
+  "id": "1473B",
+  "title": "String LCM",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Brute Force, Math, Number Theory, String"
+ },
+ {
+  "contestId": 1237,
+  "index": "A",
+  "id": "1237A",
+  "title": "Balanced Rating Changes",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Implementation, Math"
+ },
+ {
+  "contestId": 1927,
+  "index": "C",
+  "id": "1927C",
+  "title": "Choose the Different Ones!",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Brute Force, Greedy, Math"
+ },
+ {
+  "contestId": 143,
+  "index": "A",
+  "id": "143A",
+  "title": "Help Vasilisa the Wise 2",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Brute Force, Math"
+ },
+ {
+  "contestId": 2242,
+  "index": "B",
+  "id": "2242B",
+  "title": "Predominant Frequency Division",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Data Structures, Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 2203,
+  "index": "B",
+  "id": "2203B",
+  "title": "Beautiful Numbers",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Bit Manipulation, Dynamic Programming, FFT, Greedy, Math"
+ },
+ {
+  "contestId": 1930,
+  "index": "B",
+  "id": "1930B",
+  "title": "Permutation Printing",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Brute Force, Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 2124,
+  "index": "B",
+  "id": "2124B",
+  "title": "Minimise Sum",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Greedy"
+ },
+ {
+  "contestId": 1230,
+  "index": "B",
+  "id": "1230B",
+  "title": "Ania and Minimizing",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 465,
+  "index": "B",
+  "id": "465B",
+  "title": "Inbox (100500)",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1790,
+  "index": "C",
+  "id": "1790C",
+  "title": "Premutation",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Brute Force, Implementation, Math"
+ },
+ {
+  "contestId": 165,
+  "index": "A",
+  "id": "165A",
+  "title": "Supercentral Point",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1760,
+  "index": "D",
+  "id": "1760D",
+  "title": "Challenging Valleys",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Implementation, Two Pointers"
+ },
+ {
+  "contestId": 805,
+  "index": "A",
+  "id": "805A",
+  "title": "Fake NP",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Greedy, Math"
+ },
+ {
+  "contestId": 831,
+  "index": "A",
+  "id": "831A",
+  "title": "Unimodal Array",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1769,
+  "index": "B1",
+  "id": "1769B1",
+  "title": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u043e\u0432 I",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Brute Force, Implementation, Math"
+ },
+ {
+  "contestId": 2147,
+  "index": "B",
+  "id": "2147B",
+  "title": "Multiple Construction",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Constructive Algorithms"
+ },
+ {
+  "contestId": 1861,
+  "index": "B",
+  "id": "1861B",
+  "title": "Two Binary Strings",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Constructive Algorithms, Dynamic Programming, Greedy"
+ },
+ {
+  "contestId": 552,
+  "index": "A",
+  "id": "552A",
+  "title": "Vanya and Table",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Implementation, Math"
+ },
+ {
+  "contestId": 688,
+  "index": "B",
+  "id": "688B",
+  "title": "Lovely Palindromes",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 120,
+  "index": "A",
+  "id": "120A",
+  "title": "Elevator",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Brute Force, Implementation, Math"
+ },
+ {
+  "contestId": 724,
+  "index": "A",
+  "id": "724A",
+  "title": "Checking the Calendar",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 265,
+  "index": "B",
+  "id": "265B",
+  "title": "Roadside Trees (Simplified Edition)",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 1430,
+  "index": "C",
+  "id": "1430C",
+  "title": "Numbers on Whiteboard",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Constructive Algorithms, Data Structures, Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 583,
+  "index": "A",
+  "id": "583A",
+  "title": "Asphalting Roads",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1998,
+  "index": "B",
+  "id": "1998B",
+  "title": "Minimize Equal Sum Subarrays",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Constructive Algorithms, Math, Number Theory"
+ },
+ {
+  "contestId": 221,
+  "index": "A",
+  "id": "221A",
+  "title": "Little Elephant and Function",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Implementation, Math"
+ },
+ {
+  "contestId": 1485,
+  "index": "A",
+  "id": "1485A",
+  "title": "Add and Divide",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Brute Force, Greedy, Math, Number Theory"
+ },
+ {
+  "contestId": 2055,
+  "index": "B",
+  "id": "2055B",
+  "title": "Crafting",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Constructive Algorithms, Greedy, Sorting"
+ },
+ {
+  "contestId": 1260,
+  "index": "A",
+  "id": "1260A",
+  "title": "Heating",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Math"
+ },
+ {
+  "contestId": 447,
+  "index": "B",
+  "id": "447B",
+  "title": "DZY Loves Strings",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 1245,
+  "index": "A",
+  "id": "1245A",
+  "title": "Good ol' Numbers Coloring",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Math, Number Theory"
+ },
+ {
+  "contestId": 1476,
+  "index": "A",
+  "id": "1476A",
+  "title": "K-divisible Sum",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Binary Search, Constructive Algorithms, Greedy, Math"
+ },
+ {
+  "contestId": 1761,
+  "index": "B",
+  "id": "1761B",
+  "title": "Elimination of a Ring",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Constructive Algorithms, Greedy, Implementation"
+ },
+ {
+  "contestId": 2051,
+  "index": "C",
+  "id": "2051C",
+  "title": "Preparing for the Exam",
+  "difficulty": "Easy",
+  "rating": 1000,
+  "topics": "Constructive Algorithms, Implementation"
+ },
+ {
+  "contestId": 570,
+  "index": "A",
+  "id": "570A",
+  "title": "Elections",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 985,
+  "index": "A",
+  "id": "985A",
+  "title": "Chess Placing",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1842,
+  "index": "B",
+  "id": "1842B",
+  "title": "Tenzing and Books",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Bit Manipulation, Greedy, Math"
+ },
+ {
+  "contestId": 1788,
+  "index": "B",
+  "id": "1788B",
+  "title": "Sum of Two Numbers",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Constructive Algorithms, Greedy, Implementation, Math, Probability and Statistics"
+ },
+ {
+  "contestId": 1471,
+  "index": "B",
+  "id": "1471B",
+  "title": "Strange List",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Brute Force, Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 1791,
+  "index": "G1",
+  "id": "1791G1",
+  "title": "Teleporters (Easy Version)",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Greedy, Sorting"
+ },
+ {
+  "contestId": 667,
+  "index": "A",
+  "id": "667A",
+  "title": "Pouring Rain",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Geometry, Math"
+ },
+ {
+  "contestId": 1042,
+  "index": "A",
+  "id": "1042A",
+  "title": "Benches",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Binary Search, Implementation"
+ },
+ {
+  "contestId": 1762,
+  "index": "B",
+  "id": "1762B",
+  "title": "Make Array Good",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Constructive Algorithms, Implementation, Number Theory, Sorting"
+ },
+ {
+  "contestId": 1001,
+  "index": "A",
+  "id": "1001A",
+  "title": "Generate plus state or minus state",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "General"
+ },
+ {
+  "contestId": 190,
+  "index": "A",
+  "id": "190A",
+  "title": "Vasya and the Bus",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Greedy, Math"
+ },
+ {
+  "contestId": 405,
+  "index": "B",
+  "id": "405B",
+  "title": "Domino Effect",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "General"
+ },
+ {
+  "contestId": 719,
+  "index": "A",
+  "id": "719A",
+  "title": "Vitya in the Countryside",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1506,
+  "index": "B",
+  "id": "1506B",
+  "title": "Partial Replacement",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 1703,
+  "index": "D",
+  "id": "1703D",
+  "title": "Double Strings",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Brute Force, Data Structures, String"
+ },
+ {
+  "contestId": 1119,
+  "index": "A",
+  "id": "1119A",
+  "title": "Ilya and a Colorful Walk",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 1623,
+  "index": "B",
+  "id": "1623B",
+  "title": "Game on Ranges",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Brute Force, DFS / BFS, Implementation, Sorting"
+ },
+ {
+  "contestId": 365,
+  "index": "A",
+  "id": "365A",
+  "title": "Good Number",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 2137,
+  "index": "C",
+  "id": "2137C",
+  "title": "Maximum Even Sum",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Brute Force, Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 6,
+  "index": "B",
+  "id": "6B",
+  "title": "President's Office",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1656,
+  "index": "B",
+  "id": "1656B",
+  "title": "Subtract Operation",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Data Structures, Greedy, Math, Two Pointers"
+ },
+ {
+  "contestId": 103,
+  "index": "A",
+  "id": "103A",
+  "title": "Testing Pants for Sadness",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 1759,
+  "index": "C",
+  "id": "1759C",
+  "title": "Thermostat",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Greedy, Math, Shortest Path"
+ },
+ {
+  "contestId": 556,
+  "index": "B",
+  "id": "556B",
+  "title": "Case of Fake Numbers",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 1038,
+  "index": "B",
+  "id": "1038B",
+  "title": "Non-Coprime Partition",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 1334,
+  "index": "B",
+  "id": "1334B",
+  "title": "Middle Class",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Greedy, Sorting"
+ },
+ {
+  "contestId": 1511,
+  "index": "C",
+  "id": "1511C",
+  "title": "Yet Another Card Deck",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Brute Force, Data Structures, Implementation, Tree"
+ },
+ {
+  "contestId": 1618,
+  "index": "C",
+  "id": "1618C",
+  "title": "Paint the Array",
+  "difficulty": "Easy",
+  "rating": 1100,
+  "topics": "Math"
+ },
+ {
+  "contestId": 2202,
+  "index": "B",
+  "id": "2202B",
+  "title": "ABAB Construction",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Dynamic Programming, Greedy, Implementation"
+ },
+ {
+  "contestId": 1000,
+  "index": "A",
+  "id": "1000A",
+  "title": "Codehorses T-shirts",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 1485,
+  "index": "B",
+  "id": "1485B",
+  "title": "Replace and Keep Sorted",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Dynamic Programming, Implementation, Math"
+ },
+ {
+  "contestId": 2041,
+  "index": "B",
+  "id": "2041B",
+  "title": "Bowling Frame",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Binary Search, Brute Force, Math"
+ },
+ {
+  "contestId": 2039,
+  "index": "C1",
+  "id": "2039C1",
+  "title": "Shohag Loves XOR (Easy Version)",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Bit Manipulation, Brute Force, Math, Number Theory"
+ },
+ {
+  "contestId": 899,
+  "index": "B",
+  "id": "899B",
+  "title": "Months and Years",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 554,
+  "index": "B",
+  "id": "554B",
+  "title": "Ohana Cleans Up",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Brute Force, Greedy, String"
+ },
+ {
+  "contestId": 255,
+  "index": "B",
+  "id": "255B",
+  "title": "Code Parsing",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1355,
+  "index": "A",
+  "id": "1355A",
+  "title": "Sequence with Digits",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Brute Force, Implementation, Math"
+ },
+ {
+  "contestId": 2048,
+  "index": "C",
+  "id": "2048C",
+  "title": "Kevin and Binary Strings",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Bit Manipulation, Brute Force, Greedy, Implementation, String"
+ },
+ {
+  "contestId": 1681,
+  "index": "C",
+  "id": "1681C",
+  "title": "Double Sort",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Implementation, Sorting"
+ },
+ {
+  "contestId": 1613,
+  "index": "C",
+  "id": "1613C",
+  "title": "Poisoned Dagger",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Binary Search"
+ },
+ {
+  "contestId": 2041,
+  "index": "E",
+  "id": "2041E",
+  "title": "Beautiful Array",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 630,
+  "index": "R",
+  "id": "630R",
+  "title": "Game",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Game Theory, Math"
+ },
+ {
+  "contestId": 217,
+  "index": "A",
+  "id": "217A",
+  "title": "Ice Skating",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Brute Force, DFS / BFS, Union Find, Graph"
+ },
+ {
+  "contestId": 2118,
+  "index": "B",
+  "id": "2118B",
+  "title": "Make It Permutation",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Constructive Algorithms"
+ },
+ {
+  "contestId": 1013,
+  "index": "B",
+  "id": "1013B",
+  "title": "And",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Greedy"
+ },
+ {
+  "contestId": 1002,
+  "index": "D1",
+  "id": "1002D1",
+  "title": "Oracle for f(x) = b * x mod 2",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "General"
+ },
+ {
+  "contestId": 1582,
+  "index": "C",
+  "id": "1582C",
+  "title": "Grandma Capa Knits a Scarf",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Brute Force, Data Structures, Greedy, String, Two Pointers"
+ },
+ {
+  "contestId": 1808,
+  "index": "B",
+  "id": "1808B",
+  "title": "Playing in a Casino",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Math, Sorting"
+ },
+ {
+  "contestId": 1384,
+  "index": "A",
+  "id": "1384A",
+  "title": "Common Prefixes",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Constructive Algorithms, Greedy, String"
+ },
+ {
+  "contestId": 1406,
+  "index": "B",
+  "id": "1406B",
+  "title": "Maximum Product",
+  "difficulty": "Medium",
+  "rating": 1200,
+  "topics": "Brute Force, Dynamic Programming, Greedy, Implementation, Sorting"
+ },
+ {
+  "contestId": 1119,
+  "index": "B",
+  "id": "1119B",
+  "title": "Alyona and a Narrow Fridge",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Binary Search, Max Flow, Greedy, Sorting"
+ },
+ {
+  "contestId": 1373,
+  "index": "C",
+  "id": "1373C",
+  "title": "Pluses and Minuses",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Math"
+ },
+ {
+  "contestId": 2216,
+  "index": "B",
+  "id": "2216B",
+  "title": "THU Packing Puzzle",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Greedy"
+ },
+ {
+  "contestId": 1703,
+  "index": "F",
+  "id": "1703F",
+  "title": "Yet Another Problem About Pairs Satisfying an Inequality",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Binary Search, Data Structures, Dynamic Programming, Greedy, Sorting"
+ },
+ {
+  "contestId": 1766,
+  "index": "C",
+  "id": "1766C",
+  "title": "Hamiltonian Wall",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Dynamic Programming, Implementation"
+ },
+ {
+  "contestId": 976,
+  "index": "B",
+  "id": "976B",
+  "title": "Lara Croft and the New Game",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Implementation, Math"
+ },
+ {
+  "contestId": 893,
+  "index": "C",
+  "id": "893C",
+  "title": "Rumor",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "DFS / BFS, Graph, Greedy"
+ },
+ {
+  "contestId": 2152,
+  "index": "B",
+  "id": "2152B",
+  "title": "Catching the Krug",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Game Theory"
+ },
+ {
+  "contestId": 144,
+  "index": "B",
+  "id": "144B",
+  "title": "Meeting",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 2119,
+  "index": "C",
+  "id": "2119C",
+  "title": "A Good Problem",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Bit Manipulation, Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 234,
+  "index": "C",
+  "id": "234C",
+  "title": "Weather",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Dynamic Programming, Implementation"
+ },
+ {
+  "contestId": 1065,
+  "index": "B",
+  "id": "1065B",
+  "title": "Vasya and Isolated Vertices",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Constructive Algorithms, Graph"
+ },
+ {
+  "contestId": 416,
+  "index": "B",
+  "id": "416B",
+  "title": "Art Union",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Brute Force, Dynamic Programming, Implementation"
+ },
+ {
+  "contestId": 188,
+  "index": "B",
+  "id": "188B",
+  "title": "A + Reverse B",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 44,
+  "index": "C",
+  "id": "44C",
+  "title": "Holidays",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1182,
+  "index": "B",
+  "id": "1182B",
+  "title": "Plus from Picture",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "DFS / BFS, Implementation, String"
+ },
+ {
+  "contestId": 1839,
+  "index": "C",
+  "id": "1839C",
+  "title": "Insert Zero and Invert Prefix",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Constructive Algorithms"
+ },
+ {
+  "contestId": 1819,
+  "index": "A",
+  "id": "1819A",
+  "title": "Constructive Problem",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Brute Force, Greedy"
+ },
+ {
+  "contestId": 39,
+  "index": "F",
+  "id": "39F",
+  "title": "Pacifist frogs",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1618,
+  "index": "D",
+  "id": "1618D",
+  "title": "Array and Operations",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Dynamic Programming, Greedy, Math"
+ },
+ {
+  "contestId": 1096,
+  "index": "B",
+  "id": "1096B",
+  "title": "Substring Removal",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Combinatorics, Math, String"
+ },
+ {
+  "contestId": 2036,
+  "index": "D",
+  "id": "2036D",
+  "title": "I Love 1543",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Brute Force, Implementation, Matrix"
+ },
+ {
+  "contestId": 1003,
+  "index": "C",
+  "id": "1003C",
+  "title": "Intense Heat",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Brute Force, Implementation, Math"
+ },
+ {
+  "contestId": 1315,
+  "index": "B",
+  "id": "1315B",
+  "title": "Homecoming",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Binary Search, Dynamic Programming, Greedy, String"
+ },
+ {
+  "contestId": 617,
+  "index": "B",
+  "id": "617B",
+  "title": "Chocolate",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Combinatorics"
+ },
+ {
+  "contestId": 628,
+  "index": "C",
+  "id": "628C",
+  "title": "Bear and String Distance",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Greedy, String"
+ },
+ {
+  "contestId": 64,
+  "index": "A",
+  "id": "64A",
+  "title": "Factorial",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1037,
+  "index": "C",
+  "id": "1037C",
+  "title": "Equalize",
+  "difficulty": "Medium",
+  "rating": 1300,
+  "topics": "Dynamic Programming, Greedy, String"
+ },
+ {
+  "contestId": 2151,
+  "index": "C",
+  "id": "2151C",
+  "title": "Incremental Stay",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 1004,
+  "index": "C",
+  "id": "1004C",
+  "title": "Sonya and Robots",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Constructive Algorithms, Implementation"
+ },
+ {
+  "contestId": 1540,
+  "index": "A",
+  "id": "1540A",
+  "title": "Great Graphs",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Constructive Algorithms, Graph, Greedy, Shortest Path, Sorting"
+ },
+ {
+  "contestId": 1600,
+  "index": "J",
+  "id": "1600J",
+  "title": "Robot Factory",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Bit Manipulation, DFS / BFS"
+ },
+ {
+  "contestId": 2238,
+  "index": "C",
+  "id": "2238C",
+  "title": "Village Guilds",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "DFS / BFS, Dynamic Programming, Tree"
+ },
+ {
+  "contestId": 2098,
+  "index": "B",
+  "id": "2098B",
+  "title": "Sasha and the Apartment Purchase",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Math, Sorting"
+ },
+ {
+  "contestId": 1451,
+  "index": "C",
+  "id": "1451C",
+  "title": "String Equality",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Dynamic Programming, Greedy, Hashing, Implementation, String"
+ },
+ {
+  "contestId": 19,
+  "index": "A",
+  "id": "19A",
+  "title": "World Football Cup",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 359,
+  "index": "B",
+  "id": "359B",
+  "title": "Permutation",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Constructive Algorithms, Dynamic Programming, Math"
+ },
+ {
+  "contestId": 520,
+  "index": "B",
+  "id": "520B",
+  "title": "Two Buttons",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "DFS / BFS, Graph, Greedy, Implementation, Math, Shortest Path"
+ },
+ {
+  "contestId": 414,
+  "index": "B",
+  "id": "414B",
+  "title": "Mashmokh and ACM",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Combinatorics, Dynamic Programming, Number Theory"
+ },
+ {
+  "contestId": 581,
+  "index": "C",
+  "id": "581C",
+  "title": "Developing Skills",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Implementation, Math, Sorting"
+ },
+ {
+  "contestId": 1517,
+  "index": "C",
+  "id": "1517C",
+  "title": "Fillomino 2",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Constructive Algorithms, DFS / BFS, Greedy, Implementation"
+ },
+ {
+  "contestId": 1061,
+  "index": "B",
+  "id": "1061B",
+  "title": "Views Matter",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Greedy, Implementation, Sorting"
+ },
+ {
+  "contestId": 1893,
+  "index": "A",
+  "id": "1893A",
+  "title": "Anonymous Informant",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Brute Force, DFS / BFS, Graph, Implementation"
+ },
+ {
+  "contestId": 2111,
+  "index": "D",
+  "id": "2111D",
+  "title": "Creating a Schedule",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Constructive Algorithms, Data Structures, Greedy, Implementation, Sorting"
+ },
+ {
+  "contestId": 77,
+  "index": "A",
+  "id": "77A",
+  "title": "Heroes",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 2045,
+  "index": "C",
+  "id": "2045C",
+  "title": "Saraga",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Greedy, String"
+ },
+ {
+  "contestId": 1896,
+  "index": "C",
+  "id": "1896C",
+  "title": "Matching Arrays",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Binary Search, Constructive Algorithms, Greedy, Sorting"
+ },
+ {
+  "contestId": 1648,
+  "index": "A",
+  "id": "1648A",
+  "title": "Weird Sum",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Combinatorics, Data Structures, Geometry, Math, Matrix, Sorting"
+ },
+ {
+  "contestId": 711,
+  "index": "B",
+  "id": "711B",
+  "title": "Chris and Magic Square",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Constructive Algorithms, Implementation"
+ },
+ {
+  "contestId": 2035,
+  "index": "C",
+  "id": "2035C",
+  "title": "Alya and Permutation",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Bit Manipulation, Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 1421,
+  "index": "C",
+  "id": "1421C",
+  "title": "Palindromifier",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Constructive Algorithms, String"
+ },
+ {
+  "contestId": 1837,
+  "index": "D",
+  "id": "1837D",
+  "title": "Bracket Coloring",
+  "difficulty": "Medium",
+  "rating": 1400,
+  "topics": "Constructive Algorithms, Greedy"
+ },
+ {
+  "contestId": 749,
+  "index": "C",
+  "id": "749C",
+  "title": "Voting",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Greedy, Implementation, Two Pointers"
+ },
+ {
+  "contestId": 1101,
+  "index": "C",
+  "id": "1101C",
+  "title": "Division and Union",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Sorting"
+ },
+ {
+  "contestId": 868,
+  "index": "C",
+  "id": "868C",
+  "title": "Qualification Rounds",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Bit Manipulation, Brute Force, Constructive Algorithms, Dynamic Programming"
+ },
+ {
+  "contestId": 72,
+  "index": "I",
+  "id": "72I",
+  "title": "Goofy Numbers",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 166,
+  "index": "C",
+  "id": "166C",
+  "title": "Median",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Greedy, Math, Sorting"
+ },
+ {
+  "contestId": 926,
+  "index": "G",
+  "id": "926G",
+  "title": "Large Bouquets",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "General"
+ },
+ {
+  "contestId": 1043,
+  "index": "C",
+  "id": "1043C",
+  "title": "Smallest Word",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Constructive Algorithms, Greedy, Implementation"
+ },
+ {
+  "contestId": 1999,
+  "index": "G1",
+  "id": "1999G1",
+  "title": "Ruler (easy version)",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Binary Search, Interactive"
+ },
+ {
+  "contestId": 2109,
+  "index": "C1",
+  "id": "2109C1",
+  "title": "Hacking Numbers (Easy Version)",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Bit Manipulation, Constructive Algorithms, Interactive, Math, Number Theory"
+ },
+ {
+  "contestId": 599,
+  "index": "B",
+  "id": "599B",
+  "title": "Spongebob and Joke",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 144,
+  "index": "C",
+  "id": "144C",
+  "title": "Anagram Search",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Implementation, String"
+ },
+ {
+  "contestId": 977,
+  "index": "E",
+  "id": "977E",
+  "title": "Cyclic Components",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "DFS / BFS, Union Find, Graph"
+ },
+ {
+  "contestId": 875,
+  "index": "B",
+  "id": "875B",
+  "title": "Sorting the Coins",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Union Find, Implementation, Sorting, Two Pointers"
+ },
+ {
+  "contestId": 239,
+  "index": "B",
+  "id": "239B",
+  "title": "Easy Tape Programming",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 1010,
+  "index": "A",
+  "id": "1010A",
+  "title": "Fly",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Binary Search, Math"
+ },
+ {
+  "contestId": 1616,
+  "index": "C",
+  "id": "1616C",
+  "title": "Representative Edges",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Brute Force, Geometry, Implementation, Math"
+ },
+ {
+  "contestId": 1516,
+  "index": "B",
+  "id": "1516B",
+  "title": "AGAGA XOOORRR",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Bit Manipulation, Brute Force, Dynamic Programming, Greedy"
+ },
+ {
+  "contestId": 288,
+  "index": "B",
+  "id": "288B",
+  "title": "Polo the Penguin and Houses",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Combinatorics"
+ },
+ {
+  "contestId": 177,
+  "index": "C1",
+  "id": "177C1",
+  "title": "Party",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "DFS / BFS, Union Find, Graph"
+ },
+ {
+  "contestId": 350,
+  "index": "B",
+  "id": "350B",
+  "title": "Resort",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Graph"
+ },
+ {
+  "contestId": 436,
+  "index": "A",
+  "id": "436A",
+  "title": "Feed with Candy",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Greedy"
+ },
+ {
+  "contestId": 2183,
+  "index": "D1",
+  "id": "2183D1",
+  "title": "Tree Coloring (Easy Version)",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Constructive Algorithms, DFS / BFS, Greedy, Tree"
+ },
+ {
+  "contestId": 1536,
+  "index": "C",
+  "id": "1536C",
+  "title": "Diluc and Kaeya",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Data Structures, Dynamic Programming, Hashing, Number Theory"
+ },
+ {
+  "contestId": 1800,
+  "index": "E2",
+  "id": "1800E2",
+  "title": "Unforgivable Curse (hard version)",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Brute Force, Constructive Algorithms, DFS / BFS, Union Find, Graph, Greedy, String"
+ },
+ {
+  "contestId": 1264,
+  "index": "A",
+  "id": "1264A",
+  "title": "Beautiful Regional Contest",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 409,
+  "index": "H",
+  "id": "409H",
+  "title": "A + B Strikes Back",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Brute Force, Constructive Algorithms, Union Find, Implementation"
+ },
+ {
+  "contestId": 1250,
+  "index": "L",
+  "id": "1250L",
+  "title": "Divide The Students",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Binary Search, Greedy, Math"
+ },
+ {
+  "contestId": 2057,
+  "index": "C",
+  "id": "2057C",
+  "title": "Trip to the Olympiad",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Bit Manipulation, Constructive Algorithms, Greedy, Math"
+ },
+ {
+  "contestId": 1051,
+  "index": "C",
+  "id": "1051C",
+  "title": "Vasya and Multisets",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Brute Force, Dynamic Programming, Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 960,
+  "index": "B",
+  "id": "960B",
+  "title": "Minimize the error",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Data Structures, Greedy, Sorting"
+ },
+ {
+  "contestId": 1250,
+  "index": "H",
+  "id": "1250H",
+  "title": "Happy Birthday",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Math"
+ },
+ {
+  "contestId": 701,
+  "index": "C",
+  "id": "701C",
+  "title": "They Are Everywhere",
+  "difficulty": "Medium",
+  "rating": 1500,
+  "topics": "Binary Search, String, Two Pointers"
+ },
+ {
+  "contestId": 2036,
+  "index": "E",
+  "id": "2036E",
+  "title": "Reverse the Rivers",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Binary Search, Constructive Algorithms, Data Structures, Greedy"
+ },
+ {
+  "contestId": 637,
+  "index": "D",
+  "id": "637D",
+  "title": "Running with Obstacles",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Data Structures, Dynamic Programming, Greedy"
+ },
+ {
+  "contestId": 534,
+  "index": "C",
+  "id": "534C",
+  "title": "Polycarpus' Dice",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Math"
+ },
+ {
+  "contestId": 952,
+  "index": "C",
+  "id": "952C",
+  "title": "Ravioli Sort",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 207,
+  "index": "D7",
+  "id": "207D7",
+  "title": "The Beaver's Problem - 3",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "General"
+ },
+ {
+  "contestId": 913,
+  "index": "C",
+  "id": "913C",
+  "title": "Party Lemonade",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Bit Manipulation, Dynamic Programming, Greedy"
+ },
+ {
+  "contestId": 599,
+  "index": "C",
+  "id": "599C",
+  "title": "Day at the Beach",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Sorting"
+ },
+ {
+  "contestId": 154,
+  "index": "B",
+  "id": "154B",
+  "title": "Colliders",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Math, Number Theory"
+ },
+ {
+  "contestId": 1633,
+  "index": "D",
+  "id": "1633D",
+  "title": "Make Them Equal",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Dynamic Programming, Greedy"
+ },
+ {
+  "contestId": 476,
+  "index": "C",
+  "id": "476C",
+  "title": "Dreamoon and Sums",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Math"
+ },
+ {
+  "contestId": 1115,
+  "index": "U2",
+  "id": "1115U2",
+  "title": "Chessboard unitary",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "General"
+ },
+ {
+  "contestId": 618,
+  "index": "C",
+  "id": "618C",
+  "title": "Constellation",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Geometry, Implementation"
+ },
+ {
+  "contestId": 597,
+  "index": "B",
+  "id": "597B",
+  "title": "Restaurant",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Dynamic Programming, Greedy, Sorting"
+ },
+ {
+  "contestId": 727,
+  "index": "B",
+  "id": "727B",
+  "title": "Bill Total Value",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Parsing, Implementation, String"
+ },
+ {
+  "contestId": 371,
+  "index": "C",
+  "id": "371C",
+  "title": "Hamburgers",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Binary Search, Brute Force"
+ },
+ {
+  "contestId": 231,
+  "index": "C",
+  "id": "231C",
+  "title": "To Add or Not to Add",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Binary Search, Sorting, Two Pointers"
+ },
+ {
+  "contestId": 1957,
+  "index": "C",
+  "id": "1957C",
+  "title": "How Does the Rook Move?",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Combinatorics, Dynamic Programming, Math"
+ },
+ {
+  "contestId": 1251,
+  "index": "C",
+  "id": "1251C",
+  "title": "Minimize The Integer",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Greedy, Two Pointers"
+ },
+ {
+  "contestId": 568,
+  "index": "A",
+  "id": "568A",
+  "title": "Primes or Palindromes?",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Brute Force, Implementation, Math, Number Theory"
+ },
+ {
+  "contestId": 777,
+  "index": "C",
+  "id": "777C",
+  "title": "Alyona and Spreadsheet",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Binary Search, Data Structures, Dynamic Programming, Greedy, Implementation, Two Pointers"
+ },
+ {
+  "contestId": 209,
+  "index": "A",
+  "id": "209A",
+  "title": "Multicolored Marbles",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Dynamic Programming, Math"
+ },
+ {
+  "contestId": 1137,
+  "index": "A",
+  "id": "1137A",
+  "title": "Skyscrapers",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Implementation, Sorting"
+ },
+ {
+  "contestId": 617,
+  "index": "C",
+  "id": "617C",
+  "title": "Watering Flowers",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 150,
+  "index": "B",
+  "id": "150B",
+  "title": "Quantity of Strings",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Combinatorics, DFS / BFS, Graph, Math"
+ },
+ {
+  "contestId": 353,
+  "index": "C",
+  "id": "353C",
+  "title": "Find Maximum",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Implementation, Math, Number Theory"
+ },
+ {
+  "contestId": 1593,
+  "index": "E",
+  "id": "1593E",
+  "title": "Gardener and Tree",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Brute Force, Data Structures, DFS / BFS, Greedy, Implementation, Tree"
+ },
+ {
+  "contestId": 2241,
+  "index": "E",
+  "id": "2241E",
+  "title": "Fair and Square",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Combinatorics, Dynamic Programming, Graph, Math, Number Theory, Tree"
+ },
+ {
+  "contestId": 1555,
+  "index": "D",
+  "id": "1555D",
+  "title": "Say No to Palindromes",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Brute Force, Constructive Algorithms, Dynamic Programming, String"
+ },
+ {
+  "contestId": 2167,
+  "index": "F",
+  "id": "2167F",
+  "title": "Tree, TREE!!!",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "DFS / BFS, Dynamic Programming, Math, Tree"
+ },
+ {
+  "contestId": 962,
+  "index": "D",
+  "id": "962D",
+  "title": "Merge Equals",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Data Structures, Implementation"
+ },
+ {
+  "contestId": 780,
+  "index": "B",
+  "id": "780B",
+  "title": "The Meeting Place Cannot Be Changed",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Binary Search"
+ },
+ {
+  "contestId": 1849,
+  "index": "C",
+  "id": "1849C",
+  "title": "Binary String Copying",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Binary Search, Brute Force, Data Structures, Hashing, String"
+ },
+ {
+  "contestId": 305,
+  "index": "C",
+  "id": "305C",
+  "title": "Ivan and Powers of Two",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 939,
+  "index": "D",
+  "id": "939D",
+  "title": "Love Rescue",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "DFS / BFS, Union Find, Graph, Greedy, String"
+ },
+ {
+  "contestId": 1041,
+  "index": "C",
+  "id": "1041C",
+  "title": "Coffee Break",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Binary Search, Data Structures, Greedy, Two Pointers"
+ },
+ {
+  "contestId": 1036,
+  "index": "D",
+  "id": "1036D",
+  "title": "Vasya and Arrays",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Greedy, Two Pointers"
+ },
+ {
+  "contestId": 28,
+  "index": "A",
+  "id": "28A",
+  "title": "Bender Problem",
+  "difficulty": "Medium",
+  "rating": 1600,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 895,
+  "index": "B",
+  "id": "895B",
+  "title": "XK Segments",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Binary Search, Math, Sorting, Two Pointers"
+ },
+ {
+  "contestId": 44,
+  "index": "H",
+  "id": "44H",
+  "title": "Phone Number",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Dynamic Programming"
+ },
+ {
+  "contestId": 2104,
+  "index": "E",
+  "id": "2104E",
+  "title": "Unpleasant Strings",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Binary Search, Dynamic Programming, Greedy, String"
+ },
+ {
+  "contestId": 387,
+  "index": "C",
+  "id": "387C",
+  "title": "George and Number",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 1032,
+  "index": "C",
+  "id": "1032C",
+  "title": "Playing Piano",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms, Dynamic Programming"
+ },
+ {
+  "contestId": 1810,
+  "index": "D",
+  "id": "1810D",
+  "title": "Climbing the Tree",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Binary Search, Math"
+ },
+ {
+  "contestId": 1310,
+  "index": "A",
+  "id": "1310A",
+  "title": "Recommendations",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Data Structures, Greedy, Sorting"
+ },
+ {
+  "contestId": 2027,
+  "index": "D1",
+  "id": "2027D1",
+  "title": "The Endspeaker (Easy Version)",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Binary Search, Dynamic Programming, Graph, Greedy, Implementation, Two Pointers"
+ },
+ {
+  "contestId": 1969,
+  "index": "C",
+  "id": "1969C",
+  "title": "Minimizing the Sum",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Dynamic Programming, Implementation"
+ },
+ {
+  "contestId": 567,
+  "index": "C",
+  "id": "567C",
+  "title": "Geometric Progression",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Binary Search, Data Structures, Dynamic Programming"
+ },
+ {
+  "contestId": 533,
+  "index": "C",
+  "id": "533C",
+  "title": "Board Game",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Game Theory, Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 2215,
+  "index": "A",
+  "id": "2215A",
+  "title": "Interval Mod",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms, Dynamic Programming, Greedy, Math"
+ },
+ {
+  "contestId": 1479,
+  "index": "A",
+  "id": "1479A",
+  "title": "Searching Local Minimum",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Binary Search, Interactive, Ternary Search"
+ },
+ {
+  "contestId": 1807,
+  "index": "F",
+  "id": "1807F",
+  "title": "Bouncy Ball",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Brute Force, DFS / BFS, Implementation"
+ },
+ {
+  "contestId": 1826,
+  "index": "D",
+  "id": "1826D",
+  "title": "Running Miles",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Brute Force, Dynamic Programming, Greedy"
+ },
+ {
+  "contestId": 1114,
+  "index": "C",
+  "id": "1114C",
+  "title": "Trailing Loves (or L'oeufs?)",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Brute Force, Implementation, Math, Number Theory"
+ },
+ {
+  "contestId": 2201,
+  "index": "B",
+  "id": "2201B",
+  "title": "Recollect Numbers",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms"
+ },
+ {
+  "contestId": 1551,
+  "index": "D1",
+  "id": "1551D1",
+  "title": "Domino (easy version)",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 66,
+  "index": "D",
+  "id": "66D",
+  "title": "Petya and His Friends",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms, Math, Number Theory"
+ },
+ {
+  "contestId": 65,
+  "index": "B",
+  "id": "65B",
+  "title": "Harry Potter and the History of Magic",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Brute Force, Greedy, Implementation"
+ },
+ {
+  "contestId": 2009,
+  "index": "F",
+  "id": "2009F",
+  "title": "Firefly's Queries",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Bit Manipulation, Data Structures, Max Flow, Math"
+ },
+ {
+  "contestId": 161,
+  "index": "B",
+  "id": "161B",
+  "title": "Discounts",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms, Greedy, Sorting"
+ },
+ {
+  "contestId": 1779,
+  "index": "D",
+  "id": "1779D",
+  "title": "Boris and His Amazing Haircut",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms, Data Structures, Dynamic Programming, Union Find, Greedy, Sorting"
+ },
+ {
+  "contestId": 1115,
+  "index": "U3",
+  "id": "1115U3",
+  "title": "Block unitary",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "General"
+ },
+ {
+  "contestId": 696,
+  "index": "B",
+  "id": "696B",
+  "title": "Puzzles",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "DFS / BFS, Math, Probability and Statistics, Tree"
+ },
+ {
+  "contestId": 1249,
+  "index": "E",
+  "id": "1249E",
+  "title": "By Elevator or Stairs?",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Dynamic Programming, Shortest Path"
+ },
+ {
+  "contestId": 1628,
+  "index": "B",
+  "id": "1628B",
+  "title": "Peculiar Movie Preferences",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Greedy, String"
+ },
+ {
+  "contestId": 644,
+  "index": "B",
+  "id": "644B",
+  "title": "Processing Queries",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms, Data Structures, Two Pointers"
+ },
+ {
+  "contestId": 1332,
+  "index": "D",
+  "id": "1332D",
+  "title": "Walk on Matrix",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Bit Manipulation, Constructive Algorithms, Math"
+ },
+ {
+  "contestId": 1516,
+  "index": "C",
+  "id": "1516C",
+  "title": "Baby Ehab Partitions Again",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Bit Manipulation, Constructive Algorithms, Dynamic Programming, Math"
+ },
+ {
+  "contestId": 281,
+  "index": "B",
+  "id": "281B",
+  "title": "Nearest Fraction",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Brute Force, Implementation, Two Pointers"
+ },
+ {
+  "contestId": 1688,
+  "index": "C",
+  "id": "1688C",
+  "title": "Manipulating History",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms, Greedy, String"
+ },
+ {
+  "contestId": 1042,
+  "index": "C",
+  "id": "1042C",
+  "title": "Array Product",
+  "difficulty": "Medium",
+  "rating": 1700,
+  "topics": "Constructive Algorithms, Greedy, Math"
+ },
+ {
+  "contestId": 173,
+  "index": "B",
+  "id": "173B",
+  "title": "Chamber of Secrets",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "DFS / BFS, Shortest Path"
+ },
+ {
+  "contestId": 768,
+  "index": "C",
+  "id": "768C",
+  "title": "Jon Snow and his Favourite Number",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Brute Force, Dynamic Programming, Implementation, Sorting"
+ },
+ {
+  "contestId": 1283,
+  "index": "D",
+  "id": "1283D",
+  "title": "Christmas Trees",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Graph, Greedy, Shortest Path"
+ },
+ {
+  "contestId": 1118,
+  "index": "F1",
+  "id": "1118F1",
+  "title": "Tree Cutting (Easy Version)",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "DFS / BFS, Tree"
+ },
+ {
+  "contestId": 358,
+  "index": "D",
+  "id": "358D",
+  "title": "Dima and Hares",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Dynamic Programming, Greedy"
+ },
+ {
+  "contestId": 894,
+  "index": "B",
+  "id": "894B",
+  "title": "Ralph And His Magic Field",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Combinatorics, Constructive Algorithms, Math, Number Theory"
+ },
+ {
+  "contestId": 487,
+  "index": "A",
+  "id": "487A",
+  "title": "Fight the Monster",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Binary Search, Brute Force, Implementation"
+ },
+ {
+  "contestId": 37,
+  "index": "B",
+  "id": "37B",
+  "title": "Computer Game",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 79,
+  "index": "C",
+  "id": "79C",
+  "title": "Beaver",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Data Structures, Dynamic Programming, Greedy, Hashing, String, Two Pointers"
+ },
+ {
+  "contestId": 730,
+  "index": "B",
+  "id": "730B",
+  "title": "Minimum and Maximum",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Constructive Algorithms, Interactive"
+ },
+ {
+  "contestId": 1286,
+  "index": "B",
+  "id": "1286B",
+  "title": "Numbers on Tree",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Constructive Algorithms, Data Structures, DFS / BFS, Graph, Greedy, Tree"
+ },
+ {
+  "contestId": 600,
+  "index": "C",
+  "id": "600C",
+  "title": "Make Palindrome",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Constructive Algorithms, Greedy, String"
+ },
+ {
+  "contestId": 730,
+  "index": "A",
+  "id": "730A",
+  "title": "Toda 2",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Greedy, Implementation"
+ },
+ {
+  "contestId": 652,
+  "index": "C",
+  "id": "652C",
+  "title": "Foe Pairs",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Combinatorics, Sorting, Two Pointers"
+ },
+ {
+  "contestId": 1620,
+  "index": "C",
+  "id": "1620C",
+  "title": "BA-String",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Brute Force, Dynamic Programming, Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 1734,
+  "index": "D",
+  "id": "1734D",
+  "title": "Slime Escape",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Data Structures, Dynamic Programming, Greedy, Two Pointers"
+ },
+ {
+  "contestId": 1759,
+  "index": "F",
+  "id": "1759F",
+  "title": "All Possible Digits",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Binary Search, Data Structures, Greedy, Math, Number Theory"
+ },
+ {
+  "contestId": 216,
+  "index": "C",
+  "id": "216C",
+  "title": "Hiring Staff",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Greedy"
+ },
+ {
+  "contestId": 1872,
+  "index": "F",
+  "id": "1872F",
+  "title": "Selling a Menagerie",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "DFS / BFS, Union Find, Graph, Implementation, Math"
+ },
+ {
+  "contestId": 2020,
+  "index": "D",
+  "id": "2020D",
+  "title": "Connect the Dots",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Brute Force, Dynamic Programming, Union Find, Graph, Math, Tree"
+ },
+ {
+  "contestId": 513,
+  "index": "B2",
+  "id": "513B2",
+  "title": "Permutations",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Bit Manipulation, Divide and Conquer, Math"
+ },
+ {
+  "contestId": 95,
+  "index": "B",
+  "id": "95B",
+  "title": "Lucky Numbers",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Dynamic Programming, Greedy"
+ },
+ {
+  "contestId": 1841,
+  "index": "C",
+  "id": "1841C",
+  "title": "Ranom Numbers",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Brute Force, Dynamic Programming, Greedy, Math, String"
+ },
+ {
+  "contestId": 2071,
+  "index": "D1",
+  "id": "2071D1",
+  "title": "Infinite Sequence (Easy Version)",
+  "difficulty": "Medium",
+  "rating": 1800,
+  "topics": "Bit Manipulation, Brute Force, Dynamic Programming, Implementation, Math"
+ },
+ {
+  "contestId": 1436,
+  "index": "D",
+  "id": "1436D",
+  "title": "Bandit in a City",
+  "difficulty": "Hard",
+  "rating": 1900,
+  "topics": "Binary Search, DFS / BFS, Graph, Greedy, Tree"
+ },
+ {
+  "contestId": 213,
+  "index": "B",
+  "id": "213B",
+  "title": "Numbers",
+  "difficulty": "Hard",
+  "rating": 1900,
+  "topics": "Combinatorics, Dynamic Programming"
+ },
+ {
+  "contestId": 1272,
+  "index": "E",
+  "id": "1272E",
+  "title": "Nearest Opposite Parity",
+  "difficulty": "Hard",
+  "rating": 1900,
+  "topics": "DFS / BFS, Graph, Shortest Path"
+ },
+ {
+  "contestId": 1717,
+  "index": "D",
+  "id": "1717D",
+  "title": "Madoka and The Corruption Scheme",
+  "difficulty": "Hard",
+  "rating": 1900,
+  "topics": "Combinatorics, Constructive Algorithms, Greedy, Math"
+ },
+ {
+  "contestId": 1620,
+  "index": "E",
+  "id": "1620E",
+  "title": "Replace the Numbers",
+  "difficulty": "Hard",
+  "rating": 1900,
+  "topics": "Constructive Algorithms, Data Structures, Union Find, Implementation"
+ },
+ {
+  "contestId": 780,
+  "index": "D",
+  "id": "780D",
+  "title": "Innokenty and a Football League",
+  "difficulty": "Hard",
+  "rating": 1900,
+  "topics": "2-SAT, Graph, Greedy, Implementation, Shortest Path, String"
+ },
+ {
+  "contestId": 1506,
+  "index": "F",
+  "id": "1506F",
+  "title": "Triangular Paths",
+  "difficulty": "Hard",
+  "rating": 2000,
+  "topics": "Constructive Algorithms, Graph, Math, Shortest Path, Sorting"
+ },
+ {
+  "contestId": 818,
+  "index": "C",
+  "id": "818C",
+  "title": "Sofa Thief",
+  "difficulty": "Hard",
+  "rating": 2000,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 1185,
+  "index": "E",
+  "id": "1185E",
+  "title": "Polycarp and Snakes",
+  "difficulty": "Hard",
+  "rating": 2000,
+  "topics": "Brute Force, Implementation"
+ },
+ {
+  "contestId": 1363,
+  "index": "E",
+  "id": "1363E",
+  "title": "Tree Shuffling",
+  "difficulty": "Hard",
+  "rating": 2000,
+  "topics": "DFS / BFS, Dynamic Programming, Greedy, Tree"
+ },
+ {
+  "contestId": 2131,
+  "index": "G",
+  "id": "2131G",
+  "title": "Wafu!",
+  "difficulty": "Hard",
+  "rating": 2000,
+  "topics": "Bit Manipulation, Brute Force, Data Structures, DFS / BFS, Dynamic Programming, Math"
+ },
+ {
+  "contestId": 1626,
+  "index": "D",
+  "id": "1626D",
+  "title": "Martial Arts Tournament",
+  "difficulty": "Hard",
+  "rating": 2100,
+  "topics": "Binary Search, Brute Force, Greedy, Math"
+ },
+ {
+  "contestId": 899,
+  "index": "F",
+  "id": "899F",
+  "title": "Letters Removing",
+  "difficulty": "Hard",
+  "rating": 2100,
+  "topics": "Data Structures, String"
+ },
+ {
+  "contestId": 496,
+  "index": "E",
+  "id": "496E",
+  "title": "Distributing Parts",
+  "difficulty": "Hard",
+  "rating": 2100,
+  "topics": "Greedy, Sorting"
+ },
+ {
+  "contestId": 1185,
+  "index": "F",
+  "id": "1185F",
+  "title": "Two Pizzas",
+  "difficulty": "Hard",
+  "rating": 2100,
+  "topics": "Bit Manipulation, Brute Force"
+ },
+ {
+  "contestId": 254,
+  "index": "E",
+  "id": "254E",
+  "title": "Dormitory",
+  "difficulty": "Hard",
+  "rating": 2100,
+  "topics": "Dynamic Programming, Implementation"
+ },
+ {
+  "contestId": 306,
+  "index": "C",
+  "id": "306C",
+  "title": "White, Black and White Again",
+  "difficulty": "Hard",
+  "rating": 2100,
+  "topics": "Combinatorics, Number Theory"
+ },
+ {
+  "contestId": 811,
+  "index": "D",
+  "id": "811D",
+  "title": "Vladik and Favorite Game",
+  "difficulty": "Hard",
+  "rating": 2100,
+  "topics": "Constructive Algorithms, DFS / BFS, Graph, Interactive"
+ },
+ {
+  "contestId": 852,
+  "index": "F",
+  "id": "852F",
+  "title": "Product transformation",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "Combinatorics, Math, Number Theory"
+ },
+ {
+  "contestId": 1234,
+  "index": "F",
+  "id": "1234F",
+  "title": "Yet Another Substring Reverse",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "Bit Manipulation, Dynamic Programming"
+ },
+ {
+  "contestId": 650,
+  "index": "C",
+  "id": "650C",
+  "title": "Table Compression",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "DFS / BFS, Dynamic Programming, Union Find, Graph, Greedy"
+ },
+ {
+  "contestId": 1216,
+  "index": "E2",
+  "id": "1216E2",
+  "title": "Numerical Sequence (hard version)",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "Binary Search, Math"
+ },
+ {
+  "contestId": 1503,
+  "index": "C",
+  "id": "1503C",
+  "title": "Travelling Salesman Problem",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "Binary Search, Data Structures, Dynamic Programming, Greedy, Shortest Path, Sorting, Two Pointers"
+ },
+ {
+  "contestId": 1840,
+  "index": "G1",
+  "id": "1840G1",
+  "title": "In Search of Truth (Easy Version)",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "Constructive Algorithms, Interactive, Math, Meet in the Middle, Probability and Statistics"
+ },
+ {
+  "contestId": 1140,
+  "index": "E",
+  "id": "1140E",
+  "title": "Palindrome-less Arrays",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "Combinatorics, Divide and Conquer, Dynamic Programming"
+ },
+ {
+  "contestId": 2137,
+  "index": "G",
+  "id": "2137G",
+  "title": "Cry Me a River",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "DFS / BFS, Dynamic Programming, Game Theory, Graph"
+ },
+ {
+  "contestId": 1208,
+  "index": "E",
+  "id": "1208E",
+  "title": "Let Them Slide",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "Data Structures, Implementation"
+ },
+ {
+  "contestId": 559,
+  "index": "C",
+  "id": "559C",
+  "title": "Gerald and Giant Chess",
+  "difficulty": "Hard",
+  "rating": 2200,
+  "topics": "Combinatorics, Dynamic Programming, Math, Number Theory"
+ },
+ {
+  "contestId": 549,
+  "index": "B",
+  "id": "549B",
+  "title": "Looksery Party",
+  "difficulty": "Hard",
+  "rating": 2300,
+  "topics": "Constructive Algorithms, DFS / BFS, Graph, Greedy"
+ },
+ {
+  "contestId": 2110,
+  "index": "E",
+  "id": "2110E",
+  "title": "Melody",
+  "difficulty": "Hard",
+  "rating": 2300,
+  "topics": "DFS / BFS, Graph, Implementation"
+ },
+ {
+  "contestId": 817,
+  "index": "F",
+  "id": "817F",
+  "title": "MEX Queries",
+  "difficulty": "Hard",
+  "rating": 2300,
+  "topics": "Binary Search, Data Structures, Tree"
+ },
+ {
+  "contestId": 1842,
+  "index": "E",
+  "id": "1842E",
+  "title": "Tenzing and Triangle",
+  "difficulty": "Hard",
+  "rating": 2300,
+  "topics": "Data Structures, Dynamic Programming, Geometry, Greedy, Math"
+ },
+ {
+  "contestId": 1285,
+  "index": "E",
+  "id": "1285E",
+  "title": "Delete a Segment",
+  "difficulty": "Hard",
+  "rating": 2300,
+  "topics": "Brute Force, Constructive Algorithms, Data Structures, Dynamic Programming, Graph, Sorting, Tree, Two Pointers"
+ },
+ {
+  "contestId": 311,
+  "index": "E",
+  "id": "311E",
+  "title": "Biologist",
+  "difficulty": "Hard",
+  "rating": 2300,
+  "topics": "Max Flow"
+ },
+ {
+  "contestId": 1453,
+  "index": "E",
+  "id": "1453E",
+  "title": "Dog Snacks",
+  "difficulty": "Hard",
+  "rating": 2300,
+  "topics": "Binary Search, DFS / BFS, Dynamic Programming, Greedy, Tree"
+ },
+ {
+  "contestId": 2032,
+  "index": "E",
+  "id": "2032E",
+  "title": "Balanced",
+  "difficulty": "Hard",
+  "rating": 2400,
+  "topics": "Constructive Algorithms, Data Structures, Greedy, Implementation, Math"
+ },
+ {
+  "contestId": 277,
+  "index": "E",
+  "id": "277E",
+  "title": "Binary Tree on Plane",
+  "difficulty": "Hard",
+  "rating": 2400,
+  "topics": "Max Flow, Tree"
+ },
+ {
+  "contestId": 2241,
+  "index": "G",
+  "id": "2241G",
+  "title": "Summmon",
+  "difficulty": "Hard",
+  "rating": 2400,
+  "topics": "Binary Search, Data Structures, Greedy, Implementation, Math, Number Theory"
+ },
+ {
+  "contestId": 1620,
+  "index": "G",
+  "id": "1620G",
+  "title": "Subsequences Galore",
+  "difficulty": "Hard",
+  "rating": 2400,
+  "topics": "Bit Manipulation, Combinatorics, Dynamic Programming"
+ },
+ {
+  "contestId": 1670,
+  "index": "F",
+  "id": "1670F",
+  "title": "Jee, You See?",
+  "difficulty": "Hard",
+  "rating": 2400,
+  "topics": "Bit Manipulation, Combinatorics, Dynamic Programming"
+ },
+ {
+  "contestId": 786,
+  "index": "C",
+  "id": "786C",
+  "title": "Till I Collapse",
+  "difficulty": "Hard",
+  "rating": 2400,
+  "topics": "Data Structures, Divide and Conquer"
+ },
+ {
+  "contestId": 266,
+  "index": "E",
+  "id": "266E",
+  "title": "More Queries to Array...",
+  "difficulty": "Hard",
+  "rating": 2500,
+  "topics": "Data Structures, Math"
+ },
+ {
+  "contestId": 17,
+  "index": "C",
+  "id": "17C",
+  "title": "Balance",
+  "difficulty": "Hard",
+  "rating": 2500,
+  "topics": "Dynamic Programming"
+ },
+ {
+  "contestId": 1737,
+  "index": "E",
+  "id": "1737E",
+  "title": "Ela Goes Hiking",
+  "difficulty": "Hard",
+  "rating": 2500,
+  "topics": "Combinatorics, Dynamic Programming, Math, Probability and Statistics"
+ },
+ {
+  "contestId": 1876,
+  "index": "D",
+  "id": "1876D",
+  "title": "Lexichromatography",
+  "difficulty": "Hard",
+  "rating": 2500,
+  "topics": "Combinatorics, DFS / BFS, Union Find, Graph, Two Pointers"
+ },
+ {
+  "contestId": 2057,
+  "index": "E2",
+  "id": "2057E2",
+  "title": "Another Exercise on Graphs (hard version)",
+  "difficulty": "Hard",
+  "rating": 2500,
+  "topics": "Binary Search, DFS / BFS, Dynamic Programming, Union Find, Graph, Shortest Path, Sorting"
+ },
+ {
+  "contestId": 173,
+  "index": "D",
+  "id": "173D",
+  "title": "Deputies",
+  "difficulty": "Hard",
+  "rating": 2500,
+  "topics": "Constructive Algorithms, Graph, Greedy, Implementation"
+ },
+ {
+  "contestId": 1582,
+  "index": "G",
+  "id": "1582G",
+  "title": "Kuzya and Homework",
+  "difficulty": "Hard",
+  "rating": 2600,
+  "topics": "Data Structures, Number Theory"
+ },
+ {
+  "contestId": 1431,
+  "index": "H",
+  "id": "1431H",
+  "title": "Rogue-like Game",
+  "difficulty": "Hard",
+  "rating": 2600,
+  "topics": "Brute Force, Greedy, Two Pointers"
+ },
+ {
+  "contestId": 175,
+  "index": "E",
+  "id": "175E",
+  "title": "Power Defence",
+  "difficulty": "Hard",
+  "rating": 2600,
+  "topics": "Brute Force, Dynamic Programming, Geometry, Greedy"
+ },
+ {
+  "contestId": 761,
+  "index": "F",
+  "id": "761F",
+  "title": "Dasha and Photos",
+  "difficulty": "Hard",
+  "rating": 2600,
+  "topics": "Brute Force, Data Structures, Dynamic Programming, Implementation"
+ },
+ {
+  "contestId": 273,
+  "index": "E",
+  "id": "273E",
+  "title": "Dima and Game",
+  "difficulty": "Hard",
+  "rating": 2600,
+  "topics": "Dynamic Programming, Game Theory"
+ },
+ {
+  "contestId": 1505,
+  "index": "G",
+  "id": "1505G",
+  "title": "Encoded message",
+  "difficulty": "Hard",
+  "rating": 2600,
+  "topics": "Implementation"
+ },
+ {
+  "contestId": 1514,
+  "index": "E",
+  "id": "1514E",
+  "title": "Baby Ehab's Hyper Apartment",
+  "difficulty": "Hard",
+  "rating": 2700,
+  "topics": "Binary Search, Graph, Interactive, Sorting, Two Pointers"
+ },
+ {
+  "contestId": 773,
+  "index": "D",
+  "id": "773D",
+  "title": "Perishable Roads",
+  "difficulty": "Hard",
+  "rating": 2700,
+  "topics": "Dynamic Programming, Graph, Shortest Path"
+ },
+ {
+  "contestId": 1627,
+  "index": "F",
+  "id": "1627F",
+  "title": "Not Splitting",
+  "difficulty": "Hard",
+  "rating": 2700,
+  "topics": "Geometry, Graph, Greedy, Implementation, Shortest Path"
+ },
+ {
+  "contestId": 1118,
+  "index": "F2",
+  "id": "1118F2",
+  "title": "Tree Cutting (Hard Version)",
+  "difficulty": "Hard",
+  "rating": 2700,
+  "topics": "Combinatorics, DFS / BFS, Dynamic Programming, Tree"
+ },
+ {
+  "contestId": 1364,
+  "index": "E",
+  "id": "1364E",
+  "title": "X-OR",
+  "difficulty": "Hard",
+  "rating": 2700,
+  "topics": "Bit Manipulation, Constructive Algorithms, Divide and Conquer, Interactive, Probability and Statistics"
+ },
+ {
+  "contestId": 1338,
+  "index": "D",
+  "id": "1338D",
+  "title": "Nested Rubber Bands",
+  "difficulty": "Hard",
+  "rating": 2700,
+  "topics": "Constructive Algorithms, DFS / BFS, Dynamic Programming, Math, Tree"
+ },
+ {
+  "contestId": 2242,
+  "index": "F",
+  "id": "2242F",
+  "title": "Summer Vacation",
+  "difficulty": "Hard",
+  "rating": 2700,
+  "topics": "Data Structures, Dynamic Programming, Probability and Statistics, Tree"
+ },
+ {
+  "contestId": 839,
+  "index": "E",
+  "id": "839E",
+  "title": "Mother of Dragons",
+  "difficulty": "Hard",
+  "rating": 2700,
+  "topics": "Brute Force, Graph, Math, Meet in the Middle"
+ },
+ {
+  "contestId": 1425,
+  "index": "I",
+  "id": "1425I",
+  "title": "Impressive Harvesting of The Orchard",
+  "difficulty": "Hard",
+  "rating": 2800,
+  "topics": "Data Structures"
+ },
+ {
+  "contestId": 1098,
+  "index": "D",
+  "id": "1098D",
+  "title": "Eels",
+  "difficulty": "Hard",
+  "rating": 2800,
+  "topics": "Data Structures"
+ },
+ {
+  "contestId": 1436,
+  "index": "F",
+  "id": "1436F",
+  "title": "Sum Over Subsets",
+  "difficulty": "Hard",
+  "rating": 2800,
+  "topics": "Combinatorics, Math, Number Theory"
+ },
+ {
+  "contestId": 1766,
+  "index": "F",
+  "id": "1766F",
+  "title": "MCF",
+  "difficulty": "Hard",
+  "rating": 2800,
+  "topics": "Max Flow"
+ },
+ {
+  "contestId": 2233,
+  "index": "F",
+  "id": "2233F",
+  "title": "Shortest GCD Paths",
+  "difficulty": "Hard",
+  "rating": 2800,
+  "topics": "Dynamic Programming, Graph, Math, Number Theory, Shortest Path"
+ },
+ {
+  "contestId": 1327,
+  "index": "G",
+  "id": "1327G",
+  "title": "Letters and Question Marks",
+  "difficulty": "Hard",
+  "rating": 2800,
+  "topics": "Bit Manipulation, Dynamic Programming, Suffix Structures"
+ },
+ {
+  "contestId": 1819,
+  "index": "D",
+  "id": "1819D",
+  "title": "Misha and Apples",
+  "difficulty": "Hard",
+  "rating": 2800,
+  "topics": "Brute Force, Data Structures, Dynamic Programming, Two Pointers"
+ },
+ {
+  "contestId": 2225,
+  "index": "G",
+  "id": "2225G",
+  "title": "Simple Problem",
+  "difficulty": "Hard",
+  "rating": 2900,
+  "topics": "Brute Force, Graph, Greedy, Number Theory"
+ },
+ {
+  "contestId": 927,
+  "index": "A",
+  "id": "927A",
+  "title": "BuberPool Taxi Optimization",
+  "difficulty": "Hard",
+  "rating": 2900,
+  "topics": "Interactive"
+ },
+ {
+  "contestId": 2229,
+  "index": "G",
+  "id": "2229G",
+  "title": "Roadworks",
+  "difficulty": "Hard",
+  "rating": 2900,
+  "topics": "Binary Search, Data Structures, Dynamic Programming, Greedy, Two Pointers"
+ },
+ {
+  "contestId": 2030,
+  "index": "G1",
+  "id": "2030G1",
+  "title": "The Destruction of the Universe (Easy Version)",
+  "difficulty": "Hard",
+  "rating": 2900,
+  "topics": "Combinatorics, Greedy, Math"
+ },
+ {
+  "contestId": 2201,
+  "index": "E",
+  "id": "2201E",
+  "title": "ABBA Counting",
+  "difficulty": "Hard",
+  "rating": 2900,
+  "topics": "FFT, Math, Number Theory, String"
+ },
+ {
+  "contestId": 891,
+  "index": "E",
+  "id": "891E",
+  "title": "Lust",
+  "difficulty": "Hard",
+  "rating": 3000,
+  "topics": "Combinatorics, Math, Matrix"
+ },
+ {
+  "contestId": 1838,
+  "index": "F",
+  "id": "1838F",
+  "title": "Stuck Conveyor",
+  "difficulty": "Hard",
+  "rating": 3000,
+  "topics": "Binary Search, Constructive Algorithms, Interactive"
+ },
+ {
+  "contestId": 896,
+  "index": "E",
+  "id": "896E",
+  "title": "Welcome home, Chtholly",
+  "difficulty": "Hard",
+  "rating": 3100,
+  "topics": "Data Structures, Union Find"
+ },
+ {
+  "contestId": 538,
+  "index": "G",
+  "id": "538G",
+  "title": "Berserk Robot",
+  "difficulty": "Hard",
+  "rating": 3100,
+  "topics": "Constructive Algorithms, Math, Sorting"
+ },
+ {
+  "contestId": 1349,
+  "index": "D",
+  "id": "1349D",
+  "title": "Slime and Biscuits",
+  "difficulty": "Hard",
+  "rating": 3200,
+  "topics": "Math, Probability and Statistics"
+ },
+ {
+  "contestId": 744,
+  "index": "D",
+  "id": "744D",
+  "title": "Hongcow Draws a Circle",
+  "difficulty": "Hard",
+  "rating": 3200,
+  "topics": "Geometry"
+ },
+ {
+  "contestId": 1930,
+  "index": "H",
+  "id": "1930H",
+  "title": "Interactive Mex Tree",
+  "difficulty": "Hard",
+  "rating": 3300,
+  "topics": "Constructive Algorithms, DFS / BFS, Interactive, Tree"
+ },
+ {
+  "contestId": 2164,
+  "index": "G",
+  "id": "2164G",
+  "title": "Pointless Machine",
+  "difficulty": "Hard",
+  "rating": 3300,
+  "topics": "Constructive Algorithms, Graph, Interactive, Tree"
+ },
+ {
+  "contestId": 914,
+  "index": "H",
+  "id": "914H",
+  "title": "Ember and Storm's Tree Game",
+  "difficulty": "Hard",
+  "rating": 3400,
+  "topics": "Combinatorics, Dynamic Programming, Game Theory, Tree"
+ },
+ {
+  "contestId": 1060,
+  "index": "G",
+  "id": "1060G",
+  "title": "Balls and Pockets",
+  "difficulty": "Hard",
+  "rating": 3400,
+  "topics": "Data Structures"
+ },
+ {
+  "contestId": 1864,
+  "index": "I",
+  "id": "1864I",
+  "title": "Future Dominators",
+  "difficulty": "Hard",
+  "rating": 3500,
+  "topics": "Graph, Greedy"
+ },
+ {
+  "contestId": 1987,
+  "index": "G2",
+  "id": "1987G2",
+  "title": "Spinning Round (Hard Version)",
+  "difficulty": "Hard",
+  "rating": 3500,
+  "topics": "Divide and Conquer, Dynamic Programming, Tree"
+ },
+ {
+  "contestId": 1893,
+  "index": "E",
+  "id": "1893E",
+  "title": "Cacti Symphony",
+  "difficulty": "Hard",
+  "rating": 3500,
+  "topics": "Combinatorics, DFS / BFS, Dynamic Programming, Graph"
+ },
+ {
+  "contestId": 2183,
+  "index": "I1",
+  "id": "2183I1",
+  "title": "Pairs Flipping (Easy Version)",
+  "difficulty": "Hard",
+  "rating": 3500,
+  "topics": "Constructive Algorithms"
+ },
+ {
+  "contestId": 1930,
+  "index": "I",
+  "id": "1930I",
+  "title": "Counting Is Fun",
+  "difficulty": "Hard",
+  "rating": 3500,
+  "topics": "Combinatorics"
+ },
+ {
+  "contestId": 1863,
+  "index": "I",
+  "id": "1863I",
+  "title": "Redundant Routes",
+  "difficulty": "Hard",
+  "rating": 3500,
+  "topics": "Constructive Algorithms, Dynamic Programming, Tree"
+ },
+ {
+  "contestId": 2161,
+  "index": "G",
+  "id": "2161G",
+  "title": "Bitwise And Equals",
+  "difficulty": "Hard",
+  "rating": 3500,
+  "topics": "Bit Manipulation, Greedy"
+ }
+]

@@ -22,6 +22,10 @@ MD_CHANNEL_NAME = "md"
 WORDLE_CHANNEL_NAME = "wordle"
 WELCOME_CHANNEL_NAME = "welcome"
 
+# Daily DSA Problem Configuration (shuffled LeetCode + Codeforces rotation)
+DSA_DAILY_TIME_HOUR = 10
+DSA_DAILY_TIME_MINUTE = 0
+
 # Activity Ranking Configuration
 ACTIVITY_CHANNEL_NAME = "chat"
 # 5:00 AM UTC every Monday
