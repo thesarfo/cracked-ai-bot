@@ -8,6 +8,11 @@ TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_MODEL = "gemini-3-flash-preview"
 
+# When DEEPSEEK_API_KEY is set, it takes priority over Gemini for AI responses.
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+DEEPSEEK_MODEL = "deepseek-chat"
+DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
+
 DB_PATH = "data/messages.db"
 
 # LeetCode Configuration
@@ -23,8 +28,12 @@ WORDLE_CHANNEL_NAME = "wordle"
 WELCOME_CHANNEL_NAME = "welcome"
 
 # Daily DSA Problem Configuration (shuffled LeetCode + Codeforces rotation)
-DSA_DAILY_TIME_HOUR = 10
-DSA_DAILY_TIME_MINUTE = 0
+# 10:00 PM UTC daily
+DSA_LEETCODE_DAILY_TIME_HOUR = 22
+DSA_LEETCODE_DAILY_TIME_MINUTE = 0
+# 3:00 PM UTC daily
+DSA_CODEFORCES_DAILY_TIME_HOUR = 15
+DSA_CODEFORCES_DAILY_TIME_MINUTE = 0
 
 # Activity Ranking Configuration
 ACTIVITY_CHANNEL_NAME = "chat"

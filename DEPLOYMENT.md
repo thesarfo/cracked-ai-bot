@@ -104,7 +104,8 @@ journalctl -u discord-bot -f
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `DISCORD_BOT_TOKEN` | Yes | Discord bot token |
-| `GEMINI_API_KEY` | Yes | Google Gemini API key |
+| `GEMINI_API_KEY` | Yes, unless `DEEPSEEK_API_KEY` is set | Google Gemini API key |
+| `DEEPSEEK_API_KEY` | No | DeepSeek API key — when set, it takes priority over Gemini for all AI responses |
 
 ---
 

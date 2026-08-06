@@ -41,7 +41,8 @@ def setup_utility_commands(bot: commands.Bot):
 
 **Daily DSA (shuffled LeetCode + Codeforces):**
 
-`/force_dsa_daily` - Manually trigger today's shuffled LeetCode + Codeforces problems (Admin only)
+`/force_dsa_leetcode` - Manually trigger today's shuffled LeetCode problem (Admin only)
+`/force_dsa_codeforces` - Manually trigger today's shuffled Codeforces problem (Admin only)
 `/dsa_progress` - Show progress through the shuffled LeetCode + Codeforces rotations
 
 **Activity Rankings:**
@@ -56,7 +57,8 @@ def setup_utility_commands(bot: commands.Bot):
 **Auto-Features:**
 - Mention or reply to the bot to chat with AI
 - Daily LeetCode question + NeetCode 150 problem posted automatically
-- Shuffled LeetCode + Codeforces problem posted automatically at 10:00 AM UTC
+- Shuffled LeetCode problem posted automatically at 10:00 PM UTC
+- Shuffled Codeforces problem posted automatically at 3:00 PM UTC
 """
     await ctx.send(help_text)
 
@@ -106,33 +108,46 @@ def setup_utility_commands(bot: commands.Bot):
     await message.create_thread(name=f"🧵 NC150: {problem['title']}", auto_archive_duration=1440)
 
   @bot.command()
-  async def force_dsa_daily(ctx):
-    """Manually triggers today's shuffled LeetCode + Codeforces problems (Admin only)."""
+  async def force_dsa_leetcode(ctx):
+    """Manually triggers today's shuffled LeetCode problem (Admin only)."""
     if not ctx.author.guild_permissions.administrator:
         await ctx.send("❌ You need administrator permissions to use this command.")
         return
 
-    await ctx.send("⏳ Getting today's shuffled LeetCode + Codeforces problems...")
+    await ctx.send("⏳ Getting today's shuffled LeetCode problem...")
 
     from services.dsa_daily_service import get_dsa_daily_service
     dsa_daily_service = get_dsa_daily_service()
 
     lc_problem, lc_pos, lc_total = dsa_daily_service.get_next_leetcode()
-    cf_problem, cf_pos, cf_total = dsa_daily_service.get_next_codeforces()
-
-    if not lc_problem and not cf_problem:
-        await ctx.send("❌ Failed to get DSA problems. Check logs.")
+    if not lc_problem:
+        await ctx.send("❌ Failed to get LeetCode problem. Check logs.")
         return
 
-    if lc_problem:
-        embed = dsa_daily_service.create_leetcode_embed(lc_problem, lc_pos, lc_total)
-        message = await ctx.send(embed=embed)
-        await message.create_thread(name=f"🧵 {lc_problem['title']}", auto_archive_duration=1440)
+    embed = dsa_daily_service.create_leetcode_embed(lc_problem, lc_pos, lc_total)
+    message = await ctx.send(embed=embed)
+    await message.create_thread(name=f"🧵 {lc_problem['title']}", auto_archive_duration=1440)
 
-    if cf_problem:
-        embed = dsa_daily_service.create_codeforces_embed(cf_problem, cf_pos, cf_total)
-        message = await ctx.send(embed=embed)
-        await message.create_thread(name=f"🧵 {cf_problem['title']}", auto_archive_duration=1440)
+  @bot.command()
+  async def force_dsa_codeforces(ctx):
+    """Manually triggers today's shuffled Codeforces problem (Admin only)."""
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.send("❌ You need administrator permissions to use this command.")
+        return
+
+    await ctx.send("⏳ Getting today's shuffled Codeforces problem...")
+
+    from services.dsa_daily_service import get_dsa_daily_service
+    dsa_daily_service = get_dsa_daily_service()
+
+    cf_problem, cf_pos, cf_total = dsa_daily_service.get_next_codeforces()
+    if not cf_problem:
+        await ctx.send("❌ Failed to get Codeforces problem. Check logs.")
+        return
+
+    embed = dsa_daily_service.create_codeforces_embed(cf_problem, cf_pos, cf_total)
+    message = await ctx.send(embed=embed)
+    await message.create_thread(name=f"🧵 {cf_problem['title']}", auto_archive_duration=1440)
 
   @bot.command()
   async def dsa_progress(ctx):

@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 
 from commands import ai_commands, message_commands, utility_commands
-from config import GEMINI_API_KEY, TOKEN, WELCOME_CHANNEL_NAME, WORDLE_CHANNEL_NAME
+from config import DEEPSEEK_API_KEY, GEMINI_API_KEY, TOKEN, WELCOME_CHANNEL_NAME, WORDLE_CHANNEL_NAME
 from db import message_db
 from utils.logging import get_logger, setup_logging
 
@@ -199,7 +199,7 @@ async def on_message(message: discord.Message):
             )
             prompt = f"--- CONVERSATION HISTORY ---\n{thread_history}\n--- END HISTORY ---\n\nUser's new message: {content}"
 
-          response = await ai_service.call_gemini_ai(
+          response = await ai_service.call_ai(
             prompt, system_message=system_msg, use_search=True
           )
 
@@ -229,8 +229,8 @@ utility_commands.setup_utility_commands(bot)
 if __name__ == "__main__":
   if not TOKEN:
     raise ValueError("Missing DISCORD_BOT_TOKEN in environment variables")
-  if not GEMINI_API_KEY:
-    raise ValueError("Missing GEMINI_API_KEY in environment variables")
+  if not GEMINI_API_KEY and not DEEPSEEK_API_KEY:
+    raise ValueError("Missing GEMINI_API_KEY or DEEPSEEK_API_KEY in environment variables")
 
   logger.info("Starting bot...")
   try:

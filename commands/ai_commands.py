@@ -76,7 +76,7 @@ def setup_ai_commands(bot: commands.Bot):
         f"User message to respond to: {message}"
       )
 
-      response = await ai_service.call_gemini_ai(
+      response = await ai_service.call_ai(
         prompt, system_message=system_msg, use_search=True
       )
 
@@ -88,12 +88,12 @@ def setup_ai_commands(bot: commands.Bot):
     """Check if the AI is working."""
     logger.info(f"🔧 Status check from {ctx.author.display_name}")
     async with ctx.typing():
-      test_response = await ai_service.call_gemini_ai(
-        "Hello, respond with 'Gemini AI is working correctly!'",
+      test_response = await ai_service.call_ai(
+        f"Hello, respond with '{ai_service.provider_name} AI is working correctly!'",
         use_search=False,
       )
 
     if "Error" in test_response:
-      await ctx.send(f"❌ GEMINI API Error: {test_response}")
+      await ctx.send(f"❌ {ai_service.provider_name} API Error: {test_response}")
     else:
-      await ctx.send(f"✅ GEMINI API is working! Response: {test_response}")
+      await ctx.send(f"✅ {ai_service.provider_name} API is working! Response: {test_response}")

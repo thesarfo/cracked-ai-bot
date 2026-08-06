@@ -7,8 +7,10 @@ from discord.ext import tasks
 
 from config import (
     ACTIVITY_CHANNEL_NAME,
-    DSA_DAILY_TIME_HOUR,
-    DSA_DAILY_TIME_MINUTE,
+    DSA_CODEFORCES_DAILY_TIME_HOUR,
+    DSA_CODEFORCES_DAILY_TIME_MINUTE,
+    DSA_LEETCODE_DAILY_TIME_HOUR,
+    DSA_LEETCODE_DAILY_TIME_MINUTE,
     ED_CHANNEL_NAME,
     LEETCODE_CHANNEL_NAME,
     LEETCODE_DAILY_TIME_HOUR,
@@ -46,7 +48,8 @@ class ScheduledTasks:
 
         # Start loops
         self.daily_task.start()
-        self.daily_dsa_task.start()
+        self.daily_dsa_leetcode_task.start()
+        self.daily_dsa_codeforces_task.start()
         self.weekly_ranking_task.start()
         self.book_club_reminder_task.start()
         self.book_club_final_reminder_task.start()
@@ -55,7 +58,8 @@ class ScheduledTasks:
 
     def cog_unload(self):
         self.daily_task.cancel()
-        self.daily_dsa_task.cancel()
+        self.daily_dsa_leetcode_task.cancel()
+        self.daily_dsa_codeforces_task.cancel()
         self.weekly_ranking_task.cancel()
         self.book_club_reminder_task.cancel()
         self.book_club_final_reminder_task.cancel()
@@ -146,20 +150,19 @@ class ScheduledTasks:
         """Wait until the bot is ready before starting the loop."""
         await self.bot.wait_until_ready()
 
-    @tasks.loop(time=[datetime.time(hour=DSA_DAILY_TIME_HOUR, minute=DSA_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
-    async def daily_dsa_task(self):
-        """Task that runs daily to post one shuffled LeetCode + one Codeforces problem."""
-        logger.info("⏰ Running daily DSA task")
-        await self.post_daily_dsa_problems()
+    @tasks.loop(time=[datetime.time(hour=DSA_LEETCODE_DAILY_TIME_HOUR, minute=DSA_LEETCODE_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
+    async def daily_dsa_leetcode_task(self):
+        """Task that runs daily to post one shuffled LeetCode problem."""
+        logger.info("⏰ Running daily DSA LeetCode task")
+        await self.post_daily_dsa_leetcode()
 
-    async def post_daily_dsa_problems(self, target_channel_id: int = None):
-        """Post one shuffled LeetCode problem and one shuffled Codeforces problem."""
+    async def post_daily_dsa_leetcode(self, target_channel_id: int = None):
+        """Post one shuffled LeetCode problem."""
         try:
             lc_problem, lc_pos, lc_total = self.dsa_daily_service.get_next_leetcode()
-            cf_problem, cf_pos, cf_total = self.dsa_daily_service.get_next_codeforces()
 
-            if not lc_problem and not cf_problem:
-                logger.error("Failed to get daily DSA problems (no data loaded)")
+            if not lc_problem:
+                logger.error("Failed to get daily DSA LeetCode problem (no data loaded)")
                 return
 
             for guild in self.bot.guilds:
@@ -175,27 +178,66 @@ class ScheduledTasks:
                     continue
 
                 try:
-                    if lc_problem:
-                        embed = self.dsa_daily_service.create_leetcode_embed(lc_problem, lc_pos, lc_total)
-                        message = await target_channel.send(embed=embed)
-                        await message.create_thread(name=f"🧵 {lc_problem['title']}", auto_archive_duration=1440)
+                    embed = self.dsa_daily_service.create_leetcode_embed(lc_problem, lc_pos, lc_total)
+                    message = await target_channel.send(embed=embed)
+                    await message.create_thread(name=f"🧵 {lc_problem['title']}", auto_archive_duration=1440)
 
-                    if cf_problem:
-                        embed = self.dsa_daily_service.create_codeforces_embed(cf_problem, cf_pos, cf_total)
-                        message = await target_channel.send(embed=embed)
-                        await message.create_thread(name=f"🧵 {cf_problem['title']}", auto_archive_duration=1440)
-
-                    logger.info(f"✅ Posted daily DSA problems to {guild.name} #{target_channel.name}")
+                    logger.info(f"✅ Posted daily DSA LeetCode problem to {guild.name} #{target_channel.name}")
                 except discord.Forbidden:
                     logger.warning(f"❌ Missing permissions to post/thread to {guild.name} #{target_channel.name}")
                 except Exception as e:
-                    logger.error(f"❌ Error posting daily DSA problems to {guild.name}: {e}")
+                    logger.error(f"❌ Error posting daily DSA LeetCode problem to {guild.name}: {e}")
 
         except Exception as e:
-            logger.error(f"Error in daily DSA task: {e}")
+            logger.error(f"Error in daily DSA LeetCode task: {e}")
 
-    @daily_dsa_task.before_loop
-    async def before_daily_dsa_task(self):
+    @daily_dsa_leetcode_task.before_loop
+    async def before_daily_dsa_leetcode_task(self):
+        await self.bot.wait_until_ready()
+
+    @tasks.loop(time=[datetime.time(hour=DSA_CODEFORCES_DAILY_TIME_HOUR, minute=DSA_CODEFORCES_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
+    async def daily_dsa_codeforces_task(self):
+        """Task that runs daily to post one shuffled Codeforces problem."""
+        logger.info("⏰ Running daily DSA Codeforces task")
+        await self.post_daily_dsa_codeforces()
+
+    async def post_daily_dsa_codeforces(self, target_channel_id: int = None):
+        """Post one shuffled Codeforces problem."""
+        try:
+            cf_problem, cf_pos, cf_total = self.dsa_daily_service.get_next_codeforces()
+
+            if not cf_problem:
+                logger.error("Failed to get daily DSA Codeforces problem (no data loaded)")
+                return
+
+            for guild in self.bot.guilds:
+                target_channel = None
+
+                if target_channel_id:
+                    target_channel = guild.get_channel(target_channel_id)
+                else:
+                    target_channel = discord.utils.get(guild.text_channels, name=LEETCODE_CHANNEL_NAME)
+
+                if not target_channel:
+                    logger.debug(f"Skipping {guild.name}: No #{LEETCODE_CHANNEL_NAME} channel found")
+                    continue
+
+                try:
+                    embed = self.dsa_daily_service.create_codeforces_embed(cf_problem, cf_pos, cf_total)
+                    message = await target_channel.send(embed=embed)
+                    await message.create_thread(name=f"🧵 {cf_problem['title']}", auto_archive_duration=1440)
+
+                    logger.info(f"✅ Posted daily DSA Codeforces problem to {guild.name} #{target_channel.name}")
+                except discord.Forbidden:
+                    logger.warning(f"❌ Missing permissions to post/thread to {guild.name} #{target_channel.name}")
+                except Exception as e:
+                    logger.error(f"❌ Error posting daily DSA Codeforces problem to {guild.name}: {e}")
+
+        except Exception as e:
+            logger.error(f"Error in daily DSA Codeforces task: {e}")
+
+    @daily_dsa_codeforces_task.before_loop
+    async def before_daily_dsa_codeforces_task(self):
         await self.bot.wait_until_ready()
 
     @tasks.loop(time=[datetime.time(hour=WEEKLY_RANKING_HOUR, minute=WEEKLY_RANKING_MINUTE, tzinfo=datetime.timezone.utc)])
@@ -397,31 +439,32 @@ class ScheduledTasks:
                 reverse=True,
             )
 
-            top5 = ranked[:5]
-            bottom5 = list(reversed(ranked[-5:])) if len(ranked) >= 5 else list(reversed(ranked))
-
-            # Build embed
-            embed = discord.Embed(
-                title=f"📊 Weekly Activity Report — {week_start}–{week_end}",
-                color=discord.Color.blurple(),
-            )
-
-            top_lines = []
-            medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"]
-            for i, member in enumerate(top5):
-                msgs = count_map.get(str(member.id), 0)
-                label = "msg" if msgs == 1 else "msgs"
-                top_lines.append(f"{medals[i]} {member.mention} — **{msgs} {label}**")
-            embed.add_field(name="🏆 Most Active", value="\n".join(top_lines) or "No data", inline=False)
-
-            bottom_lines = []
-            for member in bottom5:
-                msgs = count_map.get(str(member.id), 0)
-                label = "msg" if msgs == 1 else "msgs"
-                bottom_lines.append(f"• {member.mention} — **{msgs} {label}**")
-            embed.add_field(name="💤 Least Active", value="\n".join(bottom_lines) or "No data", inline=False)
-
-            await channel.send(embed=embed)
+            # --- Leaderboard messaging disabled ---
+            # top5 = ranked[:5]
+            # bottom5 = list(reversed(ranked[-5:])) if len(ranked) >= 5 else list(reversed(ranked))
+            #
+            # # Build embed
+            # embed = discord.Embed(
+            #     title=f"📊 Weekly Activity Report — {week_start}–{week_end}",
+            #     color=discord.Color.blurple(),
+            # )
+            #
+            # top_lines = []
+            # medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"]
+            # for i, member in enumerate(top5):
+            #     msgs = count_map.get(str(member.id), 0)
+            #     label = "msg" if msgs == 1 else "msgs"
+            #     top_lines.append(f"{medals[i]} {member.mention} — **{msgs} {label}**")
+            # embed.add_field(name="🏆 Most Active", value="\n".join(top_lines) or "No data", inline=False)
+            #
+            # bottom_lines = []
+            # for member in bottom5:
+            #     msgs = count_map.get(str(member.id), 0)
+            #     label = "msg" if msgs == 1 else "msgs"
+            #     bottom_lines.append(f"• {member.mention} — **{msgs} {label}**")
+            # embed.add_field(name="💤 Least Active", value="\n".join(bottom_lines) or "No data", inline=False)
+            #
+            # await channel.send(embed=embed)
 
             # Check server-wide baseline before running the purge
             server_total = sum(count_map.values())
