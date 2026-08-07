@@ -95,6 +95,18 @@ class ShuffledDailyRotation:
       index = 0
     return index + 1, total
 
+  def peek_current_problem(self) -> Tuple[Optional[Dict], int, int]:
+    """Return the problem that would be handed out next, WITHOUT advancing
+    the rotation. Safe to call as often as needed (e.g. from a read-only
+    chat tool) without affecting what gets posted next."""
+    if not self.problems:
+      return None, 0, 0
+
+    order, index = self._load_progress()
+    total = len(order)
+    problem = self.problems[order[index]]
+    return problem, index + 1, total
+
 
 class DsaDailyService:
   """Manages the daily shuffled LeetCode + Codeforces problem rotation."""
@@ -102,6 +114,12 @@ class DsaDailyService:
   def __init__(self):
     self.leetcode = ShuffledDailyRotation(LEETCODE_DATA_PATH, LEETCODE_PROGRESS_PATH, "LeetCode")
     self.codeforces = ShuffledDailyRotation(CODEFORCES_DATA_PATH, CODEFORCES_PROGRESS_PATH, "Codeforces")
+
+  def peek_leetcode(self) -> Tuple[Optional[Dict], int, int]:
+    return self.leetcode.peek_current_problem()
+
+  def peek_codeforces(self) -> Tuple[Optional[Dict], int, int]:
+    return self.codeforces.peek_current_problem()
 
   @staticmethod
   def _leetcode_link(problem: Dict) -> str:

@@ -27,7 +27,7 @@ def setup_ai_commands(bot: commands.Bot):
 
     async with ctx.typing():
       response = await agent_service.run(
-        message, guild=ctx.guild, channel_id=ctx.channel.id, user_id=ctx.author.id
+        message, guild=ctx.guild, channel=ctx.channel, user_id=ctx.author.id
       )
 
     logger.info(f"💬 Response sent to {ctx.author.display_name}")

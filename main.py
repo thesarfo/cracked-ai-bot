@@ -152,7 +152,7 @@ async def on_message(message: discord.Message):
           response = await agent_service.run(
             content,
             guild=message.guild,
-            channel_id=message.channel.id,
+            channel=message.channel,
             user_id=message.author.id,
           )
 

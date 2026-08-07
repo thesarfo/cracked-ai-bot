@@ -90,6 +90,17 @@ class NeetCodeService:
       index = 0
     return index + 1, total
 
+  def peek_next_problem(self) -> Tuple[Optional[Dict], int, int]:
+    """Return the problem that would be handed out next, WITHOUT advancing
+    the rotation. Safe to call from a read-only chat tool."""
+    if not self.problems:
+      return None, 0, 0
+    index = self._load_progress()
+    total = len(self.problems)
+    if index >= total:
+      index = 0
+    return self.problems[index], index + 1, total
+
   def create_neetcode_embed(self, problem: Dict, current: int, total: int) -> discord.Embed:
     """Create a Discord embed for a NeetCode 150 problem."""
     title = problem.get("title", "Unknown")
