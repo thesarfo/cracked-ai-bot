@@ -49,7 +49,7 @@ class ScheduledTasks:
         # Start loops
         self.daily_task.start()
         self.daily_dsa_leetcode_task.start()
-        self.daily_dsa_codeforces_task.start()
+        # self.daily_dsa_codeforces_task.start()  # disabled for now
         self.weekly_ranking_task.start()
         self.book_club_reminder_task.start()
         self.book_club_final_reminder_task.start()
@@ -59,7 +59,7 @@ class ScheduledTasks:
     def cog_unload(self):
         self.daily_task.cancel()
         self.daily_dsa_leetcode_task.cancel()
-        self.daily_dsa_codeforces_task.cancel()
+        # self.daily_dsa_codeforces_task.cancel()  # disabled for now
         self.weekly_ranking_task.cancel()
         self.book_club_reminder_task.cancel()
         self.book_club_final_reminder_task.cancel()
@@ -67,10 +67,9 @@ class ScheduledTasks:
 
     @tasks.loop(time=[datetime.time(hour=LEETCODE_DAILY_TIME_HOUR, minute=LEETCODE_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
     async def daily_task(self):
-        """Task that runs daily to post LeetCode daily + NeetCode 150."""
+        """Task that runs daily to post LeetCode daily."""
         logger.info("⏰ Running daily tasks")
         await self.post_daily_leetcode()
-        await self.post_daily_neetcode()
 
     async def post_daily_leetcode(self, target_channel_id: int = None):
         """Fetch and post the LeetCode daily question."""
