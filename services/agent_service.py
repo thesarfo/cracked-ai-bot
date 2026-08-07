@@ -25,6 +25,7 @@ from agents import (
   set_tracing_disabled,
 )
 from agents.extensions.memory.async_sqlite_session import AsyncSQLiteSession
+from readability import Document
 
 from config import (
   AGENT_MAX_INPUT_LENGTH,
@@ -84,12 +85,21 @@ INSTRUCTIONS = (
   "tagging anyone. Never guess or hand-type a mention.\n"
   "- web_search: look up current or factual info you're not confident about from memory. "
   "Has narrow coverage (mainly well-known reference topics) - it will often come back "
-  "empty, especially for anything specific, current, or numeric (stock prices, scores, "
-  "weather). If it comes back empty, say so honestly instead of guessing or making "
-  "something up.\n"
-  "- fetch_url: open ONE SPECIFIC known URL (a link someone shared, or one web_search "
-  "found) and read its actual text content. Use this to answer questions about a "
-  "particular article/page - it's not a search tool, it needs an exact link."
+  "empty, especially for anything specific or current. If it comes back empty, say so "
+  "honestly instead of guessing or making something up.\n"
+  "- fetch_url: open ONE SPECIFIC URL and read its actual text content - either a link "
+  "someone shared, one web_search found, or a URL YOU construct yourself for a site you "
+  "know the structure of. It's not a search tool, but don't wait for someone to hand you "
+  "a link either: if the user names a specific site/source (\"check X\", \"from Y\", "
+  "\"on Z\") or you know a direct URL that would answer the question, try fetch_url on "
+  "it BEFORE giving up - don't stop just because web_search came back empty. For Yahoo "
+  "Finance specifically (known to work well - plain HTML, no JS needed, real live data): "
+  "single ticker -> https://finance.yahoo.com/quote/{TICKER}/ (e.g. NVDA -> "
+  ".../quote/NVDA/); today's top gainers -> "
+  "https://finance.yahoo.com/markets/stocks/gainers/; losers -> "
+  ".../markets/stocks/losers/; most active -> .../markets/stocks/most-active/. These "
+  "give daily movers, not a weekly view - say so if someone asks for 'this week' "
+  "specifically."
 )
 
 
@@ -444,7 +454,13 @@ class _ArticleTextExtractor(HTMLParser):
         self.chunks.append(text)
 
 
-def _extract_readable_text(html: str, max_chars: int = 3000) -> str:
+MAX_EXTRACTED_CHARS = 3000
+
+
+def _extract_readable_text(html: str, max_chars: int = MAX_EXTRACTED_CHARS) -> str:
+  """Strip tags down to visible text via the stdlib parser above. Used both as
+  a post-processing step after readability-lxml picks out the main content,
+  and standalone as a last-resort fallback if readability itself fails."""
   parser = _ArticleTextExtractor()
   try:
     parser.feed(html)
@@ -456,8 +472,10 @@ def _extract_readable_text(html: str, max_chars: int = 3000) -> str:
 
 async def _hostname_is_safe(hostname: str) -> bool:
   """Reject hostnames that resolve to private/internal/loopback addresses, so
-  fetch_url can't be used to reach internal services (e.g. a cloud metadata
-  endpoint) via a chat-facing tool."""
+  the direct-fetch fallback can't be used to reach internal services (e.g. a
+  cloud metadata endpoint) via a chat-facing tool. Only applies to the direct
+  path below - when Jina's reader service does the fetching, it's Jina's own
+  connection being made, not ours."""
   try:
     loop = asyncio.get_running_loop()
     infos = await loop.getaddrinfo(hostname, None)
@@ -486,23 +504,37 @@ async def _hostname_is_safe(hostname: str) -> bool:
 
 
 MAX_FETCH_BYTES = 2_000_000  # 2MB cap - don't download huge files
+JINA_READER_BASE = "https://r.jina.ai/"
 
 
-async def _fetch_url_impl(wrapper: RunContextWrapper[BotContext], url: str) -> str:
-  """Open a specific URL and return its readable text content, so you can actually
-  answer questions about an article or page someone shared or you found a link to.
-  This is for reading ONE KNOWN link, not searching - use web_search or
-  search_dsa_problems to find things first if you don't already have a URL. Only
-  works on public web pages.
+async def _fetch_via_jina(url: str) -> Optional[str]:
+  """Try Jina AI's free, keyless Reader service first: it renders pages
+  (including client-side JS content) server-side on their end and returns
+  clean markdown, so this is what gives fetch_url real JS-rendered-page
+  support without us running a browser ourselves. Returns None on any
+  failure so the caller falls back to a direct fetch."""
+  try:
+    session = await _get_http_session()
+    async with session.get(
+      f"{JINA_READER_BASE}{url}",
+      headers={"User-Agent": "Mozilla/5.0 (compatible; CrackedBot/1.0)"},
+      timeout=aiohttp.ClientTimeout(total=20),
+    ) as response:
+      if response.status != 200:
+        return None
+      text = (await response.text()).strip()
+      return text or None
+  except Exception as e:
+    logger.warning(f"Jina reader fetch failed for {url}: {e}")
+    return None
 
-  Args:
-    url: The full URL to fetch, must start with http:// or https://.
-  """
-  parsed = urlparse(url.strip())
-  if parsed.scheme not in ("http", "https") or not parsed.hostname:
-    return "That doesn't look like a valid http(s) URL."
 
-  if not await _hostname_is_safe(parsed.hostname):
+async def _fetch_direct(url: str, hostname: str) -> str:
+  """Fallback path when Jina is unavailable: fetch the raw HTML ourselves
+  (SSRF-checked) and extract the main content with readability-lxml, which
+  picks out the actual article and discards nav/ads/sidebars - only sees
+  server-rendered content, no JS execution."""
+  if not await _hostname_is_safe(hostname):
     return "Can't fetch that URL (blocked or unresolvable host)."
 
   try:
@@ -534,8 +566,36 @@ async def _fetch_url_impl(wrapper: RunContextWrapper[BotContext], url: str) -> s
     logger.error(f"fetch_url error for {url}: {e}")
     return f"Couldn't fetch that page: {e}"
 
-  text = _extract_readable_text(html)
+  try:
+    text = _extract_readable_text(Document(html).summary())
+  except Exception as e:
+    logger.warning(f"readability extraction failed for {url}, using raw fallback: {e}")
+    text = _extract_readable_text(html)
+
   return text if text else "Fetched the page, but couldn't find any readable text on it."
+
+
+async def _fetch_url_impl(wrapper: RunContextWrapper[BotContext], url: str) -> str:
+  """Open a specific URL and return its readable text content, so you can actually
+  answer questions about an article or page someone shared or you found a link to.
+  Works on both server-rendered pages and JS-heavy client-rendered pages (tries a
+  rendering reader service first, falls back to a direct fetch). This is for
+  reading ONE KNOWN link, not searching - use web_search or search_dsa_problems to
+  find things first if you don't already have a URL. Only works on public pages.
+
+  Args:
+    url: The full URL to fetch, must start with http:// or https://.
+  """
+  url = url.strip()
+  parsed = urlparse(url)
+  if parsed.scheme not in ("http", "https") or not parsed.hostname:
+    return "That doesn't look like a valid http(s) URL."
+
+  jina_result = await _fetch_via_jina(url)
+  if jina_result:
+    return jina_result[:MAX_EXTRACTED_CHARS]
+
+  return await _fetch_direct(url, parsed.hostname)
 
 
 # --- Input guardrail: cheap, no-extra-API-call first line of defense against ---
