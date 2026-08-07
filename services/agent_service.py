@@ -1,11 +1,16 @@
+import asyncio
 import datetime
 import difflib
+import ipaddress
 import json
 import os
 import random
 import re
+import socket
 from dataclasses import dataclass
+from html.parser import HTMLParser
 from typing import Optional
+from urllib.parse import urlparse
 
 import aiohttp
 import discord
@@ -77,8 +82,14 @@ INSTRUCTIONS = (
   "just a message count.\n"
   "- find_member: look up a server member by name to get their exact @mention before "
   "tagging anyone. Never guess or hand-type a mention.\n"
-  "- web_search: look up current or factual info you're not confident about from memory "
-  "(reference-style facts, not live data like stock prices or scores)."
+  "- web_search: look up current or factual info you're not confident about from memory. "
+  "Has narrow coverage (mainly well-known reference topics) - it will often come back "
+  "empty, especially for anything specific, current, or numeric (stock prices, scores, "
+  "weather). If it comes back empty, say so honestly instead of guessing or making "
+  "something up.\n"
+  "- fetch_url: open ONE SPECIFIC known URL (a link someone shared, or one web_search "
+  "found) and read its actual text content. Use this to answer questions about a "
+  "particular article/page - it's not a search tool, it needs an exact link."
 )
 
 
@@ -406,6 +417,127 @@ async def _web_search_impl(wrapper: RunContextWrapper[BotContext], query: str) -
   return "\n".join(lines) if lines else f"No web results found for '{query}'."
 
 
+class _ArticleTextExtractor(HTMLParser):
+  """Minimal stdlib HTML-to-text extractor: strips script/style/nav/etc. and
+  keeps visible text content, for reading a fetched page without a heavier
+  HTML-parsing dependency."""
+
+  _SKIP_TAGS = {"script", "style", "nav", "footer", "header", "aside", "noscript", "svg", "form"}
+
+  def __init__(self):
+    super().__init__()
+    self._skip_depth = 0
+    self.chunks: list[str] = []
+
+  def handle_starttag(self, tag, attrs):
+    if tag in self._SKIP_TAGS:
+      self._skip_depth += 1
+
+  def handle_endtag(self, tag):
+    if tag in self._SKIP_TAGS and self._skip_depth > 0:
+      self._skip_depth -= 1
+
+  def handle_data(self, data):
+    if self._skip_depth == 0:
+      text = data.strip()
+      if text:
+        self.chunks.append(text)
+
+
+def _extract_readable_text(html: str, max_chars: int = 3000) -> str:
+  parser = _ArticleTextExtractor()
+  try:
+    parser.feed(html)
+  except Exception:
+    pass
+  text = re.sub(r"\s+", " ", " ".join(parser.chunks)).strip()
+  return text[:max_chars]
+
+
+async def _hostname_is_safe(hostname: str) -> bool:
+  """Reject hostnames that resolve to private/internal/loopback addresses, so
+  fetch_url can't be used to reach internal services (e.g. a cloud metadata
+  endpoint) via a chat-facing tool."""
+  try:
+    loop = asyncio.get_running_loop()
+    infos = await loop.getaddrinfo(hostname, None)
+  except (socket.gaierror, OSError):
+    return False
+
+  if not infos:
+    return False
+
+  for info in infos:
+    try:
+      ip = ipaddress.ip_address(info[4][0])
+    except ValueError:
+      return False
+    if (
+      ip.is_private
+      or ip.is_loopback
+      or ip.is_link_local
+      or ip.is_reserved
+      or ip.is_multicast
+      or ip.is_unspecified
+    ):
+      return False
+
+  return True
+
+
+MAX_FETCH_BYTES = 2_000_000  # 2MB cap - don't download huge files
+
+
+async def _fetch_url_impl(wrapper: RunContextWrapper[BotContext], url: str) -> str:
+  """Open a specific URL and return its readable text content, so you can actually
+  answer questions about an article or page someone shared or you found a link to.
+  This is for reading ONE KNOWN link, not searching - use web_search or
+  search_dsa_problems to find things first if you don't already have a URL. Only
+  works on public web pages.
+
+  Args:
+    url: The full URL to fetch, must start with http:// or https://.
+  """
+  parsed = urlparse(url.strip())
+  if parsed.scheme not in ("http", "https") or not parsed.hostname:
+    return "That doesn't look like a valid http(s) URL."
+
+  if not await _hostname_is_safe(parsed.hostname):
+    return "Can't fetch that URL (blocked or unresolvable host)."
+
+  try:
+    session = await _get_http_session()
+    async with session.get(
+      url,
+      headers={"User-Agent": "Mozilla/5.0 (compatible; CrackedBot/1.0)"},
+      timeout=aiohttp.ClientTimeout(total=10),
+      allow_redirects=False,  # avoid redirect-based bypass of the hostname check above
+    ) as response:
+      if 300 <= response.status < 400:
+        return "That URL redirects elsewhere - try fetching the final destination URL directly."
+      if response.status >= 400:
+        return f"Fetching that page failed with status {response.status}."
+
+      content_type = response.headers.get("Content-Type", "")
+      if "html" not in content_type and "text" not in content_type:
+        return f"That URL isn't a readable page (content-type: {content_type or 'unknown'})."
+
+      declared_length = response.headers.get("Content-Length")
+      if declared_length and int(declared_length) > MAX_FETCH_BYTES:
+        return "That page is too large to fetch."
+
+      raw = await response.read()
+      html = raw[:MAX_FETCH_BYTES].decode(response.get_encoding() or "utf-8", errors="replace")
+  except asyncio.TimeoutError:
+    return "Fetching that page timed out."
+  except Exception as e:
+    logger.error(f"fetch_url error for {url}: {e}")
+    return f"Couldn't fetch that page: {e}"
+
+  text = _extract_readable_text(html)
+  return text if text else "Fetched the page, but couldn't find any readable text on it."
+
+
 # --- Input guardrail: cheap, no-extra-API-call first line of defense against ---
 # --- prompt injection / jailbreak attempts and cost-abuse via giant prompts. ---
 #
@@ -508,6 +640,11 @@ web_search = function_tool(
   name_override="web_search",
   description_override=_web_search_impl.__doc__.strip().split("\n\n")[0],
 )
+fetch_url = function_tool(
+  _fetch_url_impl,
+  name_override="fetch_url",
+  description_override=_fetch_url_impl.__doc__.strip().split("\n\n")[0],
+)
 
 
 class AgentService:
@@ -540,6 +677,7 @@ class AgentService:
           get_neetcode_status,
           get_server_schedule,
           web_search,
+          fetch_url,
         ],
         # input_guardrails intentionally left off for now - see the comment above
         # _INJECTION_PATTERNS.
