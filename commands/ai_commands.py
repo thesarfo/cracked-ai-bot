@@ -38,12 +38,9 @@ def setup_ai_commands(bot: commands.Bot):
     """Check if the AI is working."""
     logger.info(f"🔧 Status check from {ctx.author.display_name}")
     async with ctx.typing():
-      test_response = await agent_service.run(
-        f"Hello, respond with '{agent_service.provider_name} agent is working correctly!'",
-        guild=ctx.guild,
-      )
+      ok, message = await agent_service.check_status()
 
-    if test_response.startswith("Error"):
-      await ctx.send(f"❌ {agent_service.provider_name} API Error: {test_response}")
+    if ok:
+      await ctx.send(f"✅ AI is working! Response: {message}")
     else:
-      await ctx.send(f"✅ {agent_service.provider_name} agent is working! Response: {test_response}")
+      await ctx.send(f"❌ AI is {message}")
