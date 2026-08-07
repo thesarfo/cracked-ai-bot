@@ -8,6 +8,8 @@ from config import (
     DSA_CODEFORCES_DAILY_TIME_MINUTE,
     DSA_LEETCODE_DAILY_TIME_HOUR,
     DSA_LEETCODE_DAILY_TIME_MINUTE,
+    DSA_SUMMARY_TIME_HOUR,
+    DSA_SUMMARY_TIME_MINUTE,
     ED_CHANNEL_NAME,
     LEETCODE_CHANNEL_NAME,
     LEETCODE_DAILY_TIME_HOUR,
@@ -40,6 +42,7 @@ class ScheduledTasks:
         self.daily_task.start()
         self.daily_dsa_leetcode_task.start()
         # self.daily_dsa_codeforces_task.start()  # disabled for now
+        self.daily_dsa_summary_task.start()
         self.book_club_reminder_task.start()
         self.book_club_final_reminder_task.start()
         self.coworking_reminder_task.start()
@@ -49,6 +52,7 @@ class ScheduledTasks:
         self.daily_task.cancel()
         self.daily_dsa_leetcode_task.cancel()
         # self.daily_dsa_codeforces_task.cancel()  # disabled for now
+        self.daily_dsa_summary_task.cancel()
         self.book_club_reminder_task.cancel()
         self.book_club_final_reminder_task.cancel()
         self.coworking_reminder_task.cancel()
@@ -225,6 +229,99 @@ class ScheduledTasks:
 
     @daily_dsa_codeforces_task.before_loop
     async def before_daily_dsa_codeforces_task(self):
+        await self.bot.wait_until_ready()
+
+    @tasks.loop(time=[datetime.time(hour=DSA_SUMMARY_TIME_HOUR, minute=DSA_SUMMARY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
+    async def daily_dsa_summary_task(self):
+        """Task that runs daily to summarize who dropped a solution in today's DSA threads."""
+        logger.info("⏰ Running daily DSA summary task")
+        await self.post_daily_dsa_summary()
+
+    async def post_daily_dsa_summary(self, target_channel_id: int = None) -> int:
+        """Summarize today's DSA problem threads: who posted a solution (screenshot,
+        code snippet, whatever) in each one. Returns how many guilds got a summary."""
+        now = datetime.datetime.now(datetime.timezone.utc)
+        today = now.date()
+        posted = 0
+
+        for guild in self.bot.guilds:
+            target_channel = None
+
+            if target_channel_id:
+                target_channel = guild.get_channel(target_channel_id)
+            else:
+                target_channel = discord.utils.get(guild.text_channels, name=LEETCODE_CHANNEL_NAME)
+
+            if not target_channel:
+                logger.debug(f"Skipping {guild.name}: No #{LEETCODE_CHANNEL_NAME} channel found")
+                continue
+
+            try:
+                active_threads = await guild.active_threads()
+            except Exception as e:
+                logger.warning(f"Could not fetch active threads for {guild.name}: {e}")
+                continue
+
+            todays_threads = [
+                t for t in active_threads
+                if t.parent_id == target_channel.id
+                and t.name.startswith("🧵")
+                and t.created_at is not None
+                and t.created_at.astimezone(datetime.timezone.utc).date() == today
+            ]
+
+            if not todays_threads:
+                logger.debug(f"No DSA threads today in {guild.name} #{target_channel.name}")
+                continue
+
+            try:
+                lines = []
+                all_participants = set()
+
+                for thread in sorted(todays_threads, key=lambda t: t.created_at):
+                    participants = set()
+                    try:
+                        async for msg in thread.history(limit=200):
+                            if not msg.author.bot:
+                                participants.add(msg.author)
+                    except discord.Forbidden:
+                        logger.debug(f"Missing history permission for thread {thread.name}")
+                        continue
+
+                    problem_name = thread.name.lstrip("🧵").strip()
+                    all_participants |= participants
+
+                    if participants:
+                        mentions = ", ".join(m.mention for m in participants)
+                        lines.append(f"✅ **{problem_name}** — {mentions}")
+                    else:
+                        lines.append(f"💤 **{problem_name}** — no one's dropped a solution yet")
+
+                embed = discord.Embed(
+                    title=f"📊 Daily DSA Wrap-Up — {now.strftime('%b %d, %Y')}",
+                    description="\n".join(lines),
+                    color=discord.Color.blurple(),
+                )
+
+                if all_participants:
+                    count = len(all_participants)
+                    label = "person" if count == 1 else "people"
+                    embed.set_footer(text=f"{count} {label} put in work today. Nice. 🔥")
+                else:
+                    embed.set_footer(text="Nobody dropped a solution today — tomorrow's a new day 💪")
+
+                await target_channel.send(embed=embed)
+                posted += 1
+                logger.info(f"✅ Posted DSA summary to {guild.name} #{target_channel.name}")
+            except discord.Forbidden:
+                logger.warning(f"❌ Missing permissions to post summary in {guild.name} #{target_channel.name}")
+            except Exception as e:
+                logger.error(f"❌ Error posting DSA summary to {guild.name}: {e}")
+
+        return posted
+
+    @daily_dsa_summary_task.before_loop
+    async def before_daily_dsa_summary_task(self):
         await self.bot.wait_until_ready()
 
     @tasks.loop(time=[datetime.time(hour=20, minute=45, tzinfo=datetime.timezone.utc)])

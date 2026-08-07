@@ -44,6 +44,7 @@ def setup_utility_commands(bot: commands.Bot):
 `/force_dsa_leetcode` - Manually trigger today's shuffled LeetCode problem (Admin only)
 `/force_dsa_codeforces` - Manually trigger today's shuffled Codeforces problem (Admin only)
 `/dsa_progress` - Show progress through the shuffled LeetCode + Codeforces rotations
+`/force_dsa_summary` - Manually trigger today's DSA thread wrap-up (Admin only)
 
 **Utility:**
 
@@ -55,6 +56,7 @@ def setup_utility_commands(bot: commands.Bot):
 - Daily LeetCode question posted automatically
 - Shuffled LeetCode problem posted automatically at 10:00 AM UTC
 - Shuffled Codeforces problem auto-post is currently disabled (use `/force_dsa_codeforces`)
+- Nightly DSA wrap-up posted automatically at 10:00 PM UTC (who dropped a solution in today's threads)
 """
     await ctx.send(help_text)
 
@@ -158,6 +160,30 @@ def setup_utility_commands(bot: commands.Bot):
         f"LeetCode: {lc_next}/{lc_total}\n"
         f"Codeforces: {cf_next}/{cf_total}"
     )
+
+  @bot.command()
+  async def force_dsa_summary(ctx):
+    """Manually triggers today's DSA thread wrap-up (Admin only)."""
+    if ctx.guild is None:
+      await ctx.send("❌ This command only works inside a server.")
+      return
+
+    if not ctx.author.guild_permissions.administrator:
+      await ctx.send("❌ You need administrator permissions to use this command.")
+      return
+
+    await ctx.send("📊 Building today's DSA wrap-up...")
+
+    from services.scheduled_tasks import _scheduled_tasks_instance
+    if _scheduled_tasks_instance is None:
+      await ctx.send("❌ Scheduled tasks not initialized. Try again after the bot is fully ready.")
+      return
+
+    posted = await _scheduled_tasks_instance.post_daily_dsa_summary(
+      target_channel_id=ctx.channel.id
+    )
+    if not posted:
+      await ctx.send("No DSA threads found for today in this channel.")
 
   @bot.command()
   async def neetcode_progress(ctx):
