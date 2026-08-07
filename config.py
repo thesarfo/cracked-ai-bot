@@ -5,15 +5,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL = "gemini-3-flash-preview"
 
-# When DEEPSEEK_API_KEY is set, it takes priority over Gemini for AI responses.
+# AI is powered by DeepSeek via the OpenAI Agents SDK (DeepSeek exposes an
+# OpenAI-compatible Chat Completions API at DEEPSEEK_BASE_URL).
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 DEEPSEEK_MODEL = "deepseek-chat"
-DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
+DEEPSEEK_BASE_URL = "https://api.deepseek.com"
 
 DB_PATH = "data/messages.db"
+AGENT_SESSIONS_DB_PATH = "data/agent_sessions.db"
+# Max turns of conversation history the agent keeps per (channel, user) session.
+AGENT_SESSION_HISTORY_LIMIT = 20
+# Hard cap on a single prompt's length, to bound cost/abuse.
+AGENT_MAX_INPUT_LENGTH = 4000
 
 # LeetCode Configuration
 LEETCODE_API_URL = "https://leetcode.com/graphql"
@@ -24,7 +28,6 @@ LEETCODE_DAILY_TIME_MINUTE = 0
 
 ED_CHANNEL_NAME = "ed"
 MD_CHANNEL_NAME = "md"
-WORDLE_CHANNEL_NAME = "wordle"
 WELCOME_CHANNEL_NAME = "welcome"
 
 # Daily DSA Problem Configuration (shuffled LeetCode + Codeforces rotation)
@@ -34,11 +37,3 @@ DSA_LEETCODE_DAILY_TIME_MINUTE = 0
 # 3:00 PM UTC daily
 DSA_CODEFORCES_DAILY_TIME_HOUR = 15
 DSA_CODEFORCES_DAILY_TIME_MINUTE = 0
-
-# Activity Ranking Configuration
-ACTIVITY_CHANNEL_NAME = "chat"
-# 5:00 AM UTC every Monday
-WEEKLY_RANKING_HOUR = 5
-WEEKLY_RANKING_MINUTE = 0
-WEEKLY_MIN_MEMBER_MESSAGES = 7
-WEEKLY_MIN_SERVER_MESSAGES = 50

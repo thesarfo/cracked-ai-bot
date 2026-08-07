@@ -10,11 +10,6 @@ def _format_timestamp(value: datetime.datetime) -> str:
   return value.astimezone(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S.%f")
 
 
-def get_weekly_cutoff(now: Optional[datetime.datetime] = None) -> datetime.datetime:
-  reference = now or datetime.datetime.now(datetime.timezone.utc)
-  return reference - datetime.timedelta(days=7)
-
-
 async def init_db():
   import os
 
@@ -162,21 +157,3 @@ async def get_message_count(guild_id: Optional[str] = None) -> int:
       async with db.execute("SELECT COUNT(*) FROM messages") as cursor:
         row = await cursor.fetchone()
         return row[0] if row else 0
-
-
-async def get_weekly_message_counts(guild_id: str) -> List[dict]:
-  """Return per-user message counts for the past 7 days, ordered descending."""
-  cutoff = _format_timestamp(get_weekly_cutoff())
-  async with aiosqlite.connect(DB_PATH) as db:
-    async with db.execute(
-      """
-      SELECT author_id, COUNT(*) as cnt
-      FROM messages
-      WHERE guild_id = ? AND created_at >= ?
-      GROUP BY author_id
-      ORDER BY cnt DESC
-      """,
-      (guild_id, cutoff),
-    ) as cursor:
-      rows = await cursor.fetchall()
-      return [{"author_id": row[0], "count": row[1]} for row in rows]

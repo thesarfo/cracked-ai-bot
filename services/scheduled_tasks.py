@@ -1,12 +1,9 @@
-import asyncio
 import datetime
-import hashlib
 
 import discord
 from discord.ext import tasks
 
 from config import (
-    ACTIVITY_CHANNEL_NAME,
     DSA_CODEFORCES_DAILY_TIME_HOUR,
     DSA_CODEFORCES_DAILY_TIME_MINUTE,
     DSA_LEETCODE_DAILY_TIME_HOUR,
@@ -16,14 +13,7 @@ from config import (
     LEETCODE_DAILY_TIME_HOUR,
     LEETCODE_DAILY_TIME_MINUTE,
     MD_CHANNEL_NAME,
-    WEEKLY_MIN_MEMBER_MESSAGES,
-    WEEKLY_MIN_SERVER_MESSAGES,
-    WEEKLY_RANKING_HOUR,
-    WEEKLY_RANKING_MINUTE,
-    WORDLE_CHANNEL_NAME,
 )
-from db import message_db
-from db.message_db import bulk_insert_messages, get_weekly_message_counts
 from services.dsa_daily_service import get_dsa_daily_service
 from services.leetcode_service import get_leetcode_service
 from services.neetcode_service import get_neetcode_service
@@ -50,7 +40,6 @@ class ScheduledTasks:
         self.daily_task.start()
         self.daily_dsa_leetcode_task.start()
         # self.daily_dsa_codeforces_task.start()  # disabled for now
-        self.weekly_ranking_task.start()
         self.book_club_reminder_task.start()
         self.book_club_final_reminder_task.start()
         self.coworking_reminder_task.start()
@@ -60,7 +49,6 @@ class ScheduledTasks:
         self.daily_task.cancel()
         self.daily_dsa_leetcode_task.cancel()
         # self.daily_dsa_codeforces_task.cancel()  # disabled for now
-        self.weekly_ranking_task.cancel()
         self.book_club_reminder_task.cancel()
         self.book_club_final_reminder_task.cancel()
         self.coworking_reminder_task.cancel()
@@ -80,10 +68,10 @@ class ScheduledTasks:
                 return
 
             embed = self.leetcode_service.create_daily_embed(question)
-            
+
             for guild in self.bot.guilds:
                 target_channel = None
-                
+
                 if target_channel_id:
                     target_channel = guild.get_channel(target_channel_id)
                 else:
@@ -92,11 +80,11 @@ class ScheduledTasks:
                 if target_channel:
                     try:
                         message = await target_channel.send(embed=embed)
-                        
+
                         question_title = question.get("question", {}).get("title", "Daily Question")
                         thread_name = f"🧵 {question_title}"
                         await message.create_thread(name=thread_name, auto_archive_duration=1440)
-                        
+
                         logger.info(f"✅ Posted LeetCode daily to {guild.name} #{target_channel.name}")
                     except discord.Forbidden:
                         logger.warning(f"❌ Missing permissions to post/thread to {guild.name} #{target_channel.name}")
@@ -238,315 +226,6 @@ class ScheduledTasks:
     @daily_dsa_codeforces_task.before_loop
     async def before_daily_dsa_codeforces_task(self):
         await self.bot.wait_until_ready()
-
-    @tasks.loop(time=[datetime.time(hour=WEEKLY_RANKING_HOUR, minute=WEEKLY_RANKING_MINUTE, tzinfo=datetime.timezone.utc)])
-    async def weekly_ranking_task(self):
-        """Runs daily but only executes the ranking logic on Mondays."""
-        now = datetime.datetime.now(datetime.timezone.utc)
-        if now.weekday() != 0:  # 0 = Monday
-            return
-        if now.date() == datetime.date(2026, 4, 13):
-            logger.info("⏭️ Skipping weekly ranking for Apr 13 (excluded date)")
-            return
-        logger.info("📊 Running weekly activity ranking")
-        await self.post_weekly_rankings()
-
-    @weekly_ranking_task.before_loop
-    async def before_weekly_ranking_task(self):
-        await self.bot.wait_until_ready()
-
-    async def _index_wordle_messages(self, guild: discord.Guild) -> None:
-        """Scan the wordle channel for Wordle bot summary messages and index who played."""
-        wordle_channel = discord.utils.get(guild.text_channels, name=WORDLE_CHANNEL_NAME)
-        if not wordle_channel:
-            return
-
-        now = datetime.datetime.now(datetime.timezone.utc)
-        cutoff = now - datetime.timedelta(days=7)
-
-        try:
-            async for message in wordle_channel.history(after=cutoff, limit=None):
-                if not message.author.bot:
-                    continue
-                if not message.mentions:
-                    continue
-
-                for user in message.mentions:
-                    if user.bot:
-                        continue
-                    msg_id = f"wordle_{message.id}_{user.id}"
-                    content_hash = hashlib.sha256(msg_id.encode()).hexdigest()
-                    await message_db.insert_message(
-                        message_id=msg_id,
-                        channel_id=str(wordle_channel.id),
-                        guild_id=str(guild.id),
-                        author_id=str(user.id),
-                        content="[wordle]",
-                        content_hash=content_hash,
-                        message_url=message.jump_url,
-                    )
-        except discord.Forbidden:
-            logger.warning(f"Missing permissions to read history in #{wordle_channel.name}")
-        except Exception as e:
-            logger.error(f"Error indexing wordle channel: {e}")
-
-    async def hydrate_missing_weekly_activity(self):
-        """Reconcile this week's activity from Discord history into the DB."""
-        logger.info(f"🔄 Starting weekly activity hydrate across {len(self.bot.guilds)} guild(s)")
-        for guild in self.bot.guilds:
-            logger.info(f"🔄 Hydrating {guild.name}…")
-            try:
-                await self._index_wordle_messages(guild)
-                await asyncio.wait_for(guild.chunk(cache=True), timeout=15)
-            except asyncio.TimeoutError:
-                logger.warning(f"guild.chunk timed out for {guild.name}; proceeding with cached members")
-            except Exception as e:
-                logger.warning(f"Could not refresh member cache for {guild.name}: {e}")
-
-            try:
-                member_ids = {str(member.id) for member in guild.members if not member.bot}
-                if not member_ids:
-                    logger.info(f"Skipping weekly sync for {guild.name}: no non-bot members")
-                    continue
-
-                # Fetch message counts from DB
-                db_counts = await message_db.get_weekly_message_counts(str(guild.id))
-                count_map = {entry["author_id"]: entry["count"] for entry in db_counts}
-                restored = await self._restore_guild_weekly_messages(guild, member_ids)
-                if restored:
-                    logger.info(f"✅ Synced {restored} weekly activity rows for {guild.name}")
-                else:
-                    logger.info(f"✅ Weekly activity already up to date for {guild.name}")
-            except Exception as e:
-                logger.error(f"❌ Failed weekly sync for {guild.name}: {e}")
-        logger.info("🔄 Hydrate complete")
-
-    async def _restore_guild_weekly_messages(self, guild: discord.Guild, member_ids: set[str]) -> int:
-        cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)
-        channels = list(guild.text_channels)
-        channels.extend(thread for thread in guild.threads if not thread.archived)
-
-        inserted = 0
-        logger.info(f"  Scanning {len(channels)} channel(s)/thread(s) in {guild.name}")
-        for channel in channels:
-            if not channel.permissions_for(guild.me).read_message_history:
-                continue
-
-            pending_rows = []
-            try:
-                async for message in channel.history(limit=None, after=cutoff, oldest_first=True):
-                    row = self._build_activity_row(message, guild.id, member_ids)
-                    if row:
-                        pending_rows.append(row)
-            except discord.Forbidden:
-                logger.debug(f"Missing history permission for {guild.name} #{channel.name}")
-                continue
-            except Exception as e:
-                logger.warning(f"Error reading history for {guild.name} #{channel.name}: {e}")
-                continue
-
-            if pending_rows:
-                added = await bulk_insert_messages(pending_rows)
-                inserted += added
-                logger.info(f"  #{channel.name}: +{added} rows ({len(pending_rows)} seen)")
-
-        return inserted
-
-    def _build_activity_row(
-        self,
-        message: discord.Message,
-        guild_id: int,
-        member_ids: set[str],
-    ) -> dict | None:
-        if not message.guild:
-            return None
-
-        # Preserve Wordle credit, which is represented by the bot response carrying interaction metadata.
-        if (
-            message.author.bot
-            and message.interaction_metadata
-            and hasattr(message.channel, "name")
-            and message.channel.name == WORDLE_CHANNEL_NAME
-        ):
-            interaction = message.interaction_metadata
-            author_id = str(interaction.user.id)
-            if author_id not in member_ids:
-                return None
-
-            return {
-                "message_id": str(interaction.id),
-                "channel_id": str(message.channel.id),
-                "guild_id": str(guild_id),
-                "author_id": author_id,
-                "content": "[wordle]",
-                "content_hash": hashlib.sha256(str(interaction.id).encode()).hexdigest(),
-                "message_url": message.jump_url,
-                "created_at": message.created_at,
-            }
-
-        if message.author.bot:
-            return None
-
-        author_id = str(message.author.id)
-        if author_id not in member_ids:
-            return None
-
-        return {
-            "message_id": str(message.id),
-            "channel_id": str(message.channel.id),
-            "guild_id": str(guild_id),
-            "author_id": author_id,
-            "content": message.content[:500] if message.content else "[attachment]",
-            "content_hash": hashlib.sha256(str(message.id).encode()).hexdigest(),
-            "message_url": message.jump_url,
-            "created_at": message.created_at,
-        }
-
-    async def _post_weekly_ranking_for_guild(
-        self,
-        guild: discord.Guild,
-        channel: discord.abc.Messageable,
-        dry_run: bool = False,
-    ) -> bool:
-        now = datetime.datetime.now(datetime.timezone.utc)
-        week_start = (now - datetime.timedelta(days=7)).strftime("%b %d")
-        week_end = now.strftime("%b %d, %Y")
-
-        try:
-            try:
-                await asyncio.wait_for(guild.chunk(cache=True), timeout=15)
-            except asyncio.TimeoutError:
-                logger.warning(f"guild.chunk timed out for {guild.name}; proceeding with cached members")
-            except Exception as e:
-                logger.warning(f"Could not refresh member cache for {guild.name}: {e}")
-
-            current_member_ids = {str(member.id) for member in guild.members if not member.bot}
-
-            # Fetch message counts from DB
-            db_counts = await get_weekly_message_counts(str(guild.id))
-            count_map = {
-                entry["author_id"]: entry["count"]
-                for entry in db_counts
-                if entry["author_id"] in current_member_ids
-            }
-
-            # Build ranked list of all non-bot members
-            members = [m for m in guild.members if not m.bot]
-            ranked = sorted(
-                members,
-                key=lambda m: (count_map.get(str(m.id), 0), -(m.joined_at.timestamp() if m.joined_at else 0)),
-                reverse=True,
-            )
-
-            # --- Leaderboard messaging disabled ---
-            # top5 = ranked[:5]
-            # bottom5 = list(reversed(ranked[-5:])) if len(ranked) >= 5 else list(reversed(ranked))
-            #
-            # # Build embed
-            # embed = discord.Embed(
-            #     title=f"📊 Weekly Activity Report — {week_start}–{week_end}",
-            #     color=discord.Color.blurple(),
-            # )
-            #
-            # top_lines = []
-            # medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"]
-            # for i, member in enumerate(top5):
-            #     msgs = count_map.get(str(member.id), 0)
-            #     label = "msg" if msgs == 1 else "msgs"
-            #     top_lines.append(f"{medals[i]} {member.mention} — **{msgs} {label}**")
-            # embed.add_field(name="🏆 Most Active", value="\n".join(top_lines) or "No data", inline=False)
-            #
-            # bottom_lines = []
-            # for member in bottom5:
-            #     msgs = count_map.get(str(member.id), 0)
-            #     label = "msg" if msgs == 1 else "msgs"
-            #     bottom_lines.append(f"• {member.mention} — **{msgs} {label}**")
-            # embed.add_field(name="💤 Least Active", value="\n".join(bottom_lines) or "No data", inline=False)
-            #
-            # await channel.send(embed=embed)
-
-            # Check server-wide baseline before running the purge
-            server_total = sum(count_map.values())
-            if server_total < WEEKLY_MIN_SERVER_MESSAGES:
-                await channel.send(
-                    f"📭 Server only had **{server_total} messages** this week "
-                    f"(minimum {WEEKLY_MIN_SERVER_MESSAGES} required). No purge this week."
-                )
-                logger.info(f"Skipping purge for {guild.name}: server total {server_total} < {WEEKLY_MIN_SERVER_MESSAGES}")
-                return True
-
-            # Find kick candidate: least active non-bot, non-owner, non-admin
-            # --- Member auto-removal (inactivity purge) disabled ---
-            # kick_candidates = [
-            #     m for m in reversed(ranked)
-            #     if not m.bot
-            #     and m != guild.owner
-            #     and not m.guild_permissions.administrator
-            # ]
-            #
-            # if kick_candidates:
-            #     victim = kick_candidates[0]
-            #     victim_msgs = count_map.get(str(victim.id), 0)
-            #
-            #     # Check member baseline — everyone pulled their weight
-            #     if victim_msgs >= WEEKLY_MIN_MEMBER_MESSAGES:
-            #         await channel.send(
-            #             f"✅ Everyone met the activity baseline this week "
-            #             f"(**{WEEKLY_MIN_MEMBER_MESSAGES}+ messages**). No purge. Keep it up!"
-            #         )
-            #         logger.info(f"Skipping purge for {guild.name}: least active member has {victim_msgs} msgs")
-            #         return True
-            #
-            #     label = "message" if victim_msgs == 1 else "messages"
-            #     if dry_run:
-            #         await channel.send(
-            #             f"👀 {victim.mention} you only sent **{victim_msgs} {label}** this week. "
-            #             f"You need to up your game — next time this is for real. 😤"
-            #         )
-            #         logger.info(f"[dry run] Would have kicked {victim} from {guild.name} ({victim_msgs} msgs)")
-            #     else:
-            #         await channel.send(
-            #             f"⚠️ {victim.mention} you sent only **{victim_msgs} {label}** this week. "
-            #             f"You are being **purged from the server in 1 hour**. "
-            #             f"This is your only warning. 🕐"
-            #         )
-            #         logger.info(f"⏳ Purge warning sent to {victim} in {guild.name}. Kick in 1 hour.")
-            #         await asyncio.sleep(3600)
-            #         try:
-            #             await guild.kick(victim, reason="Weekly inactivity purge")
-            #             await channel.send(f"🦵 {victim.mention} has been purged. See you never.")
-            #             logger.info(f"🦵 Kicked {victim} from {guild.name} for inactivity ({victim_msgs} msgs)")
-            #         except discord.Forbidden:
-            #             logger.warning(f"❌ Missing kick permission in {guild.name}")
-            #         except Exception as e:
-            #             logger.error(f"❌ Error kicking {victim} from {guild.name}: {e}")
-            # else:
-            #     logger.info(f"No eligible kick candidates in {guild.name}")
-
-            return True
-        except Exception as e:
-            logger.error(f"Error in weekly ranking for {guild.name}: {e}")
-            return False
-
-    async def post_weekly_rankings(self, target_channel_id: int = None, dry_run: bool = False) -> int:
-        """Build and post the weekly activity leaderboard, then kick the least active member."""
-        posted = 0
-        for guild in self.bot.guilds:
-            # Determine the target channel
-            if target_channel_id:
-                channel = guild.get_channel(target_channel_id)
-            else:
-                channel = discord.utils.get(guild.text_channels, name=ACTIVITY_CHANNEL_NAME)
-
-            if not channel:
-                logger.debug(f"Skipping {guild.name}: No target channel found")
-                continue
-
-            if await self._post_weekly_ranking_for_guild(guild, channel, dry_run=dry_run):
-                posted += 1
-
-        return posted
-
 
     @tasks.loop(time=[datetime.time(hour=20, minute=45, tzinfo=datetime.timezone.utc)])
     async def book_club_reminder_task(self):

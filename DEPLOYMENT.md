@@ -5,7 +5,7 @@
 ```bash
 # 1. Copy environment file and configure
 cp .env.example .env
-# Edit .env with your DISCORD_BOT_TOKEN and GEMINI_API_KEY
+# Edit .env with your DISCORD_BOT_TOKEN and DEEPSEEK_API_KEY
 
 # 2. Build and run
 make up-d
@@ -104,8 +104,7 @@ journalctl -u discord-bot -f
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `DISCORD_BOT_TOKEN` | Yes | Discord bot token |
-| `GEMINI_API_KEY` | Yes, unless `DEEPSEEK_API_KEY` is set | Google Gemini API key |
-| `DEEPSEEK_API_KEY` | No | DeepSeek API key — when set, it takes priority over Gemini for all AI responses |
+| `DEEPSEEK_API_KEY` | Yes | DeepSeek API key — powers the AI agent (chat, mentions/replies, `/ai_status`) via the OpenAI Agents SDK pointed at DeepSeek's OpenAI-compatible API |
 
 ---
 

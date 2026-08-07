@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 
 from commands import ai_commands, message_commands, utility_commands
-from config import DEEPSEEK_API_KEY, GEMINI_API_KEY, TOKEN, WELCOME_CHANNEL_NAME, WORDLE_CHANNEL_NAME
+from config import DEEPSEEK_API_KEY, TOKEN, WELCOME_CHANNEL_NAME
 from db import message_db
 from utils.logging import get_logger, setup_logging
 
@@ -41,8 +41,7 @@ async def on_ready():
   # Initialize scheduled tasks
   from services.scheduled_tasks import setup_scheduled_tasks
 
-  scheduled_tasks = setup_scheduled_tasks(bot)
-  await scheduled_tasks.hydrate_missing_weekly_activity()
+  setup_scheduled_tasks(bot)
 
 
 @bot.event
@@ -93,33 +92,11 @@ async def on_member_remove(member: discord.Member):
 
 @bot.event
 async def on_message(message: discord.Message):
-  # Credit Wordle players — slash command interactions don't fire on_message for the user,
-  # but the Wordle bot's response message contains interaction metadata for the user.
-  if (
-    message.author.bot
-    and message.guild
-    and message.interaction_metadata
-    and hasattr(message.channel, "name")
-    and message.channel.name == WORDLE_CHANNEL_NAME
-  ):
-    interaction = message.interaction_metadata
-    content_hash = hashlib.sha256(str(interaction.id).encode()).hexdigest()
-    await message_db.insert_message(
-      message_id=str(interaction.id),
-      channel_id=str(message.channel.id),
-      guild_id=str(message.guild.id),
-      author_id=str(interaction.user.id),
-      content="[wordle]",
-      content_hash=content_hash,
-      message_url=message.jump_url,
-      created_at=message.created_at,
-    )
-
   # Ignore bot messages
   if message.author.bot:
     return
 
-  # Track message for activity rankings
+  # Log the message
   if message.guild:
     content_hash = hashlib.sha256(str(message.id).encode()).hexdigest()
     await message_db.insert_message(
@@ -133,27 +110,16 @@ async def on_message(message: discord.Message):
       created_at=message.created_at,
     )
 
-  # Check if this is a reply to the bot's message
+  # Check if this is a reply to the bot's message. (No manual history stitching
+  # needed beyond this - the agent's per-channel-per-user session remembers the
+  # actual conversation automatically.)
   is_reply_to_bot = False
-  reply_chain = []
-
   if message.reference and message.reference.message_id:
     try:
-      # Recursively fetch up to 5 previous messages in the chain to build context
-      curr_msg = message
-      for _ in range(5):
-        if not curr_msg.reference or not curr_msg.reference.message_id:
-          break
-
-        prev_msg = await message.channel.fetch_message(curr_msg.reference.message_id)
-        reply_chain.append(prev_msg)
-        curr_msg = prev_msg
-
-        # Check if the original message was replying to the bot
-        if curr_msg.author == bot.user and curr_msg.id == message.reference.message_id:
-          is_reply_to_bot = True
-
-      reply_chain.reverse()  # Oldest to newest
+      parent = message.reference.cached_message or await message.channel.fetch_message(
+        message.reference.message_id
+      )
+      is_reply_to_bot = bool(bot.user) and parent.author.id == bot.user.id
     except discord.NotFound:
       pass
 
@@ -178,29 +144,16 @@ async def on_message(message: discord.Message):
 
       ctx = await bot.get_context(message)
       if ctx.guild:
-        from services.ai_service import get_ai_service
+        from services.agent_service import get_agent_service
 
-        ai_service = get_ai_service()
+        agent_service = get_agent_service()
 
         async with message.channel.typing():
-          system_msg = (
-            "You are professional, calm, and helpful bot in a Discord server."
-            "Keep responses SHORT and conversational - like texting a friend or co-worker. "
-            "Don't lecture, don't give unsolicited advice, don't be preachy. "
-            "Just answer what's asked. Use casual language."
-          )
-
-          prompt = content
-
-          # Build thread history string
-          if reply_chain:
-            thread_history = "\n".join(
-              [f"{m.author.display_name}: {m.content}" for m in reply_chain]
-            )
-            prompt = f"--- CONVERSATION HISTORY ---\n{thread_history}\n--- END HISTORY ---\n\nUser's new message: {content}"
-
-          response = await ai_service.call_ai(
-            prompt, system_message=system_msg, use_search=True
+          response = await agent_service.run(
+            content,
+            guild=message.guild,
+            channel_id=message.channel.id,
+            user_id=message.author.id,
           )
 
         # Send response as a reply to maintain the thread
@@ -229,8 +182,8 @@ utility_commands.setup_utility_commands(bot)
 if __name__ == "__main__":
   if not TOKEN:
     raise ValueError("Missing DISCORD_BOT_TOKEN in environment variables")
-  if not GEMINI_API_KEY and not DEEPSEEK_API_KEY:
-    raise ValueError("Missing GEMINI_API_KEY or DEEPSEEK_API_KEY in environment variables")
+  if not DEEPSEEK_API_KEY:
+    raise ValueError("Missing DEEPSEEK_API_KEY in environment variables")
 
   logger.info("Starting bot...")
   try:
