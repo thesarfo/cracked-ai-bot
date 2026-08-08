@@ -53,10 +53,9 @@ def setup_utility_commands(bot: commands.Bot):
 
 **Auto-Features:**
 - Mention or reply to the bot to chat with AI
-- Daily LeetCode question posted automatically
 - Shuffled LeetCode problem posted automatically at 10:00 AM UTC
-- Shuffled Codeforces problem auto-post is currently disabled (use `/force_dsa_codeforces`)
-- Nightly DSA wrap-up posted automatically at 10:00 PM UTC (who dropped a solution in today's threads)
+- Shuffled Codeforces problem posted automatically at 3:00 PM UTC
+- Nightly DSA wrap-up posted automatically at 10:00 PM UTC (who dropped a solution in today's LeetCode/Codeforces threads)
 """
     await ctx.send(help_text)
 
@@ -124,7 +123,12 @@ def setup_utility_commands(bot: commands.Bot):
 
     embed = dsa_daily_service.create_leetcode_embed(lc_problem, lc_pos, lc_total)
     message = await ctx.send(embed=embed)
-    await message.create_thread(name=f"🧵 {lc_problem['title']}", auto_archive_duration=1440)
+    thread = await message.create_thread(name=f"🧵 {lc_problem['title']}", auto_archive_duration=1440)
+
+    from services.scheduled_tasks import get_scheduled_tasks
+    scheduled_tasks = get_scheduled_tasks()
+    if scheduled_tasks:
+        scheduled_tasks.register_dsa_thread(thread.id)
 
   @bot.command()
   async def force_dsa_codeforces(ctx):
@@ -145,7 +149,12 @@ def setup_utility_commands(bot: commands.Bot):
 
     embed = dsa_daily_service.create_codeforces_embed(cf_problem, cf_pos, cf_total)
     message = await ctx.send(embed=embed)
-    await message.create_thread(name=f"🧵 {cf_problem['title']}", auto_archive_duration=1440)
+    thread = await message.create_thread(name=f"🧵 {cf_problem['title']}", auto_archive_duration=1440)
+
+    from services.scheduled_tasks import get_scheduled_tasks
+    scheduled_tasks = get_scheduled_tasks()
+    if scheduled_tasks:
+        scheduled_tasks.register_dsa_thread(thread.id)
 
   @bot.command()
   async def dsa_progress(ctx):
