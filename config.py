@@ -22,23 +22,20 @@ AGENT_MAX_INPUT_LENGTH = 4000
 # LeetCode Configuration
 LEETCODE_API_URL = "https://leetcode.com/graphql"
 LEETCODE_CHANNEL_NAME = "dsa"
-# 5:00 AM UTC daily
-LEETCODE_DAILY_TIME_HOUR = 5
+# 10:00 AM UTC daily
+LEETCODE_DAILY_TIME_HOUR = 10
 LEETCODE_DAILY_TIME_MINUTE = 0
 
 ED_CHANNEL_NAME = "ed"
 MD_CHANNEL_NAME = "md"
 WELCOME_CHANNEL_NAME = "welcome"
 
-# Daily DSA Problem Configuration (shuffled LeetCode + Codeforces rotation)
-# 10:00 AM UTC daily
-DSA_LEETCODE_DAILY_TIME_HOUR = 10
-DSA_LEETCODE_DAILY_TIME_MINUTE = 0
-# 3:00 PM UTC daily
-DSA_CODEFORCES_DAILY_TIME_HOUR = 15
-DSA_CODEFORCES_DAILY_TIME_MINUTE = 0
-
-# Nightly wrap-up of who dropped a solution in today's DSA threads
+# Nightly wrap-up of who dropped a solution in today's problem threads
 # 10:00 PM UTC daily
 DSA_SUMMARY_TIME_HOUR = 22
 DSA_SUMMARY_TIME_MINUTE = 0
+
+# Daily CSES Problem Set post (in official topic order, never shuffled)
+# 3:00 PM UTC daily
+CSES_DAILY_TIME_HOUR = 15
+CSES_DAILY_TIME_MINUTE = 0

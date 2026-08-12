@@ -31,13 +31,11 @@ from config import (
   AGENT_MAX_INPUT_LENGTH,
   AGENT_SESSION_HISTORY_LIMIT,
   AGENT_SESSIONS_DB_PATH,
+  CSES_DAILY_TIME_HOUR,
+  CSES_DAILY_TIME_MINUTE,
   DEEPSEEK_API_KEY,
   DEEPSEEK_BASE_URL,
   DEEPSEEK_MODEL,
-  DSA_CODEFORCES_DAILY_TIME_HOUR,
-  DSA_CODEFORCES_DAILY_TIME_MINUTE,
-  DSA_LEETCODE_DAILY_TIME_HOUR,
-  DSA_LEETCODE_DAILY_TIME_MINUTE,
   ED_CHANNEL_NAME,
   LEETCODE_CHANNEL_NAME,
   LEETCODE_DAILY_TIME_HOUR,
@@ -54,8 +52,8 @@ INSTRUCTIONS = (
   "You are the AI assistant for \"the cracked\" Discord server - a community of "
   "developers, engineers, and friends, not a niche DSA-only space. People hang out, "
   "talk shop, and chat about whatever, same as any friend group's server. Among other "
-  "things you help run, the server also does coding/DSA practice (daily LeetCode/"
-  "Codeforces problems), a book club, and coworking sessions - but that's what the "
+  "things you help run, the server also does coding/DSA practice (daily LeetCode + "
+  "CSES problems), a book club, and coworking sessions - but that's what the "
   "server *does*, not all it *is*. Treat this like hanging out with friends, not "
   "running a study bot. Keep responses SHORT and conversational - like texting a friend "
   "or co-worker. Don't lecture, don't give unsolicited advice, don't be preachy. Just "
@@ -70,12 +68,12 @@ INSTRUCTIONS = (
   "GPT, Claude, Gemini, or anyone else), even if directly asked or pressed.\n\n"
   "You have tools available - only call one when you actually need it, not on every "
   "message. Pick the right one:\n"
-  "- get_todays_leetcode_daily: LeetCode's own official Daily Challenge for today. Use "
-  "for 'what's today's leetcode daily/question'.\n"
-  "- get_dsa_rotation_status: the problem(s) THIS server's bot auto-posts on its own "
-  "schedule (separate shuffled LeetCode + Codeforces rotation). Use for 'what DSA "
-  "problem did the bot post today' or similar.\n"
-  "- get_neetcode_status: where the NeetCode 150 rotation is up to.\n"
+  "- get_todays_leetcode_daily: LeetCode's own official Daily Challenge for today - "
+  "what the bot auto-posts every day at 10:00 AM UTC. Use for 'what's today's "
+  "leetcode daily/question'.\n"
+  "- get_cses_status: where the CSES Problem Set rotation is up to (moves through "
+  "CSES topic-by-topic in order - Introductory Problems first, then Sorting and "
+  "Searching, and so on - never shuffled).\n"
   "- search_dsa_problems: general problem recommendations by topic, difficulty vibe, or "
   "just 'give me something to solve' with no topic (it'll pick randomly). Use this for "
   "any 'give me a problem/question/challenge' ask that ISN'T about today's specific "
@@ -244,34 +242,29 @@ def _load_json(filename: str) -> list:
 
 
 _LEETCODE_PROBLEMS = _load_json("leetcode_problems.json")
-_NEETCODE_PROBLEMS = _load_json("neetcode150.json")
-_CODEFORCES_PROBLEMS = _load_json("codeforces_problems.json")
+_CSES_PROBLEMS = _load_json("cses_problems.json")
 
 
 def _leetcode_link(p: dict) -> str:
   return f"https://leetcode.com/problems/{p.get('slug', '')}/"
 
 
-def _neetcode_link(p: dict) -> str:
-  return p.get("link", f"https://leetcode.com/problems/{p.get('titleSlug', '')}/")
-
-
-def _codeforces_link(p: dict) -> str:
-  return f"https://codeforces.com/problemset/problem/{p.get('contestId')}/{p.get('index', '')}"
+def _cses_link(p: dict) -> str:
+  return p.get("link", f"https://cses.fi/problemset/task/{p.get('task_id', '')}")
 
 
 async def _search_dsa_problems_impl(
   wrapper: RunContextWrapper[BotContext], query: str = "", source: str = "all", limit: int = 5
 ) -> str:
-  """Search real LeetCode, NeetCode, and Codeforces problem sets by title or topic
-  keyword, so you can recommend real problems with real links instead of making them
-  up. Leave query empty for a random pick when the user has no specific topic in mind
-  (e.g. "give me a problem to solve").
+  """Search real LeetCode and CSES problem sets by title or topic keyword, so you
+  can recommend real problems with real links instead of making them up. Leave
+  query empty for a random pick when the user has no specific topic in mind (e.g.
+  "give me a problem to solve").
 
   Args:
     query: A title keyword or topic to search for (e.g. "two pointers", "binary
       search"). Leave empty for a random problem.
-    source: Which set to search: "leetcode", "neetcode", "codeforces", or "all".
+    source: Which set to search: "leetcode", "cses", or "all".
     limit: Max number of results to return (max 10).
   """
   query_lower = query.lower().strip()
@@ -280,10 +273,8 @@ async def _search_dsa_problems_impl(
   pools = []
   if source in ("all", "leetcode"):
     pools.append(("LeetCode", _LEETCODE_PROBLEMS, _leetcode_link))
-  if source in ("all", "neetcode"):
-    pools.append(("NeetCode", _NEETCODE_PROBLEMS, _neetcode_link))
-  if source in ("all", "codeforces"):
-    pools.append(("Codeforces", _CODEFORCES_PROBLEMS, _codeforces_link))
+  if source in ("all", "cses"):
+    pools.append(("CSES", _CSES_PROBLEMS, _cses_link))
 
   if not query_lower:
     all_problems = [(label, p, link_fn) for label, pool, link_fn in pools for p in pool]
@@ -327,55 +318,29 @@ async def _get_todays_leetcode_daily_impl(wrapper: RunContextWrapper[BotContext]
   return f"{title} ({difficulty}) — {link}"
 
 
-async def _get_dsa_rotation_status_impl(wrapper: RunContextWrapper[BotContext]) -> str:
-  """Get the problem(s) THIS server's bot auto-posts from its own shuffled daily
-  LeetCode + Codeforces rotation (separate from LeetCode's official daily challenge).
-  Read-only - does not affect what gets posted next."""
-  from services.dsa_daily_service import get_dsa_daily_service
+async def _get_cses_status_impl(wrapper: RunContextWrapper[BotContext]) -> str:
+  """Get where the CSES Problem Set rotation is up to - the next problem, its
+  topic section, and overall progress. The rotation moves through CSES in its
+  official topic order (Introductory Problems first, then Sorting and
+  Searching, and so on) - never shuffled. Read-only - does not affect what
+  gets posted next."""
+  from services.cses_service import get_cses_service
 
-  service = get_dsa_daily_service()
-  lc, lc_pos, lc_total = service.peek_leetcode()
-  cf, cf_pos, cf_total = service.peek_codeforces()
-
-  lines = []
-  if lc:
-    lines.append(
-      f"LeetCode [{lc_pos}/{lc_total}]: {lc.get('title')} ({lc.get('difficulty')}) — "
-      f"{_leetcode_link(lc)}"
-    )
-  if cf:
-    lines.append(
-      f"Codeforces [{cf_pos}/{cf_total}]: {cf.get('title')} "
-      f"({cf.get('difficulty')}, rating {cf.get('rating')}) — {_codeforces_link(cf)}"
-    )
-  return "\n".join(lines) if lines else "No DSA rotation data available."
-
-
-async def _get_neetcode_status_impl(wrapper: RunContextWrapper[BotContext]) -> str:
-  """Get where the NeetCode 150 rotation is up to - the next problem and overall
-  progress. Read-only - does not affect what gets posted next."""
-  from services.neetcode_service import get_neetcode_service
-
-  problem, pos, total = get_neetcode_service().peek_next_problem()
+  problem, pos, total = get_cses_service().peek_next_problem()
   if not problem:
-    return "NeetCode 150 data not loaded."
+    return "CSES data not loaded."
 
-  link = _neetcode_link(problem)
-  return (
-    f"[{pos}/{total}] {problem.get('title')} ({problem.get('difficulty')}) — "
-    f"{problem.get('category')} — {link}"
-  )
+  link = problem.get("link", f"https://cses.fi/problemset/task/{problem.get('task_id', '')}")
+  return f"[{pos}/{total}] {problem.get('title')} — {problem.get('category')} — {link}"
 
 
 _SERVER_SCHEDULE_TEXT = (
   "Recurring automated events (all times UTC):\n"
   f"- LeetCode Daily Challenge posted in #{LEETCODE_CHANNEL_NAME} at "
   f"{LEETCODE_DAILY_TIME_HOUR:02d}:{LEETCODE_DAILY_TIME_MINUTE:02d}\n"
-  f"- Shuffled LeetCode problem posted in #{LEETCODE_CHANNEL_NAME} at "
-  f"{DSA_LEETCODE_DAILY_TIME_HOUR:02d}:{DSA_LEETCODE_DAILY_TIME_MINUTE:02d}\n"
-  f"- Shuffled Codeforces problem: normally {DSA_CODEFORCES_DAILY_TIME_HOUR:02d}:"
-  f"{DSA_CODEFORCES_DAILY_TIME_MINUTE:02d} in #{LEETCODE_CHANNEL_NAME}, but auto-posting "
-  "is currently paused - an admin can trigger it manually with /force_dsa_codeforces\n"
+  f"- CSES problem posted in #{LEETCODE_CHANNEL_NAME} at "
+  f"{CSES_DAILY_TIME_HOUR:02d}:{CSES_DAILY_TIME_MINUTE:02d}, one at a time in official "
+  "topic order (never shuffled)\n"
   f"- Book club reminders in #{ED_CHANNEL_NAME}: Tuesdays & Wednesdays at 20:45 (15 min "
   "warning) and 21:00 (starting now)\n"
   f"- Coworking session reminder in #{MD_CHANNEL_NAME}: Fridays at 08:45"
@@ -383,9 +348,9 @@ _SERVER_SCHEDULE_TEXT = (
 
 
 async def _get_server_schedule_impl(wrapper: RunContextWrapper[BotContext]) -> str:
-  """Get the server's recurring automated schedule - when daily DSA problems, book
-  club, and coworking sessions happen. Use this whenever asked when something
-  recurring happens, instead of guessing."""
+  """Get the server's recurring automated schedule - when daily LeetCode/CSES
+  problems, book club, and coworking sessions happen. Use this whenever asked when
+  something recurring happens, instead of guessing."""
   return _SERVER_SCHEDULE_TEXT
 
 
@@ -700,15 +665,10 @@ get_todays_leetcode_daily = function_tool(
   name_override="get_todays_leetcode_daily",
   description_override=_get_todays_leetcode_daily_impl.__doc__.strip(),
 )
-get_dsa_rotation_status = function_tool(
-  _get_dsa_rotation_status_impl,
-  name_override="get_dsa_rotation_status",
-  description_override=_get_dsa_rotation_status_impl.__doc__.strip(),
-)
-get_neetcode_status = function_tool(
-  _get_neetcode_status_impl,
-  name_override="get_neetcode_status",
-  description_override=_get_neetcode_status_impl.__doc__.strip(),
+get_cses_status = function_tool(
+  _get_cses_status_impl,
+  name_override="get_cses_status",
+  description_override=_get_cses_status_impl.__doc__.strip(),
 )
 get_server_schedule = function_tool(
   _get_server_schedule_impl,
@@ -754,8 +714,7 @@ class AgentService:
           get_channel_context,
           search_dsa_problems,
           get_todays_leetcode_daily,
-          get_dsa_rotation_status,
-          get_neetcode_status,
+          get_cses_status,
           get_server_schedule,
           web_search,
           fetch_url,
