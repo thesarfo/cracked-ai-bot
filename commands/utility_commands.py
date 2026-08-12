@@ -77,7 +77,12 @@ def setup_utility_commands(bot: commands.Bot):
     message = await ctx.send(embed=embed)
 
     question_title = question.get("question", {}).get("title", "Daily Question")
-    await message.create_thread(name=f"🧵 {question_title}", auto_archive_duration=1440)
+    thread = await message.create_thread(name=f"🧵 {question_title}", auto_archive_duration=1440)
+
+    from services.scheduled_tasks import get_scheduled_tasks
+    scheduled_tasks = get_scheduled_tasks()
+    if scheduled_tasks:
+        scheduled_tasks.register_dsa_thread(thread.id)
 
   @bot.command()
   async def force_dsa_summary(ctx):
@@ -122,8 +127,12 @@ def setup_utility_commands(bot: commands.Bot):
 
     embed = cses_service.create_cses_embed(problem, position, total)
     message = await ctx.send(embed=embed)
+    thread = await message.create_thread(name=f"🧵 {problem['title']}", auto_archive_duration=1440)
 
-    await message.create_thread(name=f"🧵 {problem['title']}", auto_archive_duration=1440)
+    from services.scheduled_tasks import get_scheduled_tasks
+    scheduled_tasks = get_scheduled_tasks()
+    if scheduled_tasks:
+        scheduled_tasks.register_dsa_thread(thread.id)
 
   @bot.command()
   async def cses_progress(ctx):

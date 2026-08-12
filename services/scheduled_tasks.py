@@ -1,4 +1,6 @@
 import datetime
+import json
+import os
 
 import discord
 from discord.ext import tasks
@@ -20,6 +22,9 @@ from utils.logging import get_logger
 
 logger = get_logger("scheduler")
 
+DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
+DSA_THREAD_IDS_PATH = os.path.join(DATA_DIR, "dsa_thread_ids.json")
+
 
 class ScheduledTasks:
     def __init__(self, bot):
@@ -27,12 +32,11 @@ class ScheduledTasks:
         self.leetcode_service = get_leetcode_service()
         self.cses_service = get_cses_service()
 
-        # Calculate time for the loop
-        self.daily_time = datetime.time(
-            hour=LEETCODE_DAILY_TIME_HOUR,
-            minute=LEETCODE_DAILY_TIME_MINUTE,
-            tzinfo=datetime.timezone.utc
-        )
+        # Thread IDs created by the LeetCode daily / CSES posts, scheduled or
+        # manually forced. The 10pm summary only reports on these, not on every
+        # 🧵 thread in the channel. Persisted to disk so a restart between the
+        # 10am/3pm posts and the 10pm summary doesn't lose track of them.
+        self.dsa_thread_ids: dict[int, datetime.date] = self._load_dsa_thread_ids()
 
         # Start loops
         self.daily_task.start()
@@ -41,7 +45,36 @@ class ScheduledTasks:
         self.book_club_reminder_task.start()
         self.book_club_final_reminder_task.start()
         self.coworking_reminder_task.start()
-        logger.info(f"📅 Daily scheduler initialized for {self.daily_time} UTC")
+        logger.info(
+            f"📅 Daily scheduler initialized — LeetCode {LEETCODE_DAILY_TIME_HOUR:02d}:{LEETCODE_DAILY_TIME_MINUTE:02d} UTC, "
+            f"CSES {CSES_DAILY_TIME_HOUR:02d}:{CSES_DAILY_TIME_MINUTE:02d} UTC, "
+            f"summary {DSA_SUMMARY_TIME_HOUR:02d}:{DSA_SUMMARY_TIME_MINUTE:02d} UTC"
+        )
+
+    def _load_dsa_thread_ids(self) -> dict:
+        try:
+            with open(DSA_THREAD_IDS_PATH, "r") as f:
+                raw = json.load(f)
+            return {int(tid): datetime.date.fromisoformat(d) for tid, d in raw.items()}
+        except Exception:
+            return {}
+
+    def _save_dsa_thread_ids(self):
+        try:
+            os.makedirs(DATA_DIR, exist_ok=True)
+            with open(DSA_THREAD_IDS_PATH, "w") as f:
+                json.dump({str(tid): d.isoformat() for tid, d in self.dsa_thread_ids.items()}, f)
+        except Exception as e:
+            logger.warning(f"Could not persist DSA thread IDs: {e}")
+
+    def register_dsa_thread(self, thread_id: int):
+        """Mark a thread as a LeetCode daily / CSES post so the nightly summary picks it up."""
+        now = datetime.datetime.now(datetime.timezone.utc)
+        self.dsa_thread_ids[thread_id] = now.date()
+        # Keep this from growing forever — nothing older than yesterday is ever needed.
+        cutoff = now.date() - datetime.timedelta(days=1)
+        self.dsa_thread_ids = {tid: d for tid, d in self.dsa_thread_ids.items() if d >= cutoff}
+        self._save_dsa_thread_ids()
 
     def cog_unload(self):
         self.daily_task.cancel()
@@ -81,7 +114,8 @@ class ScheduledTasks:
 
                         question_title = question.get("question", {}).get("title", "Daily Question")
                         thread_name = f"🧵 {question_title}"
-                        await message.create_thread(name=thread_name, auto_archive_duration=1440)
+                        thread = await message.create_thread(name=thread_name, auto_archive_duration=1440)
+                        self.register_dsa_thread(thread.id)
 
                         logger.info(f"✅ Posted LeetCode daily to {guild.name} #{target_channel.name}")
                     except discord.Forbidden:
@@ -129,7 +163,8 @@ class ScheduledTasks:
                 try:
                     embed = self.cses_service.create_cses_embed(problem, position, total)
                     message = await target_channel.send(embed=embed)
-                    await message.create_thread(name=f"🧵 {problem['title']}", auto_archive_duration=1440)
+                    thread = await message.create_thread(name=f"🧵 {problem['title']}", auto_archive_duration=1440)
+                    self.register_dsa_thread(thread.id)
 
                     logger.info(f"✅ Posted daily CSES problem to {guild.name} #{target_channel.name}")
                 except discord.Forbidden:
@@ -152,7 +187,9 @@ class ScheduledTasks:
 
     async def post_daily_dsa_summary(self, target_channel_id: int = None) -> int:
         """Summarize today's problem threads: who posted a solution (screenshot,
-        code snippet, whatever) in each one. Returns how many guilds got a summary."""
+        code snippet, whatever) in each one. Only counts threads registered by the
+        LeetCode daily / CSES posts (scheduled or manually forced), not every 🧵
+        thread in the channel. Returns how many guilds got a summary."""
         now = datetime.datetime.now(datetime.timezone.utc)
         today = now.date()
         posted = 0
@@ -178,7 +215,7 @@ class ScheduledTasks:
             todays_threads = [
                 t for t in active_threads
                 if t.parent_id == target_channel.id
-                and t.name.startswith("🧵")
+                and t.id in self.dsa_thread_ids
                 and t.created_at is not None
                 and t.created_at.astimezone(datetime.timezone.utc).date() == today
             ]
@@ -299,4 +336,8 @@ def setup_scheduled_tasks(bot):
         logger.info("Scheduled tasks already running — skipping re-initialization")
         return _scheduled_tasks_instance
     _scheduled_tasks_instance = ScheduledTasks(bot)
+    return _scheduled_tasks_instance
+
+
+def get_scheduled_tasks() -> "ScheduledTasks | None":
     return _scheduled_tasks_instance
