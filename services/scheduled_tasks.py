@@ -4,10 +4,8 @@ import discord
 from discord.ext import tasks
 
 from config import (
-    DSA_CODEFORCES_DAILY_TIME_HOUR,
-    DSA_CODEFORCES_DAILY_TIME_MINUTE,
-    DSA_LEETCODE_DAILY_TIME_HOUR,
-    DSA_LEETCODE_DAILY_TIME_MINUTE,
+    CSES_DAILY_TIME_HOUR,
+    CSES_DAILY_TIME_MINUTE,
     DSA_SUMMARY_TIME_HOUR,
     DSA_SUMMARY_TIME_MINUTE,
     ED_CHANNEL_NAME,
@@ -16,9 +14,8 @@ from config import (
     LEETCODE_DAILY_TIME_MINUTE,
     MD_CHANNEL_NAME,
 )
-from services.dsa_daily_service import get_dsa_daily_service
+from services.cses_service import get_cses_service
 from services.leetcode_service import get_leetcode_service
-from services.neetcode_service import get_neetcode_service
 from utils.logging import get_logger
 
 logger = get_logger("scheduler")
@@ -28,8 +25,7 @@ class ScheduledTasks:
     def __init__(self, bot):
         self.bot = bot
         self.leetcode_service = get_leetcode_service()
-        self.neetcode_service = get_neetcode_service()
-        self.dsa_daily_service = get_dsa_daily_service()
+        self.cses_service = get_cses_service()
 
         # Calculate time for the loop
         self.daily_time = datetime.time(
@@ -40,8 +36,7 @@ class ScheduledTasks:
 
         # Start loops
         self.daily_task.start()
-        self.daily_dsa_leetcode_task.start()
-        # self.daily_dsa_codeforces_task.start()  # disabled for now
+        self.daily_cses_task.start()
         self.daily_dsa_summary_task.start()
         self.book_club_reminder_task.start()
         self.book_club_final_reminder_task.start()
@@ -50,8 +45,7 @@ class ScheduledTasks:
 
     def cog_unload(self):
         self.daily_task.cancel()
-        self.daily_dsa_leetcode_task.cancel()
-        # self.daily_dsa_codeforces_task.cancel()  # disabled for now
+        self.daily_cses_task.cancel()
         self.daily_dsa_summary_task.cancel()
         self.book_club_reminder_task.cancel()
         self.book_club_final_reminder_task.cancel()
@@ -100,60 +94,24 @@ class ScheduledTasks:
         except Exception as e:
             logger.error(f"Error in daily LeetCode task: {e}")
 
-    async def post_daily_neetcode(self, target_channel_id: int = None):
-        """Post the next NeetCode 150 problem."""
-        try:
-            problem, current, total = self.neetcode_service.get_next_problem()
-            if not problem:
-                logger.error("Failed to get next NeetCode 150 problem")
-                return
-
-            embed = self.neetcode_service.create_neetcode_embed(problem, current, total)
-
-            for guild in self.bot.guilds:
-                target_channel = None
-
-                if target_channel_id:
-                    target_channel = guild.get_channel(target_channel_id)
-                else:
-                    target_channel = discord.utils.get(guild.text_channels, name=LEETCODE_CHANNEL_NAME)
-
-                if target_channel:
-                    try:
-                        message = await target_channel.send(embed=embed)
-
-                        thread_name = f"🧵 NC150: {problem['title']}"
-                        await message.create_thread(name=thread_name, auto_archive_duration=1440)
-
-                        logger.info(f"✅ Posted NeetCode 150 [{current}/{total}] to {guild.name} #{target_channel.name}")
-                    except discord.Forbidden:
-                        logger.warning(f"❌ Missing permissions in {guild.name} #{target_channel.name}")
-                    except Exception as e:
-                        logger.error(f"❌ Error posting NeetCode to {guild.name}: {e}")
-                else:
-                    logger.debug(f"Skipping {guild.name}: No #{LEETCODE_CHANNEL_NAME} channel found")
-
-        except Exception as e:
-            logger.error(f"Error in daily NeetCode task: {e}")
-
     @daily_task.before_loop
     async def before_daily_task(self):
         """Wait until the bot is ready before starting the loop."""
         await self.bot.wait_until_ready()
 
-    @tasks.loop(time=[datetime.time(hour=DSA_LEETCODE_DAILY_TIME_HOUR, minute=DSA_LEETCODE_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
-    async def daily_dsa_leetcode_task(self):
-        """Task that runs daily to post one shuffled LeetCode problem."""
-        logger.info("⏰ Running daily DSA LeetCode task")
-        await self.post_daily_dsa_leetcode()
+    @tasks.loop(time=[datetime.time(hour=CSES_DAILY_TIME_HOUR, minute=CSES_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
+    async def daily_cses_task(self):
+        """Task that runs daily to post the next CSES problem, in topic order."""
+        logger.info("⏰ Running daily CSES task")
+        await self.post_daily_cses()
 
-    async def post_daily_dsa_leetcode(self, target_channel_id: int = None):
-        """Post one shuffled LeetCode problem."""
+    async def post_daily_cses(self, target_channel_id: int = None):
+        """Post the next CSES problem, in official topic order."""
         try:
-            lc_problem, lc_pos, lc_total = self.dsa_daily_service.get_next_leetcode()
+            problem, position, total = self.cses_service.get_next_problem()
 
-            if not lc_problem:
-                logger.error("Failed to get daily DSA LeetCode problem (no data loaded)")
+            if not problem:
+                logger.error("Failed to get daily CSES problem (no data loaded)")
                 return
 
             for guild in self.bot.guilds:
@@ -169,76 +127,31 @@ class ScheduledTasks:
                     continue
 
                 try:
-                    embed = self.dsa_daily_service.create_leetcode_embed(lc_problem, lc_pos, lc_total)
+                    embed = self.cses_service.create_cses_embed(problem, position, total)
                     message = await target_channel.send(embed=embed)
-                    await message.create_thread(name=f"🧵 {lc_problem['title']}", auto_archive_duration=1440)
+                    await message.create_thread(name=f"🧵 {problem['title']}", auto_archive_duration=1440)
 
-                    logger.info(f"✅ Posted daily DSA LeetCode problem to {guild.name} #{target_channel.name}")
+                    logger.info(f"✅ Posted daily CSES problem to {guild.name} #{target_channel.name}")
                 except discord.Forbidden:
                     logger.warning(f"❌ Missing permissions to post/thread to {guild.name} #{target_channel.name}")
                 except Exception as e:
-                    logger.error(f"❌ Error posting daily DSA LeetCode problem to {guild.name}: {e}")
+                    logger.error(f"❌ Error posting daily CSES problem to {guild.name}: {e}")
 
         except Exception as e:
-            logger.error(f"Error in daily DSA LeetCode task: {e}")
+            logger.error(f"Error in daily CSES task: {e}")
 
-    @daily_dsa_leetcode_task.before_loop
-    async def before_daily_dsa_leetcode_task(self):
-        await self.bot.wait_until_ready()
-
-    @tasks.loop(time=[datetime.time(hour=DSA_CODEFORCES_DAILY_TIME_HOUR, minute=DSA_CODEFORCES_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
-    async def daily_dsa_codeforces_task(self):
-        """Task that runs daily to post one shuffled Codeforces problem."""
-        logger.info("⏰ Running daily DSA Codeforces task")
-        await self.post_daily_dsa_codeforces()
-
-    async def post_daily_dsa_codeforces(self, target_channel_id: int = None):
-        """Post one shuffled Codeforces problem."""
-        try:
-            cf_problem, cf_pos, cf_total = self.dsa_daily_service.get_next_codeforces()
-
-            if not cf_problem:
-                logger.error("Failed to get daily DSA Codeforces problem (no data loaded)")
-                return
-
-            for guild in self.bot.guilds:
-                target_channel = None
-
-                if target_channel_id:
-                    target_channel = guild.get_channel(target_channel_id)
-                else:
-                    target_channel = discord.utils.get(guild.text_channels, name=LEETCODE_CHANNEL_NAME)
-
-                if not target_channel:
-                    logger.debug(f"Skipping {guild.name}: No #{LEETCODE_CHANNEL_NAME} channel found")
-                    continue
-
-                try:
-                    embed = self.dsa_daily_service.create_codeforces_embed(cf_problem, cf_pos, cf_total)
-                    message = await target_channel.send(embed=embed)
-                    await message.create_thread(name=f"🧵 {cf_problem['title']}", auto_archive_duration=1440)
-
-                    logger.info(f"✅ Posted daily DSA Codeforces problem to {guild.name} #{target_channel.name}")
-                except discord.Forbidden:
-                    logger.warning(f"❌ Missing permissions to post/thread to {guild.name} #{target_channel.name}")
-                except Exception as e:
-                    logger.error(f"❌ Error posting daily DSA Codeforces problem to {guild.name}: {e}")
-
-        except Exception as e:
-            logger.error(f"Error in daily DSA Codeforces task: {e}")
-
-    @daily_dsa_codeforces_task.before_loop
-    async def before_daily_dsa_codeforces_task(self):
+    @daily_cses_task.before_loop
+    async def before_daily_cses_task(self):
         await self.bot.wait_until_ready()
 
     @tasks.loop(time=[datetime.time(hour=DSA_SUMMARY_TIME_HOUR, minute=DSA_SUMMARY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
     async def daily_dsa_summary_task(self):
-        """Task that runs daily to summarize who dropped a solution in today's DSA threads."""
+        """Task that runs daily to summarize who dropped a solution in today's problem threads."""
         logger.info("⏰ Running daily DSA summary task")
         await self.post_daily_dsa_summary()
 
     async def post_daily_dsa_summary(self, target_channel_id: int = None) -> int:
-        """Summarize today's DSA problem threads: who posted a solution (screenshot,
+        """Summarize today's problem threads: who posted a solution (screenshot,
         code snippet, whatever) in each one. Returns how many guilds got a summary."""
         now = datetime.datetime.now(datetime.timezone.utc)
         today = now.date()

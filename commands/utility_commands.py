@@ -33,30 +33,26 @@ def setup_utility_commands(bot: commands.Bot):
 `/remove_message <index>` - Remove a message by index
 `/rotation_status` - Show rotation status
 
-**LeetCode & NeetCode:**
+**LeetCode Daily:**
 
 `/force_leetcode` - Manually trigger the daily LeetCode post (Admin only)
-`/force_neetcode` - Manually trigger the next NeetCode 150 problem (Admin only)
-`/neetcode_progress` - Show NeetCode 150 progress
 
-**Daily DSA (shuffled LeetCode + Codeforces):**
+**CSES Problem Set (in topic order, never shuffled):**
 
-`/force_dsa_leetcode` - Manually trigger today's shuffled LeetCode problem (Admin only)
-`/force_dsa_codeforces` - Manually trigger today's shuffled Codeforces problem (Admin only)
-`/dsa_progress` - Show progress through the shuffled LeetCode + Codeforces rotations
-`/force_dsa_summary` - Manually trigger today's DSA thread wrap-up (Admin only)
+`/force_cses` - Manually trigger today's CSES problem (Admin only)
+`/cses_progress` - Show progress through the CSES Problem Set
 
 **Utility:**
 
 `/ping` - Check if bot is responsive
 `/greet_user [@user]` - Greet a user
+`/force_dsa_summary` - Manually trigger today's problem-thread wrap-up (Admin only)
 
 **Auto-Features:**
 - Mention or reply to the bot to chat with AI
-- Daily LeetCode question posted automatically
-- Shuffled LeetCode problem posted automatically at 10:00 AM UTC
-- Shuffled Codeforces problem auto-post is currently disabled (use `/force_dsa_codeforces`)
-- Nightly DSA wrap-up posted automatically at 10:00 PM UTC (who dropped a solution in today's threads)
+- LeetCode Daily Challenge posted automatically at 10:00 AM UTC
+- CSES problem posted automatically at 3:00 PM UTC, one at a time in topic order
+- Nightly wrap-up posted automatically at 10:00 PM UTC (who dropped a solution in today's threads)
 """
     await ctx.send(help_text)
 
@@ -68,102 +64,24 @@ def setup_utility_commands(bot: commands.Bot):
         return
 
     await ctx.send("⏳ Fetching LeetCode daily question...")
-    
+
     from services.leetcode_service import get_leetcode_service
     leetcode_service = get_leetcode_service()
-    
+
     question = await leetcode_service.fetch_daily_question()
     if not question:
         await ctx.send("❌ Failed to fetch daily question. Check logs.")
         return
-        
+
     embed = leetcode_service.create_daily_embed(question)
     message = await ctx.send(embed=embed)
-    
+
     question_title = question.get("question", {}).get("title", "Daily Question")
     await message.create_thread(name=f"🧵 {question_title}", auto_archive_duration=1440)
 
   @bot.command()
-  async def force_neetcode(ctx):
-    """Manually triggers the next NeetCode 150 problem (Admin only)."""
-    if not ctx.author.guild_permissions.administrator:
-        await ctx.send("❌ You need administrator permissions to use this command.")
-        return
-
-    await ctx.send("⏳ Getting next NeetCode 150 problem...")
-    
-    from services.neetcode_service import get_neetcode_service
-    neetcode_service = get_neetcode_service()
-    
-    problem, current, total = neetcode_service.get_next_problem()
-    if not problem:
-        await ctx.send("❌ Failed to get NeetCode problem. Check logs.")
-        return
-        
-    embed = neetcode_service.create_neetcode_embed(problem, current, total)
-    message = await ctx.send(embed=embed)
-    
-    await message.create_thread(name=f"🧵 NC150: {problem['title']}", auto_archive_duration=1440)
-
-  @bot.command()
-  async def force_dsa_leetcode(ctx):
-    """Manually triggers today's shuffled LeetCode problem (Admin only)."""
-    if not ctx.author.guild_permissions.administrator:
-        await ctx.send("❌ You need administrator permissions to use this command.")
-        return
-
-    await ctx.send("⏳ Getting today's shuffled LeetCode problem...")
-
-    from services.dsa_daily_service import get_dsa_daily_service
-    dsa_daily_service = get_dsa_daily_service()
-
-    lc_problem, lc_pos, lc_total = dsa_daily_service.get_next_leetcode()
-    if not lc_problem:
-        await ctx.send("❌ Failed to get LeetCode problem. Check logs.")
-        return
-
-    embed = dsa_daily_service.create_leetcode_embed(lc_problem, lc_pos, lc_total)
-    message = await ctx.send(embed=embed)
-    await message.create_thread(name=f"🧵 {lc_problem['title']}", auto_archive_duration=1440)
-
-  @bot.command()
-  async def force_dsa_codeforces(ctx):
-    """Manually triggers today's shuffled Codeforces problem (Admin only)."""
-    if not ctx.author.guild_permissions.administrator:
-        await ctx.send("❌ You need administrator permissions to use this command.")
-        return
-
-    await ctx.send("⏳ Getting today's shuffled Codeforces problem...")
-
-    from services.dsa_daily_service import get_dsa_daily_service
-    dsa_daily_service = get_dsa_daily_service()
-
-    cf_problem, cf_pos, cf_total = dsa_daily_service.get_next_codeforces()
-    if not cf_problem:
-        await ctx.send("❌ Failed to get Codeforces problem. Check logs.")
-        return
-
-    embed = dsa_daily_service.create_codeforces_embed(cf_problem, cf_pos, cf_total)
-    message = await ctx.send(embed=embed)
-    await message.create_thread(name=f"🧵 {cf_problem['title']}", auto_archive_duration=1440)
-
-  @bot.command()
-  async def dsa_progress(ctx):
-    """Show progress through the shuffled LeetCode + Codeforces rotations."""
-    from services.dsa_daily_service import get_dsa_daily_service
-    dsa_daily_service = get_dsa_daily_service()
-
-    (lc_next, lc_total), (cf_next, cf_total) = dsa_daily_service.get_progress()
-
-    await ctx.send(
-        f"📋 **Daily DSA Progress:**\n"
-        f"LeetCode: {lc_next}/{lc_total}\n"
-        f"Codeforces: {cf_next}/{cf_total}"
-    )
-
-  @bot.command()
   async def force_dsa_summary(ctx):
-    """Manually triggers today's DSA thread wrap-up (Admin only)."""
+    """Manually triggers today's problem-thread wrap-up (Admin only)."""
     if ctx.guild is None:
       await ctx.send("❌ This command only works inside a server.")
       return
@@ -183,29 +101,49 @@ def setup_utility_commands(bot: commands.Bot):
       target_channel_id=ctx.channel.id
     )
     if not posted:
-      await ctx.send("No DSA threads found for today in this channel.")
+      await ctx.send("No problem threads found for today in this channel.")
 
   @bot.command()
-  async def neetcode_progress(ctx):
-    """Show the current NeetCode 150 progress."""
-    from services.neetcode_service import get_neetcode_service
-    neetcode_service = get_neetcode_service()
-    
-    current, total = neetcode_service.get_progress()
-    
-    # Get the next problem info without advancing
-    if neetcode_service.problems:
+  async def force_cses(ctx):
+    """Manually triggers today's CSES problem (Admin only)."""
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.send("❌ You need administrator permissions to use this command.")
+        return
+
+    await ctx.send("⏳ Getting today's CSES problem...")
+
+    from services.cses_service import get_cses_service
+    cses_service = get_cses_service()
+
+    problem, position, total = cses_service.get_next_problem()
+    if not problem:
+        await ctx.send("❌ Failed to get CSES problem. Check logs.")
+        return
+
+    embed = cses_service.create_cses_embed(problem, position, total)
+    message = await ctx.send(embed=embed)
+
+    await message.create_thread(name=f"🧵 {problem['title']}", auto_archive_duration=1440)
+
+  @bot.command()
+  async def cses_progress(ctx):
+    """Show the current CSES Problem Set progress."""
+    from services.cses_service import get_cses_service
+    cses_service = get_cses_service()
+
+    current, total = cses_service.get_progress()
+
+    if cses_service.problems:
         index = current - 1
         if index >= total:
             index = 0
-        next_problem = neetcode_service.problems[index]
+        next_problem = cses_service.problems[index]
         category = next_problem.get("category", "Unknown")
         title = next_problem.get("title", "Unknown")
-        difficulty = next_problem.get("difficulty", "Unknown")
-        
+
         await ctx.send(
-            f"📋 **NeetCode 150 Progress:** {current}/{total}\n"
-            f"**Next up:** {title} ({difficulty}) — {category}"
+            f"📘 **CSES Progress:** {current}/{total}\n"
+            f"**Next up:** {title} — {category}"
         )
     else:
-        await ctx.send("❌ NeetCode 150 data not loaded.")
+        await ctx.send("❌ CSES data not loaded.")
