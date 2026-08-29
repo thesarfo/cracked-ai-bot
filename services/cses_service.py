@@ -112,15 +112,12 @@ class CsesService:
     embed = discord.Embed(
       title=f"📘 CSES: {title}",
       url=link,
-      description=(
-        f"**Section:** {emoji} {category}\n"
-        f"**Progress:** {current}/{total}"
-      ),
+      description=f"**Section:** {emoji} {category}",
       color=discord.Color.blue(),
     )
 
     embed.add_field(name="🔗 Link", value=link, inline=False)
-    embed.set_footer(text=f"CSES Problem Set • Problem {current} of {total} • Cracked LeetCode Bot 🚀")
+    embed.set_footer(text="CSES Problem Set • Cracked LeetCode Bot 🚀")
 
     return embed
 
