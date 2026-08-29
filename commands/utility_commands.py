@@ -42,6 +42,11 @@ def setup_utility_commands(bot: commands.Bot):
 `/force_cses` - Manually trigger today's CSES problem (Admin only)
 `/cses_progress` - Show progress through the CSES Problem Set
 
+**Project Euler (in numeric order, never shuffled):**
+
+`/force_project_euler` - Manually trigger today's Project Euler problem (Admin only)
+`/project_euler_progress` - Show progress through Project Euler
+
 **Utility:**
 
 `/ping` - Check if bot is responsive
@@ -52,6 +57,7 @@ def setup_utility_commands(bot: commands.Bot):
 - Mention or reply to the bot to chat with AI
 - LeetCode Daily Challenge posted automatically at 10:00 AM UTC
 - CSES problem posted automatically at 3:00 PM UTC, one at a time in topic order
+- Project Euler problem posted automatically at 12:30 PM UTC, one at a time in numeric order
 - Nightly wrap-up posted automatically at 10:00 PM UTC (who dropped a solution in today's threads)
 """
     await ctx.send(help_text)
@@ -156,3 +162,52 @@ def setup_utility_commands(bot: commands.Bot):
         )
     else:
         await ctx.send("❌ CSES data not loaded.")
+
+  @bot.command()
+  async def force_project_euler(ctx):
+    """Manually triggers today's Project Euler problem (Admin only)."""
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.send("❌ You need administrator permissions to use this command.")
+        return
+
+    await ctx.send("⏳ Getting today's Project Euler problem...")
+
+    from services.project_euler_service import get_project_euler_service
+    project_euler_service = get_project_euler_service()
+
+    problem, position, total = project_euler_service.get_next_problem()
+    if not problem:
+        await ctx.send("❌ Failed to get Project Euler problem. Check logs.")
+        return
+
+    embed = project_euler_service.create_euler_embed(problem, position, total)
+    message = await ctx.send(embed=embed)
+    thread_name = f"🧵 Problem {problem['number']}: {problem['title']}"
+    thread = await message.create_thread(name=thread_name, auto_archive_duration=1440)
+
+    from services.scheduled_tasks import get_scheduled_tasks
+    scheduled_tasks = get_scheduled_tasks()
+    if scheduled_tasks:
+        scheduled_tasks.register_dsa_thread(thread.id)
+
+  @bot.command()
+  async def project_euler_progress(ctx):
+    """Show the current Project Euler progress."""
+    from services.project_euler_service import get_project_euler_service
+    project_euler_service = get_project_euler_service()
+
+    current, total = project_euler_service.get_progress()
+
+    if project_euler_service.problems:
+        index = current - 1
+        if index >= total:
+            index = 0
+        next_problem = project_euler_service.problems[index]
+        title = next_problem.get("title", "Unknown")
+
+        await ctx.send(
+            f"🧮 **Project Euler Progress:** {current}/{total}\n"
+            f"**Next up:** Problem {next_problem.get('number')} — {title}"
+        )
+    else:
+        await ctx.send("❌ Project Euler data not loaded.")

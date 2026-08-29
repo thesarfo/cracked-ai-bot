@@ -15,9 +15,12 @@ from config import (
     LEETCODE_DAILY_TIME_HOUR,
     LEETCODE_DAILY_TIME_MINUTE,
     MD_CHANNEL_NAME,
+    PROJECT_EULER_DAILY_TIME_HOUR,
+    PROJECT_EULER_DAILY_TIME_MINUTE,
 )
 from services.cses_service import get_cses_service
 from services.leetcode_service import get_leetcode_service
+from services.project_euler_service import get_project_euler_service
 from utils.logging import get_logger
 
 logger = get_logger("scheduler")
@@ -31,6 +34,7 @@ class ScheduledTasks:
         self.bot = bot
         self.leetcode_service = get_leetcode_service()
         self.cses_service = get_cses_service()
+        self.project_euler_service = get_project_euler_service()
 
         # Thread IDs created by the LeetCode daily / CSES posts, scheduled or
         # manually forced. The 10pm summary only reports on these, not on every
@@ -41,6 +45,7 @@ class ScheduledTasks:
         # Start loops
         self.daily_task.start()
         self.daily_cses_task.start()
+        self.daily_euler_task.start()
         self.daily_dsa_summary_task.start()
         self.book_club_reminder_task.start()
         self.book_club_final_reminder_task.start()
@@ -48,6 +53,7 @@ class ScheduledTasks:
         logger.info(
             f"📅 Daily scheduler initialized — LeetCode {LEETCODE_DAILY_TIME_HOUR:02d}:{LEETCODE_DAILY_TIME_MINUTE:02d} UTC, "
             f"CSES {CSES_DAILY_TIME_HOUR:02d}:{CSES_DAILY_TIME_MINUTE:02d} UTC, "
+            f"Project Euler {PROJECT_EULER_DAILY_TIME_HOUR:02d}:{PROJECT_EULER_DAILY_TIME_MINUTE:02d} UTC, "
             f"summary {DSA_SUMMARY_TIME_HOUR:02d}:{DSA_SUMMARY_TIME_MINUTE:02d} UTC"
         )
 
@@ -79,6 +85,7 @@ class ScheduledTasks:
     def cog_unload(self):
         self.daily_task.cancel()
         self.daily_cses_task.cancel()
+        self.daily_euler_task.cancel()
         self.daily_dsa_summary_task.cancel()
         self.book_club_reminder_task.cancel()
         self.book_club_final_reminder_task.cancel()
@@ -177,6 +184,53 @@ class ScheduledTasks:
 
     @daily_cses_task.before_loop
     async def before_daily_cses_task(self):
+        await self.bot.wait_until_ready()
+
+    @tasks.loop(time=[datetime.time(hour=PROJECT_EULER_DAILY_TIME_HOUR, minute=PROJECT_EULER_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
+    async def daily_euler_task(self):
+        """Task that runs daily to post the next Project Euler problem, in numeric order."""
+        logger.info("⏰ Running daily Project Euler task")
+        await self.post_daily_project_euler()
+
+    async def post_daily_project_euler(self, target_channel_id: int = None):
+        """Post the next Project Euler problem, in numeric order."""
+        try:
+            problem, position, total = self.project_euler_service.get_next_problem()
+
+            if not problem:
+                logger.error("Failed to get daily Project Euler problem (no data loaded)")
+                return
+
+            for guild in self.bot.guilds:
+                target_channel = None
+
+                if target_channel_id:
+                    target_channel = guild.get_channel(target_channel_id)
+                else:
+                    target_channel = discord.utils.get(guild.text_channels, name=LEETCODE_CHANNEL_NAME)
+
+                if not target_channel:
+                    logger.debug(f"Skipping {guild.name}: No #{LEETCODE_CHANNEL_NAME} channel found")
+                    continue
+
+                try:
+                    embed = self.project_euler_service.create_euler_embed(problem, position, total)
+                    message = await target_channel.send(embed=embed)
+                    thread_name = f"🧵 Problem {problem['number']}: {problem['title']}"
+                    thread = await message.create_thread(name=thread_name, auto_archive_duration=1440)
+                    self.register_dsa_thread(thread.id)
+
+                    logger.info(f"✅ Posted daily Project Euler problem to {guild.name} #{target_channel.name}")
+                except discord.Forbidden:
+                    logger.warning(f"❌ Missing permissions to post/thread to {guild.name} #{target_channel.name}")
+                except Exception as e:
+                    logger.error(f"❌ Error posting daily Project Euler problem to {guild.name}: {e}")
+
+        except Exception as e:
+            logger.error(f"Error in daily Project Euler task: {e}")
+
+    @daily_euler_task.before_loop
+    async def before_daily_euler_task(self):
         await self.bot.wait_until_ready()
 
     @tasks.loop(time=[datetime.time(hour=DSA_SUMMARY_TIME_HOUR, minute=DSA_SUMMARY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
