@@ -47,9 +47,9 @@ class ScheduledTasks:
         self.daily_cses_task.start()
         self.daily_euler_task.start()
         self.daily_dsa_summary_task.start()
-        self.book_club_reminder_task.start()
-        self.book_club_final_reminder_task.start()
-        self.coworking_reminder_task.start()
+        # self.book_club_reminder_task.start()
+        # self.book_club_final_reminder_task.start()
+        # self.coworking_reminder_task.start()
         logger.info(
             f"📅 Daily scheduler initialized — LeetCode {LEETCODE_DAILY_TIME_HOUR:02d}:{LEETCODE_DAILY_TIME_MINUTE:02d} UTC, "
             f"CSES {CSES_DAILY_TIME_HOUR:02d}:{CSES_DAILY_TIME_MINUTE:02d} UTC, "
@@ -87,9 +87,9 @@ class ScheduledTasks:
         self.daily_cses_task.cancel()
         self.daily_euler_task.cancel()
         self.daily_dsa_summary_task.cancel()
-        self.book_club_reminder_task.cancel()
-        self.book_club_final_reminder_task.cancel()
-        self.coworking_reminder_task.cancel()
+        # self.book_club_reminder_task.cancel()
+        # self.book_club_final_reminder_task.cancel()
+        # self.coworking_reminder_task.cancel()
 
     @tasks.loop(time=[datetime.time(hour=LEETCODE_DAILY_TIME_HOUR, minute=LEETCODE_DAILY_TIME_MINUTE, tzinfo=datetime.timezone.utc)])
     async def daily_task(self):
@@ -328,57 +328,57 @@ class ScheduledTasks:
     async def before_daily_dsa_summary_task(self):
         await self.bot.wait_until_ready()
 
-    @tasks.loop(time=[datetime.time(hour=20, minute=45, tzinfo=datetime.timezone.utc)])
-    async def book_club_reminder_task(self):
-        """Tuesdays and Wednesdays at 8:45 PM UTC — book club first reminder."""
-        if datetime.datetime.now(datetime.timezone.utc).weekday() not in (1, 2):  # 1=Tue, 2=Wed
-            return
-        for guild in self.bot.guilds:
-            channel = discord.utils.get(guild.text_channels, name=ED_CHANNEL_NAME)
-            if channel:
-                await channel.send(
-                    "📚 Hey everyone! Our **Book Club meeting** starts in 15 minutes. "
-                    "The link to join is in your emails — see you there! 🕘"
-                )
+    # @tasks.loop(time=[datetime.time(hour=20, minute=45, tzinfo=datetime.timezone.utc)])
+    # async def book_club_reminder_task(self):
+    #     """Tuesdays and Wednesdays at 8:45 PM UTC — book club first reminder."""
+    #     if datetime.datetime.now(datetime.timezone.utc).weekday() not in (1, 2):  # 1=Tue, 2=Wed
+    #         return
+    #     for guild in self.bot.guilds:
+    #         channel = discord.utils.get(guild.text_channels, name=ED_CHANNEL_NAME)
+    #         if channel:
+    #             await channel.send(
+    #                 "📚 Hey everyone! Our **Book Club meeting** starts in 15 minutes. "
+    #                 "The link to join is in your emails — see you there! 🕘"
+    #             )
 
-    @book_club_reminder_task.before_loop
-    async def before_book_club_reminder_task(self):
-        await self.bot.wait_until_ready()
+    # @book_club_reminder_task.before_loop
+    # async def before_book_club_reminder_task(self):
+    #     await self.bot.wait_until_ready()
 
-    @tasks.loop(time=[datetime.time(hour=21, minute=0, tzinfo=datetime.timezone.utc)])
-    async def book_club_final_reminder_task(self):
-        """Tuesdays and Wednesdays at 9:00 PM UTC — book club final reminder."""
-        if datetime.datetime.now(datetime.timezone.utc).weekday() not in (1, 2):  # 1=Tue, 2=Wed
-            return
-        for guild in self.bot.guilds:
-            channel = discord.utils.get(guild.text_channels, name=ED_CHANNEL_NAME)
-            if channel:
-                await channel.send(
-                    "📚 **Book Club is starting NOW!** Check your emails for the link and jump in. 🚀"
-                )
+    # @tasks.loop(time=[datetime.time(hour=21, minute=0, tzinfo=datetime.timezone.utc)])
+    # async def book_club_final_reminder_task(self):
+    #     """Tuesdays and Wednesdays at 9:00 PM UTC — book club final reminder."""
+    #     if datetime.datetime.now(datetime.timezone.utc).weekday() not in (1, 2):  # 1=Tue, 2=Wed
+    #         return
+    #     for guild in self.bot.guilds:
+    #         channel = discord.utils.get(guild.text_channels, name=ED_CHANNEL_NAME)
+    #         if channel:
+    #             await channel.send(
+    #                 "📚 **Book Club is starting NOW!** Check your emails for the link and jump in. 🚀"
+    #             )
 
-    @book_club_final_reminder_task.before_loop
-    async def before_book_club_final_reminder_task(self):
-        await self.bot.wait_until_ready()
+    # @book_club_final_reminder_task.before_loop
+    # async def before_book_club_final_reminder_task(self):
+    #     await self.bot.wait_until_ready()
 
-    @tasks.loop(time=[datetime.time(hour=8, minute=45, tzinfo=datetime.timezone.utc)])
-    async def coworking_reminder_task(self):
-        """Fridays at 8:45 AM UTC — coworking session reminder."""
-        if datetime.datetime.now(datetime.timezone.utc).weekday() != 4:  # 4=Fri
-            return
-        for guild in self.bot.guilds:
-            channel = discord.utils.get(guild.text_channels, name=MD_CHANNEL_NAME)
-            if channel:
-                voice_channel = discord.utils.get(guild.voice_channels, name="co-work")
-                vc_ref = voice_channel.mention if voice_channel else "**co-work**"
-                await channel.send(
-                    f"💻 Good morning! Our **Coworking Session** is starting soon. "
-                    f"Pass through the {vc_ref} voice channel and let's get it. 🙌"
-                )
+    # @tasks.loop(time=[datetime.time(hour=8, minute=45, tzinfo=datetime.timezone.utc)])
+    # async def coworking_reminder_task(self):
+    #     """Fridays at 8:45 AM UTC — coworking session reminder."""
+    #     if datetime.datetime.now(datetime.timezone.utc).weekday() != 4:  # 4=Fri
+    #         return
+    #     for guild in self.bot.guilds:
+    #         channel = discord.utils.get(guild.text_channels, name=MD_CHANNEL_NAME)
+    #         if channel:
+    #             voice_channel = discord.utils.get(guild.voice_channels, name="co-work")
+    #             vc_ref = voice_channel.mention if voice_channel else "**co-work**"
+    #             await channel.send(
+    #                 f"💻 Good morning! Our **Coworking Session** is starting soon. "
+    #                 f"Pass through the {vc_ref} voice channel and let's get it. 🙌"
+    #             )
 
-    @coworking_reminder_task.before_loop
-    async def before_coworking_reminder_task(self):
-        await self.bot.wait_until_ready()
+    # @coworking_reminder_task.before_loop
+    # async def before_coworking_reminder_task(self):
+    #     await self.bot.wait_until_ready()
 
 
 _scheduled_tasks_instance: "ScheduledTasks | None" = None

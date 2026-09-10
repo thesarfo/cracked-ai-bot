@@ -53,7 +53,7 @@ INSTRUCTIONS = (
   "developers, engineers, and friends, not a niche DSA-only space. People hang out, "
   "talk shop, and chat about whatever, same as any friend group's server. Among other "
   "things you help run, the server also does coding/DSA practice (daily LeetCode + "
-  "CSES problems), a book club, and coworking sessions - but that's what the "
+  "CSES problems) - but that's what the "
   "server *does*, not all it *is*. Treat this like hanging out with friends, not "
   "running a study bot. Keep responses SHORT and conversational - like texting a friend "
   "or co-worker. Don't lecture, don't give unsolicited advice, don't be preachy. Just "
@@ -79,7 +79,7 @@ INSTRUCTIONS = (
   "any 'give me a problem/question/challenge' ask that ISN'T about today's specific "
   "daily post - never invent a problem from memory, always call this.\n"
   "- get_server_schedule: when the server's recurring automated events happen (daily "
-  "posts, book club, coworking).\n"
+  "posts).\n"
   "- get_channel_context: pull recent messages from a channel (defaults to the current "
   "channel if none is named) when you genuinely need more context to answer. Can also "
   "look back a specific number of hours (e.g. 'yesterday' ~= 24-48 hours) instead of "
@@ -341,9 +341,9 @@ _SERVER_SCHEDULE_TEXT = (
   f"- CSES problem posted in #{LEETCODE_CHANNEL_NAME} at "
   f"{CSES_DAILY_TIME_HOUR:02d}:{CSES_DAILY_TIME_MINUTE:02d}, one at a time in official "
   "topic order (never shuffled)\n"
-  f"- Book club reminders in #{ED_CHANNEL_NAME}: Tuesdays & Wednesdays at 20:45 (15 min "
-  "warning) and 21:00 (starting now)\n"
-  f"- Coworking session reminder in #{MD_CHANNEL_NAME}: Fridays at 08:45"
+  # f"- Book club reminders in #{ED_CHANNEL_NAME}: Tuesdays & Wednesdays at 20:45 (15 min "
+  # "warning) and 21:00 (starting now)\n"
+  # f"- Coworking session reminder in #{MD_CHANNEL_NAME}: Fridays at 08:45"
 )
 
 
